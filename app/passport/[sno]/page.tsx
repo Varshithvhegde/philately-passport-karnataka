@@ -283,19 +283,20 @@ export default async function PassportEntryPage({ params }: Props) {
                 </div>
               </div>
 
-              {/* Description — "frankly" formatted as a postal notice */}
+              {/* Description */}
               <div style={{
-                padding: "10px 14px",
+                padding: "11px 14px",
                 background: `${color}0D`,
                 border: `1px solid ${color}40`,
                 borderLeft: `3px solid ${color}`,
                 display: "flex", gap: 10, alignItems: "flex-start",
               }}>
-                <span style={{ fontSize: "1.1rem", flexShrink: 0, lineHeight: 1 }}>{icon}</span>
-                <p style={{ fontFamily: "var(--font-body)", color: "var(--ink-mid)", fontSize: "0.78rem", lineHeight: 1.6, margin: 0 }}>
-                  This is a <strong style={{ color: "var(--temple)" }}>{loc.category}</strong> site under the Karnataka Philately Passport V3.
-                  Visit <strong style={{ color: "var(--temple)" }}>{loc.post_office.replace(/\s+\d{6}$/, "")}</strong> to
-                  collect your Permanent Pictorial Cancellation stamp.
+                <span style={{ fontSize: "1rem", flexShrink: 0, lineHeight: 1.4 }}>{icon}</span>
+                <p style={{ fontFamily: "var(--font-body)", color: "var(--ink-mid)", fontSize: "0.8rem", lineHeight: 1.65, margin: 0 }}>
+                  {loc.description
+                    ? loc.description
+                    : <>This is a <strong style={{ color: "var(--temple)" }}>{loc.category}</strong> site in the Karnataka Philately Passport V3. Visit <strong style={{ color: "var(--temple)" }}>{loc.post_office.replace(/\s+\d{6}$/, "")}</strong> to collect your Permanent Pictorial Cancellation stamp.</>
+                  }
                 </p>
               </div>
             </div>

@@ -11,7 +11,8 @@
     "longitude": 75.88048,
     "address": "Aihole Tq Hungund district bagalkot, BAGALKOTE",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Aihole, known as the 'Cradle of Indian architecture', hosts over 120 temple complexes built by the Chalukyas from the 4th–8th centuries, showcasing the evolution of Dravidian temple design."
   },
   {
     "sno": 2,
@@ -25,7 +26,8 @@
     "longitude": 75.677981,
     "address": "BADAMI Tq Badami Dt Bagalkot, BADAMI SUB POST OFFICE, BAGALKOTE",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Badami, the Chalukya capital, is famous for four rock-cut cave temples carved into red sandstone cliffs overlooking Agastya Lake, featuring exquisite sculptures of Vishnu, Shiva, and Jain tirthankaras."
   },
   {
     "sno": 3,
@@ -39,7 +41,8 @@
     "longitude": 75.81534,
     "address": "Pattadakal monuments, Bagalkot",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Pattadakallu is a UNESCO World Heritage Site with ten 8th-century temples blending Nagara and Dravidian styles, most notably the Virupaksha Temple built by Queen Lokamahadevi after the Chalukya victory over the Pallavas."
   },
   {
     "sno": 4,
@@ -53,7 +56,8 @@
     "longitude": 76.92621,
     "address": "Old District Office Beside  BSNL  Office , BALLARI",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Ballari Fort is a twin-hilltop fort spanning two granite hills, built by Hyder Ali and later held by the British. It offers panoramic views of the Deccan plateau and houses a small colonial-era cemetery."
   },
   {
     "sno": 5,
@@ -67,7 +71,8 @@
     "longitude": 76.55,
     "address": "SANDUR CITY, SANDUR, BALLARI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Kumaraswamy Temple at Sandur, nestled in forested hills, is a revered shrine dedicated to Lord Subramanya and is the presiding deity of the Sandur royal family."
   },
   {
     "sno": 6,
@@ -81,7 +86,8 @@
     "longitude": 74.51071,
     "address": "At PO: Belagavi H.O, Belgaum, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Belagavi's landmark clock tower, erected during the colonial era, stands at the heart of the city and remains a beloved civic symbol for the people of north Karnataka."
   },
   {
     "sno": 7,
@@ -95,7 +101,8 @@
     "longitude": 74.521018,
     "address": "Belgaum Fort area",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Belagavi Fort was built by the Ratta dynasty in 1210 CE and later reinforced by Adil Shah sultans. It contains a masjid and the Kamal Basti Jain temple within its walls."
   },
   {
     "sno": 8,
@@ -109,7 +116,8 @@
     "longitude": 74.79086,
     "address": "At PO: Kittur S.O, Kittur, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kittur Rani Channamma was the first Indian queen to wage armed resistance against British rule in 1824, predating the 1857 revolt. Her heroism is celebrated every year with Kittur Utsav."
   },
   {
     "sno": 9,
@@ -123,7 +131,8 @@
     "longitude": 74.57129,
     "address": "At PO: Nandgad S.O, Nandgad, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Sangoli Rayanna was Kittur Rani Channamma's chief military commander who continued the resistance against British annexation until he was hanged in 1831, becoming a symbol of Karnataka's freedom struggle."
   },
   {
     "sno": 10,
@@ -137,7 +146,8 @@
     "longitude": 74.59008,
     "address": "At PO: Halashi B.O, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Halashi (ancient Palasika) contains some of the earliest inscriptions in Kannada script and was a stronghold of the Kadambas, one of the first indigenous dynasties of Karnataka."
   },
   {
     "sno": 11,
@@ -151,7 +161,8 @@
     "longitude": 75.19174,
     "address": "At PO: Hooli B.O, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Hooli is associated with a group of ancient temples and is known for the Hooli Math, a significant Veerashaiva religious institution active since the medieval period."
   },
   {
     "sno": 12,
@@ -165,7 +176,8 @@
     "longitude": 75.11965,
     "address": "At PO: Apmc Saundatti S.O, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "The Yellamma Temple atop Saundatti Hill is one of Karnataka's most important pilgrimage sites, dedicated to Goddess Renuka (Yellamma), drawing hundreds of thousands of devotees especially during full moon festivals."
   },
   {
     "sno": 13,
@@ -179,7 +191,8 @@
     "longitude": 74.43823,
     "address": "At PO: Shiroli B.O, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Bhimgad Wildlife Sanctuary in the Western Ghats is one of Karnataka's most biodiverse reserves and is the last known breeding ground of the critically endangered Indian Wroughton's free-tailed bat."
   },
   {
     "sno": 14,
@@ -193,7 +206,8 @@
     "longitude": 74.780216,
     "address": "Near PHC,Gokak Falls, Gokak Falls, BELAGAVI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Gokak Falls, where the Ghataprabha River plunges 52 metres into a horseshoe gorge, was successfully saved from diversion for a sugar mill through a mass protest movement led by actor Rajkumar in 1981."
   },
   {
     "sno": 15,
@@ -207,7 +221,8 @@
     "longitude": 77.595116,
     "address": "Rajbhavan Road, Bengaluru, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Vidhana Soudha, Bengaluru's state legislature building completed in 1956, is an imposing blend of Indo-Saracenic and Dravidian architecture, designed by B.R. Manickam and K. Hanumanthaiah."
   },
   {
     "sno": 16,
@@ -221,7 +236,8 @@
     "longitude": 77.57,
     "address": "High Court of Karnataka, Bengaluru",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "The High Court of Karnataka, housed in a Neo-Gothic and Dravidian style building dating to 1868, is one of India's oldest high courts and a prominent landmark on Cubbon Park's north edge."
   },
   {
     "sno": 17,
@@ -235,7 +251,8 @@
     "longitude": 77.6,
     "address": "Cubbon Park area, Bengaluru",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Beaulieu, a colonial-era mansion in Bengaluru's Cubbon Park area, served as the residence of British commissioners and later became a government administrative building."
   },
   {
     "sno": 18,
@@ -249,7 +266,8 @@
     "longitude": 77.57347,
     "address": "33/2, K R Road  Near Basavangudi  Police, bangalore, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Watchtower in Lalbagh Botanical Garden, dating to the 18th century, was built by Hyder Ali and offers views across one of India's finest botanical gardens, home to over 1,800 plant species."
   },
   {
     "sno": 19,
@@ -263,7 +281,8 @@
     "longitude": 77.55433,
     "address": "No A06 12th Main 2nd Block Rajajinagar, Rajajinagar, Bangalore 560010, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Rajajinagar Foundation Pillar marks the founding of Rajajinagar, one of Bengaluru's earliest planned residential layouts, established in 1948 after the inauguration of nearby industrial areas."
   },
   {
     "sno": 20,
@@ -277,7 +296,8 @@
     "longitude": 77.53671,
     "address": "Vijayanagar MDG, No 172, MC layout, 18th, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Bengaluru's Ashoka Pillar at Jayanagar is a modern tribute to the Mauryan emperor Ashoka's edicts of peace and dharma, located in one of the city's well-planned residential neighbourhoods."
   },
   {
     "sno": 21,
@@ -291,7 +311,8 @@
     "longitude": 77.56654,
     "address": "Yeshwanthpura main Road C.N.R.Rao Circle, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "The Indian Institute of Science (IISc), established in 1909 through a partnership between Jamsetji Tata and the Mysore royal family, is India's foremost research university and a UNESCO heritage site."
   },
   {
     "sno": 22,
@@ -305,7 +326,8 @@
     "longitude": 77.65025,
     "address": "NAL Campus, Bangalore 560017, Bangalore 560017, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "ISRO (Indian Space Research Organisation), headquartered in Bengaluru, has made India a leading spacefaring nation, achieving milestones like Chandrayaan and Mangalyaan at a fraction of Western mission costs."
   },
   {
     "sno": 23,
@@ -319,7 +341,8 @@
     "longitude": 77.6,
     "address": "14, Museum Road, , Bangalore 560025, BENGALURU URBAN",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Sandesh Museum (State Museum) on Museum Road, Bengaluru, houses an extensive collection of art, archaeology, natural history and numismatics tracing Karnataka's heritage across millennia."
   },
   {
     "sno": 24,
@@ -333,7 +356,8 @@
     "longitude": 77.58127,
     "address": "Janatha Colony National Park Road, Bannerghatta Bengaluru 560083, BENGALURU RURAL",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Bannerghatta National Park on Bengaluru's southern fringe is a wildlife reserve and rescue centre home to tigers, leopards, bears and elephants, offering both wild safaris and a butterfly enclosure."
   },
   {
     "sno": 25,
@@ -347,7 +371,8 @@
     "longitude": 77.45608,
     "address": "MAIN  ROAD, KAMTHANA, BIDAR",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Parshvanath Bhagwan Digamber Jain temple at Kamthana, Bidar, is an important centre of Digambara Jainism, associated with the worship of the 23rd Tirthankara."
   },
   {
     "sno": 26,
@@ -361,7 +386,8 @@
     "longitude": 76.94596,
     "address": "Near Govt. Junior College, Basavakalyan, BIDAR",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Basavakalyan was the spiritual capital of 12th-century saint-philosopher Basavanna, who founded the Veerashaiva/Lingayat movement here. The Anubhava Mantapa, the world's first parliament of saints, convened in this town."
   },
   {
     "sno": 27,
@@ -375,7 +401,8 @@
     "longitude": 77.517,
     "address": "Near Railway Station, Bidar, BIDAR",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Mahmud Gawan Madarsa, built in 1472 in Bidar, was a magnificent institution of Islamic learning with a four-storey minaretted facade; one minaret collapsed but the remaining structure is a masterpiece of Bahmani architecture."
   },
   {
     "sno": 28,
@@ -389,7 +416,8 @@
     "longitude": 77.517,
     "address": "Near Railway Station, BIDAR",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Guru Nanak Jhira Sahib is a sacred Sikh shrine in Bidar built over a natural spring that, according to legend, appeared when Guru Nanak struck the ground to end a local drought. It draws Sikh pilgrims from across the country."
   },
   {
     "sno": 29,
@@ -403,7 +431,8 @@
     "longitude": 76.688436,
     "address": "OOTY ROAD, CHAMARAJANAGARA",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Bandipur National Park, spanning 874 sq km at the junction of the Western and Eastern Ghats, is part of the Nilgiri Biosphere Reserve and one of India's most important tiger reserves."
   },
   {
     "sno": 30,
@@ -417,7 +446,8 @@
     "longitude": 77.12204,
     "address": "Kyathadevaragudi B.O, CHAMARAJANAGARA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kyathadevaragudi in Chamarajanagara district is a dense forest area known for wildlife including elephants and leopards, part of the larger Biligiri Rangaswamy Temple Tiger Reserve ecosystem."
   },
   {
     "sno": 31,
@@ -431,7 +461,8 @@
     "longitude": 77.591563,
     "address": "Behind Temple, Mahadeshwara Malai Hills, Chamarajanagara",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Male Mahadeshwara Hills (MM Hills) is a forested pilgrimage site in Chamarajanagara, home to the revered Mahadeshwara temple and a significant wildlife corridor for elephants between Biligiri and Sathyamangalam forests."
   },
   {
     "sno": 32,
@@ -445,7 +476,8 @@
     "longitude": 77.68402,
     "address": "Nandi Hills BO  , chickballapur taluk, CHIKKABALLAPURA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Nandi Hills (Nandidurga), 60 km from Bengaluru, is an ancient hill fortress at 1,478 m that served as Tipu Sultan's summer retreat. Its sunrise views and cool climate have made it a favourite weekend getaway."
   },
   {
     "sno": 33,
@@ -459,7 +491,8 @@
     "longitude": 75.77407,
     "address": "NAIDU STREET, CHIKMAGALUR, CHIKKAMAGALURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Chikkamagaluru district's coffee plantations, established by Baba Budan who smuggled seven coffee beans from Mocha in the 17th century, are among the oldest coffee estates in India and set across misty Western Ghats slopes."
   },
   {
     "sno": 34,
@@ -473,7 +506,8 @@
     "longitude": 75.25493,
     "address": "santhe maidana sringeri, SRINGERI, CHIKKAMAGALURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Sringeri, on the banks of the Tunga river, is the seat of the first of Adi Shankaracharya's four cardinal maths, established in the 8th century. The Sharada temple here is a major centre of Advaita Vedanta learning."
   },
   {
     "sno": 35,
@@ -487,7 +521,8 @@
     "longitude": 76.4,
     "address": "Holalkere Road Near KSRTC Bus stand, Adilabad, CHITRADURGA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Chitradurga Fort, the 'Stone Fortress', is an 18th-century rock fort spread across seven hills with 19 concentric walls. Local hero Onake Obavva single-handedly defended a breach in the wall using a pestle."
   },
   {
     "sno": 36,
@@ -501,7 +536,8 @@
     "longitude": 74.87041,
     "address": "Kateel S.O, Mangalore, DAKSHINA KANNADA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kateel, on the banks of the Nandini river near Mangaluru, is one of Karnataka's most visited temples, dedicated to Durgaparameshwari, built on an island that floods annually during the monsoon."
   },
   {
     "sno": 37,
@@ -515,7 +551,8 @@
     "longitude": 75.38165,
     "address": "DHARMASTALA, DAKSHINA KANNADA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Dharmasthala is a unique pilgrimage town on the banks of the Netravathi river where the shrine of Manjunatha (Shiva) is administered by a Jain family — a rare example of interfaith harmony."
   },
   {
     "sno": 38,
@@ -529,7 +566,8 @@
     "longitude": 74.99704,
     "address": "MOODBIDRI, DAKSHINA KANNADA",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Moodbidri, the 'Jain Kashi', is home to 18 Jain basadis (temples), the most famous being Thousand Pillar Basadi (Tribhuvana Tilaka Chudamani), adorned with intricate soapstone carvings."
   },
   {
     "sno": 39,
@@ -543,7 +581,8 @@
     "longitude": 75.61319,
     "address": "Subramanya, Sullia Tq, Dakshina Kannada",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Subrahmanya temple in the dense forests of the Pushpagiri range is one of South India's most important shrines for Subramanya (Kartikeya), drawing pilgrims who believe a living cobra (Vasuki) resides here."
   },
   {
     "sno": 40,
@@ -557,7 +596,8 @@
     "longitude": 75.14473,
     "address": "VENUR, DAKSHINA KANNADA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Venur on the Phalguni river has a 12-metre Gommateshwara (Bahubali) monolith carved in 1604, smaller than the famous Shravanabelagola statue but equally revered."
   },
   {
     "sno": 41,
@@ -571,7 +611,8 @@
     "longitude": 74.84,
     "address": "Mangaluru H.O, Mangalore, DAKSHINA KANNADA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Mangaluru Lighthouse at Tannirbhavi beach, managed by the Directorate General of Lighthouses, guides shipping into the Mangaluru port — one of India's oldest major ports on the Arabian Sea."
   },
   {
     "sno": 42,
@@ -585,7 +626,8 @@
     "longitude": 74.8416,
     "address": "Ullal S.O, Mangalore, DAKSHINA KANNADA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Rani Abbakka Chowta of Ullal was a 16th-century queen who fiercely resisted Portuguese domination of the Tulu Nadu coast across four decades, earning the title 'Abhaya Rani' (fearless queen)."
   },
   {
     "sno": 43,
@@ -599,7 +641,8 @@
     "longitude": 75.91578,
     "address": "Hondada Circle, DAVANGERE",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "The Chennagiri Rangappa Clock Tower in Davanagere is a colonial-era civic monument and a beloved local landmark at the centre of this cotton-trading city in central Karnataka."
   },
   {
     "sno": 44,
@@ -613,7 +656,8 @@
     "longitude": 74.99526,
     "address": "NARAYANPUR, V TH CROSS, DHARWAD",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Bhendra Bhavan in Dharwad was the home of Da.Ra. Bendre, one of the greatest Kannada poets and Jnanpith Award winner. The house is now a literary museum preserving his manuscripts and personal effects."
   },
   {
     "sno": 45,
@@ -627,7 +671,8 @@
     "longitude": 75.144929,
     "address": "Main street, DHARWAD",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Unkal Lake near Hubli is a tranquil urban lake that serves as a recreational green lung for the twin cities of Hubli-Dharwad and is important for migratory bird watching."
   },
   {
     "sno": 46,
@@ -641,7 +686,8 @@
     "longitude": 75.43,
     "address": "Navalgund Road, Annigeri 582201, DHARWAD",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Pampa, the first great Kannada poet, is believed to have hailed from Annigeri in Dharwad district. His epic Vikramarjuna Vijaya (942 CE) is a landmark in classical Kannada literature."
   },
   {
     "sno": 47,
@@ -655,7 +701,8 @@
     "longitude": 75.63639,
     "address": "NEAR GANDHI CIRCLE, STATION ROAD, GADAG",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kumaravyasa, the 15th-century Kannada poet from Gadag, wrote the Gadugina Bharata, a Kannada rendering of the Mahabharata that remains one of the most celebrated texts in the language."
   },
   {
     "sno": 48,
@@ -669,7 +716,8 @@
     "longitude": 75.71918,
     "address": "Near Panchayat, LAKKUNDI, GADAG",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Lakkundi, near Gadag, is a cluster of exquisitely carved 11th-century Chalukyan temples and stepwells in schist stone, representing the peak of the Kalyani Chalukya architectural style."
   },
   {
     "sno": 49,
@@ -683,7 +731,8 @@
     "longitude": 75.86483,
     "address": "Sub Post Office Belur, Belur 573115, Hassan",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Chennakeshava Temple at Belur, built by King Vishnuvardhana in 1117 CE to celebrate victory over the Cholas, is one of the finest examples of Hoysala architecture with 750 lathe-turned pillars and intricate friezes."
   },
   {
     "sno": 50,
@@ -697,7 +746,8 @@
     "longitude": 75.99402,
     "address": "Sub Post Office Halebeedu, Halebeedu, HASSAN",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Halebidu (ancient Dwarasamudra), the Hoysala capital, contains the Hoysaleshwara and Shanthaleshwara twin temples (1121 CE) covered with continuous bands of sculpture — considered the most elaborate example of Hoysala art."
   },
   {
     "sno": 51,
@@ -711,7 +761,8 @@
     "longitude": 76.48287,
     "address": "Sub Post Office Shravanagbelagola, Shravanabelagola, HASSAN",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Shravanabelagola is home to the 18-metre Gommateshwara (Bahubali) monolith, carved in 981 CE. The Mahamastakabhisheka anointing ceremony held every 12 years is one of the world's largest peaceful religious gatherings."
   },
   {
     "sno": 52,
@@ -725,7 +776,8 @@
     "longitude": 75.63269,
     "address": "Ranebennur, HAVERI",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Ranebennur Blackbuck Sanctuary protects one of India's largest blackbuck herds in an open grassland habitat, also home to wolves, Indian foxes, and lesser floricans."
   },
   {
     "sno": 53,
@@ -739,7 +791,8 @@
     "longitude": 75.32384,
     "address": "Shishuvinahal, HAVERI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Shishunala Sharifa (1819–1889) was a Sufi saint and Kannada poet from Haveri whose devotional songs, written in simple Kannada, continue to be sung across Karnataka as spiritual folk music."
   },
   {
     "sno": 54,
@@ -753,7 +806,8 @@
     "longitude": 76.83449,
     "address": "OPPO LIC OFFICE, KALABURAGI",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "The Bara Gazi Toph (cannon) in Kalaburagi (Gulbarga) is a massive medieval cannon cast under the Bahmani Sultanate, one of the largest surviving medieval cannons in the Deccan."
   },
   {
     "sno": 55,
@@ -767,7 +821,8 @@
     "longitude": 75.74,
     "address": "Main Road, Madikeri HO, KODAGU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Madikeri (Mercara) is the seat of Kodagu district and was the capital of the Kodagu kingdom. Its fort, tomb of the Kodagu kings, and the Raja's Seat viewpoint are key heritage landmarks."
   },
   {
     "sno": 56,
@@ -781,7 +836,8 @@
     "longitude": 76.06729,
     "address": "Nagarahole B.O, Nagarahole, Virajpet, Kodagu",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Nagarahole (Rajiv Gandhi) National Park, part of the Nilgiri Biosphere Reserve, is one of India's richest wildlife habitats with large populations of tigers, leopards, elephants, gaurs, and the rare dhole."
   },
   {
     "sno": 57,
@@ -795,7 +851,8 @@
     "longitude": 78.26129,
     "address": "KGF, Kolar dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "The Kolar Gold Fields (KGF) operated the deepest gold mines in Asia for over a century. Producing over 900 tonnes of gold, it powered India's industrial growth before closing in 2001."
   },
   {
     "sno": 58,
@@ -809,7 +866,8 @@
     "longitude": 77.99553,
     "address": "Near Bus Stand, KOLAR",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Masti Venkatesha Iyengar (1891–1986), from Masti village in Kolar, is one of Kannada literature's towering figures — a Jnanpith laureate known as 'Chhota Kathamaha' (short story master)."
   },
   {
     "sno": 59,
@@ -823,7 +881,8 @@
     "longitude": 76.49257,
     "address": "Ranganatha Swamy Temple premises, KOPPAL",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Anjanadri Hill near Anegundi (Koppal) is widely believed to be the birthplace of Lord Hanuman. The ancient Anjaneya temple on the hilltop overlooks the ruins of the Vijayanagara empire."
   },
   {
     "sno": 60,
@@ -837,7 +896,8 @@
     "longitude": 76.153877,
     "address": "Beside Boys High School, Jawahar Road, Koppal, KOPPAL",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Gavimath at Koppal is the seat of the Veerashaiva pontiff Gavi Siddeshwara, a significant religious institution. The Shri Gavimath Math has been a centre of Lingayat scholarship for centuries."
   },
   {
     "sno": 61,
@@ -851,7 +911,8 @@
     "longitude": 76.75961,
     "address": "Nagamangala, Mandya, MANDYA",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Kokkare Bellur, a small village in Mandya district, is one of India's rare human-bird coexistence stories where spot-billed pelicans and painted storks have nested alongside village homes for centuries."
   },
   {
     "sno": 62,
@@ -865,7 +926,8 @@
     "longitude": 76.68291,
     "address": "Srirangapatna, Mandya, 571438, MANDYA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Srirangapatna (Srirangapattana) was the capital of Hyder Ali and Tipu Sultan. The island fortress, Ranganathaswamy temple, Tipu's Summer Palace, and the site of his 1799 death make it Karnataka's richest historical town."
   },
   {
     "sno": 63,
@@ -879,7 +941,8 @@
     "longitude": 76.65671,
     "address": "ASHOKA ROAD, MYSORE, MYSURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Mysuru Dasara is a 400-year-old royal festival celebrated for 10 days culminating on Vijayadashami with a torchlit procession of the golden howdah elephant from Mysore Palace, designated a National Festival."
   },
   {
     "sno": 64,
@@ -893,7 +956,8 @@
     "longitude": 76.64536,
     "address": "DOUBLE TANK ROAD Rd, MYSORE EE, MYSURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Mysuru's Silver Jubilee Clock Tower near Lakshmipuram was erected to commemorate 25 years of Krishnaraja Wadiyar IV's reign. It stands as one of the city's elegant colonial-era public monuments."
   },
   {
     "sno": 65,
@@ -907,7 +971,8 @@
     "longitude": 76.62984,
     "address": "10TH MAIN SARASWATHIPURAM, MYSORE, MYSURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Brindavan Gardens and Mysore Palace together define Karnataka's tourism. The Gardens, laid out on the KRS dam by Sir M. Visvesvaraya, feature musical fountains, while the palace is India's most visited monument after the Taj."
   },
   {
     "sno": 66,
@@ -921,7 +986,8 @@
     "longitude": 76.67085,
     "address": "Chamundi Betta B.O, MYSURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Chamundi Hills, 13 km from Mysuru city, is crowned by the Chamundeshwari temple (800+ years old), reached by a famous stairway with 1,000 steps flanked by a giant Nandi bull carved in 1659."
   },
   {
     "sno": 67,
@@ -935,7 +1001,8 @@
     "longitude": 76.65671,
     "address": "ASHOKA ROAD, MYSURU",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "The Sri Ganapati Sachidananda Ashram (SGS Ashram) in Mysuru is headquartered at this spiritual hub established by Swami Ganapati Sachidananda, a revered Dattatreya saint known for music therapy and vedic chanting."
   },
   {
     "sno": 68,
@@ -949,7 +1016,8 @@
     "longitude": 76.89353,
     "address": "Somanathapura B.O, MYSURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Somanathapura's Keshava Temple (1268 CE) is the most complete and perfectly proportioned Hoysala temple, built under General Somanatha by Narasimha III. Its triple-shikara star-plan is a geometric masterpiece."
   },
   {
     "sno": 69,
@@ -963,7 +1031,8 @@
     "longitude": 77.027937,
     "address": "MAIN ROAD, TALKAD, MYSURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Talakad on the Kaveri river is an ancient city now partly buried under sand dunes — home to five Shiva lingas at Panchalinga sites. Legend holds it was cursed to be buried by sand by the queen Alamelamma."
   },
   {
     "sno": 70,
@@ -977,7 +1046,8 @@
     "longitude": 77.32227,
     "address": "Devadurga, Raichur dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Appannacharya was a 15th-century Madhwa philosopher and composer from the Raichur region, a disciple of Sripadaraja, who composed devotional Haridasa music that contributed to the Bhakti movement in Karnataka."
   },
   {
     "sno": 71,
@@ -991,7 +1061,8 @@
     "longitude": 77.285,
     "address": "Ramanagara dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "The Grizzled Giant Squirrel (Ratufa macroura) sanctuary in Ramanagara protects this near-threatened species in the rocky granite terrain that also famously served as the backdrop for the Bollywood film Sholay."
   },
   {
     "sno": 72,
@@ -1005,7 +1076,8 @@
     "longitude": 75.09686,
     "address": "AGUMBE, AGUMBE, SHIVAMOGGA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Agumbe in Shivamogga is the 'Cherrapunji of the South', receiving some of India's highest annual rainfall. It is the preferred habitat of the King Cobra and the base for the Romulus Whitaker-founded king cobra research."
   },
   {
     "sno": 73,
@@ -1019,7 +1091,8 @@
     "longitude": 75.14927,
     "address": "KENDALBAILU, SHIVAMOGGA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kundadri Hill near Agumbe has a Jain temple at its 925-metre summit that provides breathtaking sunrise views over the Western Ghats forest canopy and is one of Karnataka's most scenic treks."
   },
   {
     "sno": 74,
@@ -1033,7 +1106,8 @@
     "longitude": 75.28357,
     "address": "Devangi, Tirthahalli Tq, Shivamogga",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kavishaila (Poet's Rock) at Devangi, Tirthahalli, is a rock associated with the Navodaya literary movement's origin — where poet K.V. Puttappa (Kuvempu) drew inspiration while writing his landmark novel."
   },
   {
     "sno": 75,
@@ -1047,7 +1121,8 @@
     "longitude": 74.7959,
     "address": "JOGAFALLS, SAGAR TQ, SHIVAMOGGA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Jog Falls, where the Sharavathi river plunges 253 metres in four distinct falls (Raja, Rani, Rover, Rocket), is India's second-highest plunge waterfall and is most dramatic after the monsoon."
   },
   {
     "sno": 76,
@@ -1061,7 +1136,8 @@
     "longitude": 75.57225,
     "address": "KR PETE SO SHIMOGA, SHIVAMOGGA",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found Via Fallback",
+    "description": "Humcha (Hombuja) is an ancient Jain pilgrimage town in Shivamogga with a cluster of basadis and the Siddhalingeshwara Rathotsava chariot festival, a major religious event for the Jain community."
   },
   {
     "sno": 77,
@@ -1075,7 +1151,8 @@
     "longitude": 77.1015,
     "address": "Siddaganga, Tumkur dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Siddaganga Mutt near Tumkur was led for over 111 years by Sri Shivakumara Swami (1907–2019), who ran free education and meals for thousands of poor children daily — making it one of India's greatest humanitarian institutions."
   },
   {
     "sno": 78,
@@ -1089,7 +1166,8 @@
     "longitude": 77.10863,
     "address": "Hirehalli S.O, Hirehalli 572168, TUMAKURU",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Pinchi Basadi at Hirehalli, Tumakuru, is a well-preserved Jain temple from the medieval period with notable soapstone carvings, part of the rich Jain heritage trail of southern Karnataka."
   },
   {
     "sno": 79,
@@ -1103,7 +1181,8 @@
     "longitude": 74.99,
     "address": "KARKALA, Karkala, UDUPI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "The Karkala Gommateshwara is a 13-metre Bahubali monolith carved in 1432 CE, the third-tallest in the world. The Mahamastakabhisheka ceremony here draws thousands of Jain pilgrims from across India."
   },
   {
     "sno": 80,
@@ -1117,7 +1196,8 @@
     "longitude": 74.72677,
     "address": "Mattu B.O, Udupi",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Mattu Galla (Mattu Gulla) is a small, round, pale green brinjal (eggplant) variety grown only in Mattu village, Udupi, and protected by a GI tag. It is prized in Udupi cuisine for its mildness."
   },
   {
     "sno": 81,
@@ -1131,7 +1211,8 @@
     "longitude": 74.74632,
     "address": "Kaup lighthouse, Udupi dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Kaup (Kapu) Lighthouse, built in 1901, stands beside a small fort and a scenic beach. The lighthouse, one of the oldest on the Karnataka coast, offers panoramic views of the Arabian Sea."
   },
   {
     "sno": 82,
@@ -1145,7 +1226,8 @@
     "longitude": 75.01,
     "address": "VARANGA, UDUPI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Varanga, a small village near Karkala, has a serene lake-surrounded Jain temple complex with a Chaturmukha Basadi (four-faced shrine) and a Gommateshwara idol, a quiet but beautiful pilgrimage site."
   },
   {
     "sno": 83,
@@ -1159,7 +1241,8 @@
     "longitude": 74.77014,
     "address": "Shankarapura, Udupi dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Shankarpura Mallige (Jasminum sambac) is the GI-tagged jasmine of Shankarpura village, Udupi, known for its exceptional fragrance and used extensively in the perfume industry and for temple offerings."
   },
   {
     "sno": 84,
@@ -1173,7 +1256,8 @@
     "longitude": 74.75,
     "address": "Udupi H.O",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "The Krishna Temple at Udupi, established by philosopher-saint Madhvacharya in the 13th century, is one of South India's most revered Vaishnava shrines, known for the legend of Kanakadasa and the Kanakana Kindi window."
   },
   {
     "sno": 85,
@@ -1187,7 +1271,8 @@
     "longitude": 74.78605,
     "address": "Manipal H.O, Near Manipal Police Station, Madhava Nagara, Udupi",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Manipal, home to Manipal University, is one of India's first planned education cities, founded by T.M.A. Pai in 1953. It hosts medical, engineering, and management institutions that draw students internationally."
   },
   {
     "sno": 86,
@@ -1201,7 +1286,8 @@
     "longitude": 74.70426,
     "address": "Malpe beach, Udupi dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Malpe is a major fishing harbour and beach destination near Udupi with a wide sandy shore, a natural rocky breakwater, and boat services to St. Mary's Islands — basalt columns formed by volcanic activity."
   },
   {
     "sno": 87,
@@ -1215,7 +1301,8 @@
     "longitude": 74.89754,
     "address": "Nandalike B.O, UDUPI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Mahakavi Muddana (1870–1901), from Nandalike near Udupi, was a pioneering Kannada poet and playwright known as the 'Shakespeare of Kannada' whose Ramaswamedham and Shatavadhanam remain literary landmarks."
   },
   {
     "sno": 88,
@@ -1229,7 +1316,8 @@
     "longitude": 75.0677,
     "address": "SOMESHWAR, NADPALU, UDUPI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Someshwara Wildlife Sanctuary in Udupi preserves the coastal evergreen forests of the Western Ghats, home to the lion-tailed macaque, Malabar giant squirrel, and an extraordinary diversity of reptiles."
   },
   {
     "sno": 89,
@@ -1243,7 +1331,8 @@
     "longitude": 74.97168,
     "address": "ATTUR, UDUPI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "St. Lawrence Church at Attur, Udupi (built 1759), is one of Karnataka's oldest and most visited churches, drawing pilgrims from across India and abroad to seek the intercession of St. Lawrence, especially on his feast day."
   },
   {
     "sno": 90,
@@ -1257,7 +1346,8 @@
     "longitude": 74.69208,
     "address": "Kundapura, Udupi dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "The Panchagangavali river system in Kundapura, Udupi, is a cluster of interconnected backwaters and tidal rivers important for local fisheries, mangrove ecology, and the scenic Kollur-Kundapura coastal landscape."
   },
   {
     "sno": 91,
@@ -1271,7 +1361,8 @@
     "longitude": 74.7513,
     "address": "Barkur, Udupi dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Barkur, an ancient port town mentioned in Arab and Portuguese records, was a major centre of trade and power before Udupi's rise. It has numerous medieval temples including the Panchalingeshwara complex."
   },
   {
     "sno": 92,
@@ -1285,7 +1376,8 @@
     "longitude": 74.81083,
     "address": "Kollur S.O, Kundapura Tq, Udupi",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kollur Mookambika Temple, at the foot of the Kodachadri hills in the Western Ghats, is dedicated to Goddess Mookambika, a form of Parvati-Saraswati, and is one of Karnataka's most important pilgrimage destinations."
   },
   {
     "sno": 93,
@@ -1299,7 +1391,8 @@
     "longitude": 74.70488,
     "address": "Near police station kota, Santhe market road kota, Udupi",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "K. Shivaram Karanth (1902–1997) from Kota, Udupi, was a towering Kannada writer, Jnanpith laureate, naturalist, and activist who wrote over 500 books spanning novels, plays, science, and encyclopaedias."
   },
   {
     "sno": 94,
@@ -1313,7 +1406,8 @@
     "longitude": 74.81161,
     "address": "Mandarthi temple, Udupi dist",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Mandarthi (Mangala Devi) temple near Brahmavar, Udupi, is a serene Shakti shrine dedicated to Goddess Mangaladevi set amid laterite hillside, believed to have been established by the mythological Parashurama."
   },
   {
     "sno": 95,
@@ -1327,7 +1421,8 @@
     "longitude": 74.30456,
     "address": "NEAR BUS STAND, UTTARA KANNADA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Manjuguni Hanuman Temple in Uttara Kannada is a forest shrine near Kumta with a history of over 800 years, surrounded by dense Western Ghats vegetation and considered highly spiritually powerful."
   },
   {
     "sno": 96,
@@ -1341,7 +1436,8 @@
     "longitude": 74.4896,
     "address": "Murudeshwara, Uttara Kannada",
     "state": null,
-    "status": "Manual"
+    "status": "Manual",
+    "description": "Murudeshwara (Murdeshwar) is famous for the second-tallest Shiva statue in the world (37 metres) standing on a cliff overlooking the Arabian Sea. The ancient Murudeshwara temple complex is among Karnataka's most photographed sites."
   },
   {
     "sno": 97,
@@ -1355,7 +1451,8 @@
     "longitude": 76.46178,
     "address": "NEAR TEMPLE, hampi, BALLARI",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Hampi, the capital of the Vijayanagara Empire (14th–16th centuries), is a UNESCO World Heritage Site with over 1,600 monuments spread across a surreal boulder-strewn landscape on the banks of the Tungabhadra river."
   },
   {
     "sno": 98,
@@ -1369,7 +1466,8 @@
     "longitude": 76.490961,
     "address": "Kannada University, K U Campus, near Prasaranga, Hospet, Ballari",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Kannada University at Hampi (Vidyaranya), established in 1991, is dedicated entirely to research on Kannada language, literature, and culture, and houses the renowned Prasaranga publishing wing."
   },
   {
     "sno": 99,
@@ -1383,7 +1481,8 @@
     "longitude": 75.71674,
     "address": "VIJAYAPURA, Near gandhi chouk, VIJAYAPURA",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Vijayapura (Bijapur) is renowned for the Gol Gumbaz (1656), whose 44-metre dome is the world's second-largest unsupported dome, and the Ibrahim Rauza, an exquisite mausoleum that may have inspired the Taj Mahal."
   },
   {
     "sno": 100,
@@ -1397,6 +1496,7 @@
     "longitude": 76.65598,
     "address": "Bonal, Main Road Bonal BO, YADGIR",
     "state": "Karnataka",
-    "status": "Found"
+    "status": "Found",
+    "description": "Bonal Bird Sanctuary in Yadagiri is a small but ecologically significant wetland that provides refuge to painted storks, pelicans, cormorants, and various migratory waterfowl during winter months."
   }
 ]

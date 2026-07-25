@@ -26,6 +26,7 @@ export interface Location {
   address: string | null;
   state: string | null;
   status: string;
+  description?: string;
 }
 
 export const locations: Location[] = rawData as Location[];
