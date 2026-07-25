@@ -11,15 +11,28 @@ import { BookOpen, Home, ChevronLeft, ChevronRight } from "lucide-react";
 // Types are declared in types/page-flip.d.ts
 
 // ─── Constants ───────────────────────────────────────────────────────
-// Book page layout:
-//   Page 0      : Front Cover  (hard)
-//   Page 1      : Inside front cover / About
-//   Page 2–3    : Table of Contents (2 pages)
-//   Page 4–203  : 100 PPC locations × 2 pages each
-//                   even page (4,6,8…): Info  (left when open)
-//                   odd  page (5,7,9…): Stamp (right when open)
-//   Page 204    : Colophon / back matter
-//   Page 205    : Back Cover  (hard)
+// With showCover:true, page 0 is a standalone cover (right side only).
+// All subsequent pages pair as left+right: (1,2) (3,4) (5,6)...
+// For a PPC spread to show Info on LEFT and Stamp on RIGHT, Info must
+// be at an ODD index (left position in a pair).
+//
+//   Page 0      : Front Cover  (hard, standalone right)
+//   Page 1      : About        (left of spread 1)
+//   Page 2      : Contents 1–50(right of spread 1)
+//   Page 3      : Contents 51–100 (left of spread 2)
+//   Page 4      : *** BLANK FILLER *** (right of spread 2, balances parity)
+//   Page 5      : PPC #001 Info  (left of spread 3)  ← ODD = LEFT ✓
+//   Page 6      : PPC #001 Stamp (right of spread 3)
+//   Page 7      : PPC #002 Info  (left of spread 4)
+//   ...
+//   Page 204    : PPC #100 Info
+//   Page 205    : PPC #100 Stamp
+//   Page 206    : Colophon
+//   Page 207    : Back Cover (hard)
+//
+// PPC #sno → Info page  = 5 + (sno - 1) * 2  = 3 + sno*2
+// PPC #sno → Stamp page = 6 + (sno - 1) * 2  = 4 + sno*2
+const PPC_START = 5; // first PPC info page index
 const GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E\")";
 const PAGE_CONTENT_STYLE: React.CSSProperties = {
   width: "100%", height: "100%", overflow: "hidden",
@@ -133,7 +146,7 @@ function InfoPage({ loc, visit, photoUrl }: { loc: typeof locations[0]; visit: V
         ) : null}
       </div>
       <div style={{ padding: "4px 16px", borderTop: "1px solid rgba(196,163,90,0.2)", display: "flex", justifyContent: "flex-end" }}>
-        <span style={{ fontFamily: "var(--font-display)", fontSize: "0.42rem", color: "rgba(74,40,16,0.38)", letterSpacing: "0.06em" }}>{(loc.sno - 1) * 2 + 4}</span>
+        <span style={{ fontFamily: "var(--font-display)", fontSize: "0.42rem", color: "rgba(74,40,16,0.38)", letterSpacing: "0.06em" }}>{PPC_START + (loc.sno - 1) * 2}</span>
       </div>
     </div>
   );
@@ -200,7 +213,7 @@ function StampPage({ loc, visit }: { loc: typeof locations[0]; visit: Visit | nu
         </div>
       </div>
       <div style={{ padding: "4px 16px", borderTop: "1px solid rgba(196,163,90,0.2)", display: "flex", justifyContent: "flex-start" }}>
-        <span style={{ fontFamily: "var(--font-display)", fontSize: "0.42rem", color: "rgba(74,40,16,0.38)", letterSpacing: "0.06em" }}>{(loc.sno - 1) * 2 + 5}</span>
+        <span style={{ fontFamily: "var(--font-display)", fontSize: "0.42rem", color: "rgba(74,40,16,0.38)", letterSpacing: "0.06em" }}>{PPC_START + (loc.sno - 1) * 2 + 1}</span>
       </div>
     </div>
   );
@@ -248,7 +261,7 @@ export default function BookPage() {
 
   // Lazy-load photos for nearby pages
   useEffect(() => {
-    const currentSno = currentPage - 3;  // page 4 = sno 1
+    const currentSno = currentPage - PPC_START + 1;  // page 5 = sno 1
     const load = async () => {
       for (let offset = -2; offset <= 4; offset++) {
         const sno = Math.floor((currentSno + offset) / 2) + 1;
@@ -334,7 +347,10 @@ export default function BookPage() {
 
   // Figure out displayed location for breadcrumb
   // Pages 4,5=sno1 | 6,7=sno2 | etc.
-  const displaySno = currentPage >= 4 && currentPage <= 203 ? Math.floor((currentPage - 4) / 2) + 1 : null;
+  // Pages 5–204 are PPC pages. Page 5=sno1 info, 6=sno1 stamp, 7=sno2 info...
+  const displaySno = currentPage >= PPC_START && currentPage <= PPC_START + 199
+    ? Math.floor((currentPage - PPC_START) / 2) + 1
+    : null;
   const displayLoc = displaySno !== null ? locations[displaySno - 1] : null;
 
   return (
@@ -413,7 +429,20 @@ export default function BookPage() {
             <ContentsPage half={1} />
           </div>
 
-          {/* Pages 4–203: 100 PPC locations × 2 pages each */}
+          {/* Page 4: Blank filler — keeps PPC info pages on ODD indices (LEFT side) */}
+          <div className="book-page">
+            <div style={{ width:"100%", height:"100%", background:"#F0E8D0",
+              backgroundImage: GRAIN, display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <div style={{ width:40, height:40, opacity:0.12 }}>
+                <svg viewBox="0 0 20 20" fill="none" width="100%" height="100%">
+                  <path d="M3 10 Q3 6 7 6 L14 8 Q17 9 17 10 Q17 11 14 12 L7 14 Q3 14 3 10Z"
+                    stroke="#7A3B0F" strokeWidth="1" fill="none"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Pages 5–204: 100 PPC locations × 2 pages each (Info=odd=left, Stamp=even=right) */}
           {locations.map(loc => {
             const visit    = visits[loc.sno] ?? null;
             const photoUrl = photoUrls[loc.sno] ?? null;
@@ -475,7 +504,7 @@ export default function BookPage() {
             const first = locations.find(l => l.district === d);
             const isActive = displayLoc?.district === d;
             return (
-              <button key={d} onClick={() => first && goTo(4 + (first.sno - 1) * 2)}
+              <button key={d} onClick={() => first && goTo(PPC_START + (first.sno - 1) * 2)}
                 style={{ fontFamily: "var(--font-display)", fontSize: "0.48rem", letterSpacing: "0.07em", textTransform: "uppercase", padding: "4px 8px", background: isActive ? "var(--sandstone)" : "transparent", color: isActive ? "var(--spine)" : "rgba(196,163,90,0.35)", border: isActive ? "1px solid var(--gilt)" : "1px solid rgba(196,163,90,0.12)", cursor: "pointer", flexShrink: 0, transition: "all 0.1s", whiteSpace: "nowrap" }}>
                 {d.slice(0, 8)}
               </button>
@@ -490,7 +519,7 @@ export default function BookPage() {
             onKeyDown={e => {
               if (e.key === "Enter") {
                 const val = parseInt((e.target as HTMLInputElement).value);
-                if (val >= 1 && val <= 100) { goTo(4 + (val - 1) * 2); (e.target as HTMLInputElement).value = ""; }
+                if (val >= 1 && val <= 100) { goTo(PPC_START + (val - 1) * 2); (e.target as HTMLInputElement).value = ""; }
               }
             }}
             style={{ width: 50, padding: "4px 6px", background: "rgba(196,163,90,0.07)", border: "1px solid rgba(196,163,90,0.18)", color: "var(--sandstone)", fontFamily: "var(--font-display)", fontSize: "0.6rem", outline: "none", textAlign: "center" }}
