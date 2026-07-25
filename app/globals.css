@@ -22,97 +22,76 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── Signature: Hoysala carved frieze band ──────────────────────── */
-/* Evokes horizontal decorative registers at Belur / Halebidu         */
+/* ─── Hoysala carved frieze bands ────────────────────────────────── */
 .hoysala-rule {
   height: 16px;
   background:
-    linear-gradient(
-      180deg,
-      #1A0E06 0px,   #1A0E06 2px,
-      #C4A35A 2px,   #C4A35A 4px,
-      #7A3B0F 4px,   #7A3B0F 12px,
-      #C4A35A 12px,  #C4A35A 14px,
-      #1A0E06 14px,  #1A0E06 16px
-    ),
-    repeating-linear-gradient(
-      90deg,
+    linear-gradient(180deg,
+      #1A0E06 0px, #1A0E06 2px,
+      #C4A35A 2px, #C4A35A 4px,
+      #7A3B0F 4px, #7A3B0F 12px,
+      #C4A35A 12px, #C4A35A 14px,
+      #1A0E06 14px, #1A0E06 16px),
+    repeating-linear-gradient(90deg,
       transparent 0px, transparent 7px,
-      rgba(196,163,90,0.2) 7px, rgba(196,163,90,0.2) 9px
-    );
+      rgba(196,163,90,0.2) 7px, rgba(196,163,90,0.2) 9px);
   flex-shrink: 0;
 }
-
 .hoysala-rule-thin {
   height: 8px;
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       #1A0E06 0px, #1A0E06 1px,
       #C4A35A 1px, #C4A35A 2px,
       #7A3B0F 2px, #7A3B0F 6px,
       #C4A35A 6px, #C4A35A 7px,
-      #1A0E06 7px, #1A0E06 8px
-    ),
-    repeating-linear-gradient(
-      90deg,
+      #1A0E06 7px, #1A0E06 8px),
+    repeating-linear-gradient(90deg,
       transparent 0px, transparent 7px,
-      rgba(196,163,90,0.18) 7px, rgba(196,163,90,0.18) 9px
-    );
+      rgba(196,163,90,0.18) 7px, rgba(196,163,90,0.18) 9px);
   flex-shrink: 0;
 }
 
-/* ─── Manuscript card (chisel-bevel border) ──────────────────────── */
+/* ─── Cards ──────────────────────────────────────────────────────── */
 .manuscript-card {
   background: linear-gradient(158deg, #FAF2DC 0%, #F2E6C2 100%);
   border-top:    2px solid #B8722A;
   border-left:   2px solid #B8722A;
   border-right:  2px solid #1A0E06;
   border-bottom: 2px solid #1A0E06;
-  box-shadow:
-    inset 0 1px 0 rgba(212,172,13,0.22),
-    3px 4px 14px rgba(26,14,6,0.22);
+  box-shadow: inset 0 1px 0 rgba(212,172,13,0.22), 3px 4px 14px rgba(26,14,6,0.22);
   transition: box-shadow 0.2s;
 }
 .manuscript-card:hover {
-  box-shadow:
-    inset 0 1px 0 rgba(212,172,13,0.3),
-    4px 6px 22px rgba(26,14,6,0.32);
+  box-shadow: inset 0 1px 0 rgba(212,172,13,0.3), 4px 6px 22px rgba(26,14,6,0.32);
 }
-
-/* ─── Parchment panel ────────────────────────────────────────────── */
 .parchment-panel {
   background: var(--manuscript);
   border: 1px solid rgba(196,163,90,0.4);
 }
-
-/* ─── Passport leaf ──────────────────────────────────────────────── */
 .passport-leaf {
   background: linear-gradient(160deg, #FFFAF0 0%, #F8F0D8 55%, #EFE0B4 100%);
   border-left: 6px solid #4A2810;
-  box-shadow:
-    -2px 0 10px rgba(74,40,16,0.15),
-    3px 4px 18px rgba(74,40,16,0.25),
-    inset 0 0 50px rgba(196,163,90,0.04);
+  box-shadow: -2px 0 10px rgba(74,40,16,0.15), 3px 4px 18px rgba(74,40,16,0.25), inset 0 0 50px rgba(196,163,90,0.04);
 }
 
 /* ─── Buttons ────────────────────────────────────────────────────── */
 .temple-btn {
   background: var(--temple);
   color: var(--manuscript);
-  border-top:   1px solid var(--copper);
-  border-left:  1px solid var(--copper);
-  border-right: 1px solid #060300;
-  border-bottom:1px solid #060300;
+  border-top:    1px solid var(--copper);
+  border-left:   1px solid var(--copper);
+  border-right:  1px solid #060300;
+  border-bottom: 1px solid #060300;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   font-family: var(--font-display, serif);
   font-size: 0.78rem;
   font-weight: 600;
+  cursor: pointer;
   transition: all 0.15s;
 }
 .temple-btn:hover { background: #3A1E09; color: var(--sandstone); }
-
 .ghost-btn {
   background: transparent;
   color: var(--manuscript);
@@ -122,10 +101,11 @@ body {
   font-family: var(--font-display, serif);
   font-size: 0.78rem;
   transition: all 0.15s;
+  cursor: pointer;
 }
 .ghost-btn:hover { background: rgba(196,163,90,0.12); border-color: var(--sandstone); }
 
-/* ─── Inscription label ──────────────────────────────────────────── */
+/* ─── Inscription ────────────────────────────────────────────────── */
 .inscription {
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -135,19 +115,67 @@ body {
 
 /* ─── Stamp slot (unvisited) ─────────────────────────────────────── */
 .stamp-slot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
   border: 2.5px dashed rgba(196,163,90,0.55);
   position: relative;
 }
 .stamp-slot::after {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border-radius: 50%;
-  border: 1px dashed rgba(196,163,90,0.3);
+  content: ''; position: absolute; inset: 6px;
+  border-radius: 50%; border: 1px dashed rgba(196,163,90,0.3);
+}
+
+/* ─── Stamp ink animation ────────────────────────────────────────── */
+@keyframes stamp-drop {
+  0%   { transform: scale(2.2) rotate(-8deg); opacity: 0; }
+  50%  { transform: scale(0.92) rotate(2deg); opacity: 1; }
+  70%  { transform: scale(1.06) rotate(-1deg); opacity: 1; }
+  85%  { transform: scale(0.97) rotate(0.5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes ink-spread {
+  0%   { opacity: 0.6; transform: scale(0.6); }
+  60%  { opacity: 0.15; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+@keyframes stamp-glow {
+  0%   { box-shadow: 0 0 0 0 rgba(196,163,90,0.6); }
+  50%  { box-shadow: 0 0 0 16px rgba(196,163,90,0); }
+  100% { box-shadow: 0 0 0 0 rgba(196,163,90,0); }
+}
+@keyframes fade-in-up {
+  0%   { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); opacity: 0.7; }
+  50%  { transform: scale(1.05); opacity: 0.3; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.stamp-animate {
+  animation: stamp-drop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.ink-ring {
+  animation: ink-spread 0.6s ease-out forwards;
+}
+.stamp-glow-pulse {
+  animation: stamp-glow 0.8s ease-out forwards;
+}
+.fade-in-up { animation: fade-in-up 0.4s ease-out forwards; }
+
+/* ─── Achievement badge shimmer ──────────────────────────────────── */
+.badge-shimmer {
+  background: linear-gradient(90deg, var(--sandstone) 25%, var(--gilt) 50%, var(--sandstone) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────────── */
@@ -155,7 +183,7 @@ body {
 ::-webkit-scrollbar-track { background: #EAD9B8; }
 ::-webkit-scrollbar-thumb { background: #7A3B0F; border-radius: 0; }
 
-/* ─── Leaflet overrides ──────────────────────────────────────────── */
+/* ─── Leaflet ────────────────────────────────────────────────────── */
 .leaflet-popup-content-wrapper {
   background: #F8F0D8 !important;
   border: 2px solid #4A2810 !important;
@@ -168,9 +196,7 @@ body {
 .leaflet-popup-content { margin: 0 !important; }
 .leaflet-popup-tip-container { display: none !important; }
 .leaflet-control-zoom a {
-  background: #F8F0D8 !important;
-  color: #4A2810 !important;
-  border-color: #C4A35A !important;
-  border-radius: 0 !important;
+  background: #F8F0D8 !important; color: #4A2810 !important;
+  border-color: #C4A35A !important; border-radius: 0 !important;
 }
 .leaflet-control-zoom a:hover { background: #4A2810 !important; color: #F8F0D8 !important; }
