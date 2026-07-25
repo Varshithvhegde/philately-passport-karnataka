@@ -427,11 +427,11 @@
     "post_office": "Male Mahadeshwara Hills SO 571490",
     "pincode": "571490",
     "office_type": "SPO",
-    "latitude": 13.06,
-    "longitude": 77.65,
-    "address": "9 and 10 744 2, KOTHANUR VILLAGE,BANGALORE, BENGALURU URBAN",
+    "latitude": 12.033301,
+    "longitude": 77.591563,
+    "address": "Behind Temple, Mahadeshwara Malai Hills, Chamarajanagara",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found"
   },
   {
     "sno": 32,
@@ -776,12 +776,12 @@
     "category": "Flora and Fauna",
     "post_office": "Nagarhole BO 571258",
     "pincode": "571258",
-    "office_type": "SPO",
-    "latitude": 12.306189,
-    "longitude": 76.29155,
-    "address": "POST OFFICE ROAD, MYSURU",
+    "office_type": "BPO",
+    "latitude": 11.992753,
+    "longitude": 76.06729,
+    "address": "Nagarahole B.O, Nagarahole, Virajpet, Kodagu",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found"
   },
   {
     "sno": 57,
@@ -1365,11 +1365,11 @@
     "post_office": "Kannada University Campus SO 583276",
     "pincode": "583276",
     "office_type": "SPO",
-    "latitude": 15.334196,
-    "longitude": 76.46178,
-    "address": "NEAR TEMPLE, BALLARI",
+    "latitude": 15.28567,
+    "longitude": 76.490961,
+    "address": "Kannada University, K U Campus, near Prasaranga, Hospet, Ballari",
     "state": "Karnataka",
-    "status": "Found Via Fallback"
+    "status": "Found"
   },
   {
     "sno": 99,
