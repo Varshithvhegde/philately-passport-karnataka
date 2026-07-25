@@ -354,19 +354,73 @@ body {
   line-height: 1.6;
 }
 
-/* ─── Stamp animations ────────────────────────────────────────────── */
+/* ─── Stamp & Envelope animations ────────────────────────────────── */
+
+/* Stamp pressed: falls from above with realistic ink thud            */
 @keyframes stamp-drop {
-  0%   { transform: scale(2.2) rotate(-8deg); opacity: 0; }
-  50%  { transform: scale(0.92) rotate(2deg); opacity: 1; }
-  70%  { transform: scale(1.06) rotate(-1deg); opacity: 1; }
-  85%  { transform: scale(0.97) rotate(0.5deg); opacity: 1; }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  0%   { transform: translateY(-60px) scale(1.1) rotate(-6deg); opacity: 0; filter: blur(2px); }
+  55%  { transform: translateY(4px) scale(0.96) rotate(1.5deg); opacity: 1; filter: blur(0); }
+  70%  { transform: translateY(-3px) scale(1.03) rotate(-0.8deg); opacity: 1; }
+  82%  { transform: translateY(1px) scale(0.99) rotate(0.3deg); opacity: 1; }
+  100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
 }
+
+/* Ink bleed: radial burst that fades — looks like wet ink spreading   */
 @keyframes ink-spread {
-  0%   { opacity: 0.6; transform: scale(0.6); }
-  60%  { opacity: 0.15; transform: scale(1.4); }
+  0%   { opacity: 0.7; transform: scale(0.5); }
+  40%  { opacity: 0.3; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+/* Ink bleed ring 2: slightly delayed second wave                      */
+@keyframes ink-spread-2 {
+  0%   { opacity: 0; transform: scale(0.3); }
+  20%  { opacity: 0.4; transform: scale(0.7); }
   100% { opacity: 0; transform: scale(1.8); }
 }
+
+/* Envelope flap opens (rotates up around top edge)                    */
+@keyframes flap-open {
+  0%   { transform: rotateX(0deg); }
+  100% { transform: rotateX(-160deg); }
+}
+
+/* Envelope flap closes (rotates back down)                            */
+@keyframes flap-close {
+  0%   { transform: rotateX(-160deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+/* Letter slides up out of open envelope                               */
+@keyframes letter-out {
+  0%   { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Letter slides back into envelope                                    */
+@keyframes letter-in {
+  0%   { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0; }
+}
+
+/* Envelope wiggle — draws attention before click                      */
+@keyframes envelope-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-2deg) translateY(-2px); }
+  40%       { transform: rotate(2deg) translateY(-1px); }
+  60%       { transform: rotate(-1deg); }
+  80%       { transform: rotate(1deg); }
+}
+
+/* Seal stamp: scale pulse after envelope closes                       */
+@keyframes seal-pulse {
+  0%   { transform: scale(0.5) rotate(-20deg); opacity: 0; }
+  50%  { transform: scale(1.12) rotate(4deg); opacity: 1; }
+  70%  { transform: scale(0.95) rotate(-2deg); opacity: 1; }
+  85%  { transform: scale(1.04) rotate(1deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
 @keyframes fade-in-up {
   0%   { opacity: 0; transform: translateY(12px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -376,9 +430,12 @@ body {
   100% { background-position: 200% 0; }
 }
 
-.stamp-animate { animation: stamp-drop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-.ink-ring      { animation: ink-spread 0.6s ease-out forwards; }
-.fade-in-up    { animation: fade-in-up 0.4s ease-out forwards; }
+.stamp-animate    { animation: stamp-drop 0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+.ink-ring         { animation: ink-spread 0.7s ease-out forwards; }
+.ink-ring-2       { animation: ink-spread-2 0.9s ease-out 0.1s forwards; }
+.envelope-wiggle  { animation: envelope-wiggle 0.6s ease-in-out; }
+.seal-animate     { animation: seal-pulse 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.fade-in-up       { animation: fade-in-up 0.4s ease-out forwards; }
 
 .badge-shimmer {
   background: linear-gradient(90deg, var(--sandstone) 25%, var(--gilt) 50%, var(--sandstone) 75%);
