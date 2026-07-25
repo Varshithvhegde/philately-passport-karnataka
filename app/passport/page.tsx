@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { locations, ALL_DISTRICTS, CATEGORY_ICONS, type Location } from "@/lib/data";
 import LocationCard from "@/components/LocationCard";
-import StampGrid from "@/components/StampGrid";
 
 const TOTAL = 100;
 const ALL_CATS = Object.keys(CATEGORY_ICONS);
@@ -190,19 +189,6 @@ function PassportInner() {
 
   return (
     <div>
-      {/* ── Stamp Collection strip — full width above the two-panel ── */}
-      <div style={{
-        borderBottom: "1px solid rgba(196,163,90,0.3)",
-        background: "var(--page)",
-      }}>
-        {/* Airmail border top */}
-        <div style={{ height: 6, background: "repeating-linear-gradient(-45deg, #C4391A 0px,#C4391A 4px,transparent 4px,transparent 6px,#0D1F3A 6px,#0D1F3A 10px,transparent 10px,transparent 12px)" }} />
-        <div style={{ padding: "16px 20px" }}>
-          <StampGrid />
-        </div>
-        <div style={{ height: 6, background: "repeating-linear-gradient(-45deg, #C4391A 0px,#C4391A 4px,transparent 4px,transparent 6px,#0D1F3A 6px,#0D1F3A 10px,transparent 10px,transparent 12px)" }} />
-      </div>
-
       {/* ── Two-panel ─────────────────────────────────────────────── */}
       <div style={{ display: "flex", alignItems: "flex-start" }}>
 
