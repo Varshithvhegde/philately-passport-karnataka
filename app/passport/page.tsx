@@ -4,837 +4,322 @@ import { useState, useEffect, Suspense, useMemo } from "react";
 import type { CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import {
-  locations,
-  ALL_DISTRICTS,
-  CATEGORY_ICONS,
-  type Location,
-} from "@/lib/data";
+import { locations, ALL_DISTRICTS, CATEGORY_ICONS, type Location } from "@/lib/data";
 import LocationCard from "@/components/LocationCard";
-import ProgressBar from "@/components/ProgressBar";
+import StampGrid from "@/components/StampGrid";
 
 const TOTAL = 100;
-
 const ALL_CATS = Object.keys(CATEGORY_ICONS);
 
 type SortMode = "default" | "district" | "collected" | "uncollected";
 type ViewMode = "grid" | "list";
 
-const inputBase: CSSProperties = {
-  padding: "8px 12px",
-  background: "var(--manuscript)",
-  border: "1px solid var(--sandstone)",
-  borderRightColor: "#1A0E06",
-  borderBottomColor: "#1A0E06",
+const inp: CSSProperties = {
+  padding: "7px 10px",
+  background: "var(--page)",
+  border: "1px solid rgba(196,163,90,0.45)",
+  borderRightColor: "rgba(26,14,6,0.2)",
+  borderBottomColor: "rgba(26,14,6,0.2)",
   color: "var(--ink)",
   fontFamily: "var(--font-body)",
-  fontSize: "0.82rem",
+  fontSize: "0.78rem",
   outline: "none",
-  appearance: "none" as CSSProperties["appearance"],
 };
 
-/* ─── StatTile ───────────────────────────────────────────────────────── */
-function StatTile({
-  label,
-  value,
-  sub,
-  last,
-}: {
-  label: string;
-  value: number | string;
-  sub?: string;
-  last?: boolean;
+/* ── SidebarRow ────────────────────────────────────────────────── */
+function SidebarRow({ label, icon, active, count, onClick }: {
+  label: string; icon?: string; active: boolean; count?: number; onClick: () => void;
 }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "14px 22px",
-        flex: 1,
-        borderRight: last ? "none" : "1px solid rgba(196,163,90,0.3)",
-        gap: 3,
-      }}
-    >
-      <div
-        style={{
-          fontFamily: "var(--font-display)",
-          fontWeight: 700,
-          fontSize: "2rem",
-          color: "var(--temple)",
-          lineHeight: 1,
-        }}
-      >
-        {value}
-      </div>
-      <div
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "0.53rem",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "var(--copper)",
-        }}
-      >
-        {label}
-      </div>
-      {sub && (
-        <div
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "0.58rem",
-            color: "var(--laterite)",
-            fontStyle: "italic",
-          }}
-        >
-          {sub}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ─── SidebarChip ────────────────────────────────────────────────────── */
-function SidebarChip({
-  label,
-  icon,
-  active,
-  count,
-  onClick,
-}: {
-  label: string;
-  icon?: string;
-  active: boolean;
-  count?: number;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 6,
-        padding: "5px 9px",
-        width: "100%",
-        textAlign: "left",
-        background: active
-          ? "var(--temple)"
-          : "transparent",
-        color: active ? "var(--sandstone)" : "var(--laterite)",
-        border: active
-          ? "1px solid var(--copper)"
-          : "1px solid transparent",
-        fontFamily: "var(--font-body)",
-        fontSize: "0.7rem",
-        cursor: "pointer",
-        transition: "all 0.14s",
-      }}
-    >
+    <button onClick={onClick} style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      width: "100%", padding: "5px 8px", textAlign: "left", cursor: "pointer",
+      background: active ? "var(--temple)" : "transparent",
+      color: active ? "var(--sandstone)" : "var(--ink-mid)",
+      border: active ? "1px solid rgba(196,163,90,0.3)" : "1px solid transparent",
+      borderLeft: active ? "3px solid var(--sandstone)" : "3px solid transparent",
+      fontFamily: "var(--font-body)", fontSize: "0.72rem",
+      transition: "all 0.12s",
+    }}>
       <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-        {icon && <span style={{ fontSize: "0.8rem" }}>{icon}</span>}
-        <span>{label}</span>
+        {icon && <span style={{ fontSize: "0.78rem", flexShrink: 0 }}>{icon}</span>}
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{label}</span>
       </span>
       {count !== undefined && (
-        <span
-          style={{
-            fontSize: "0.55rem",
-            padding: "1px 5px",
-            background: active
-              ? "rgba(196,163,90,0.22)"
-              : "rgba(122,59,15,0.12)",
-            color: active ? "var(--sandstone)" : "var(--copper)",
-            fontFamily: "var(--font-display)",
-            letterSpacing: "0.04em",
-            flexShrink: 0,
-          }}
-        >
-          {count}
-        </span>
+        <span style={{
+          fontSize: "0.56rem", padding: "0px 5px", flexShrink: 0,
+          background: active ? "rgba(196,163,90,0.25)" : "rgba(122,59,15,0.1)",
+          color: active ? "var(--sandstone)" : "var(--copper)",
+          fontFamily: "var(--font-display)", letterSpacing: "0.04em",
+        }}>{count}</span>
       )}
     </button>
   );
 }
 
-/* ─── ActiveTag ──────────────────────────────────────────────────────── */
-function ActiveTag({
-  label,
-  onDismiss,
-}: {
-  label: string;
-  onDismiss: () => void;
-}) {
+/* ── ListRow ───────────────────────────────────────────────────── */
+function ListRow({ location, visited }: { location: Location; visited: boolean }) {
   return (
-    <div
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 5,
-        padding: "3px 7px 3px 9px",
-        background: "rgba(74,40,16,0.1)",
-        border: "1px solid var(--copper)",
-        fontFamily: "var(--font-display)",
-        fontSize: "0.6rem",
-        letterSpacing: "0.05em",
-        color: "var(--temple)",
-      }}
-    >
-      {label}
-      <button
-        onClick={onDismiss}
-        aria-label={`Remove ${label} filter`}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "0 0 0 2px",
-          color: "var(--laterite)",
-          lineHeight: 1,
-          fontSize: "0.65rem",
-        }}
-      >
-        ✕
-      </button>
-    </div>
-  );
-}
-
-/* ─── ListRow ────────────────────────────────────────────────────────── */
-function ListRow({
-  location,
-  visited,
-}: {
-  location: Location;
-  visited: boolean;
-}) {
-  return (
-    <Link href={`/passport/${location.sno}`} style={{ textDecoration: "none", display: "block" }}>
-      <div
-        className="manuscript-card"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          padding: "10px 14px",
-          marginBottom: 6,
-          borderLeft: visited
-            ? "4px solid var(--forest)"
-            : "4px solid rgba(196,163,90,0.4)",
-          cursor: "pointer",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "0.58rem",
-            padding: "2px 6px",
-            background: "var(--temple)",
-            color: "var(--sandstone)",
-            flexShrink: 0,
-            letterSpacing: "0.06em",
-          }}
-        >
-          {String(location.sno).padStart(3, "0")}
-        </span>
+    <Link href={`/passport/${location.sno}`} style={{ textDecoration: "none", display: "block", marginBottom: 4 }}>
+      <div style={{
+        display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
+        background: "var(--page)",
+        borderLeft: `4px solid ${visited ? "var(--forest)" : "var(--temple)"}`,
+        borderTop: "1px solid rgba(196,163,90,0.3)",
+        borderRight: "1px solid rgba(26,14,6,0.14)",
+        borderBottom: "1px solid rgba(26,14,6,0.14)",
+        cursor: "pointer", transition: "opacity 0.12s",
+      }}>
+        <span style={{
+          fontFamily: "var(--font-display)", fontSize: "0.56rem",
+          padding: "2px 6px", background: "var(--temple)", color: "var(--sandstone)",
+          flexShrink: 0, letterSpacing: "0.06em",
+        }}>{String(location.sno).padStart(3, "0")}</span>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              color: "var(--temple)",
-              fontSize: "0.88rem",
-              lineHeight: 1.25,
-            }}
-          >
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "var(--temple)", fontSize: "0.85rem", lineHeight: 1.2 }}>
             {location.place}
           </div>
-          <div
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "0.66rem",
-              color: "var(--copper)",
-              marginTop: 2,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {location.district} · {location.post_office} · {location.pincode}
+          <div style={{ fontFamily: "var(--font-body)", fontSize: "0.64rem", color: "var(--copper)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {location.district} · {location.post_office}
           </div>
         </div>
 
-        <div
-          style={{
-            flexShrink: 0,
-            display: "flex",
-            alignItems: "center",
-            gap: 5,
-            fontSize: "0.75rem",
-          }}
-        >
-          <span>{CATEGORY_ICONS[location.category] ?? "•"}</span>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "0.58rem",
-              color: "var(--copper)",
-              letterSpacing: "0.03em",
-              display: "inline",
-            }}
-          >
-            {location.category}
-          </span>
-        </div>
+        <span style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: 4 }}>
+          <span style={{ fontSize: "0.75rem" }}>{CATEGORY_ICONS[location.category] ?? "•"}</span>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: "0.56rem", color: "var(--copper)", letterSpacing: "0.04em", display: "none" }}
+            className="sm:inline">{location.category}</span>
+        </span>
 
         {visited && (
-          <span
-            style={{
-              flexShrink: 0,
-              padding: "2px 8px",
-              background: "var(--forest)",
-              color: "#A8D5B5",
-              fontFamily: "var(--font-display)",
-              fontSize: "0.52rem",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase" as CSSProperties["textTransform"],
-            }}
-          >
-            Collected
-          </span>
+          <span style={{
+            flexShrink: 0, fontFamily: "var(--font-kalam, cursive)", fontSize: "0.7rem",
+            color: "var(--forest)", marginLeft: 4,
+          }}>✓ collected</span>
         )}
       </div>
     </Link>
   );
 }
 
-/* ─── EmptyState ─────────────────────────────────────────────────────── */
+/* ── EmptyState ────────────────────────────────────────────────── */
 function EmptyState() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 18,
-        padding: "64px 20px",
-        textAlign: "center",
-      }}
-    >
-      <svg width="148" height="148" viewBox="0 0 148 148" fill="none">
-        <circle
-          cx="74"
-          cy="74"
-          r="66"
-          stroke="var(--sandstone)"
-          strokeWidth="2.2"
-          strokeDasharray="9 5"
-        />
-        <circle
-          cx="74"
-          cy="74"
-          r="54"
-          stroke="var(--copper)"
-          strokeWidth="1.5"
-          strokeDasharray="5 4"
-          opacity="0.6"
-        />
-        <circle
-          cx="74"
-          cy="74"
-          r="42"
-          stroke="var(--laterite)"
-          strokeWidth="1"
-          strokeDasharray="3 4"
-          opacity="0.4"
-        />
-        <text
-          x="74"
-          y="68"
-          textAnchor="middle"
-          fontFamily="var(--font-display)"
-          fontSize="13"
-          fill="var(--copper)"
-          letterSpacing="3"
-        >
-          NO
-        </text>
-        <text
-          x="74"
-          y="86"
-          textAnchor="middle"
-          fontFamily="var(--font-display)"
-          fontSize="13"
-          fill="var(--copper)"
-          letterSpacing="3"
-        >
-          RESULTS
-        </text>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: "56px 20px", textAlign: "center" }}>
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="60" r="52" stroke="var(--sandstone)" strokeWidth="1.8" strokeDasharray="8 5" opacity="0.5"/>
+        <circle cx="60" cy="60" r="40" stroke="var(--copper)" strokeWidth="1.2" strokeDasharray="5 4" opacity="0.4"/>
+        <text x="60" y="55" textAnchor="middle" fontFamily="var(--font-display)" fontSize="11" fill="var(--copper)" letterSpacing="3">NO</text>
+        <text x="60" y="70" textAnchor="middle" fontFamily="var(--font-display)" fontSize="11" fill="var(--copper)" letterSpacing="3">RESULTS</text>
       </svg>
-      <div>
-        <div
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "1.05rem",
-            color: "var(--temple)",
-            letterSpacing: "0.04em",
-            marginBottom: 6,
-          }}
-        >
-          No locations match your search
-        </div>
-        <div
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "0.8rem",
-            color: "var(--laterite)",
-          }}
-        >
-          Adjust your filters or search term to discover more places
-        </div>
+      <div style={{ fontFamily: "var(--font-display)", fontSize: "0.95rem", color: "var(--temple)", letterSpacing: "0.04em" }}>
+        No locations match your search
+      </div>
+      <div style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", color: "var(--laterite)" }}>
+        Adjust your filters or search term
       </div>
     </div>
   );
 }
 
-/* ─── PassportInner (uses useSearchParams — must be inside Suspense) ─── */
+/* ── PassportInner ─────────────────────────────────────────────── */
 function PassportInner() {
   const params = useSearchParams();
-
-  const [search, setSearch] = useState("");
-  const [district, setDistrict] = useState(params.get("district") ?? "All");
-  const [category, setCategory] = useState(params.get("category") ?? "All");
-  const [visitFilter, setVisitFilter] = useState<"all" | "visited" | "unvisited">("all");
+  const [search,      setSearch]      = useState("");
+  const [district,    setDistrict]    = useState(params.get("district") ?? "All");
+  const [category,    setCategory]    = useState(params.get("category") ?? "All");
+  const [visitFilter, setVisitFilter] = useState<"all"|"visited"|"unvisited">("all");
+  const [viewMode,    setViewMode]    = useState<ViewMode>("grid");
+  const [sortMode,    setSortMode]    = useState<SortMode>("default");
   const [visitedSnos, setVisitedSnos] = useState<Set<number>>(new Set());
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [sortMode, setSortMode] = useState<SortMode>("default");
+  const [sideTab,     setSideTab]     = useState<"districts"|"categories">("districts");
 
   useEffect(() => {
     function load() {
-      const raw =
-        typeof window !== "undefined"
-          ? localStorage.getItem("philately_visits")
-          : null;
+      const raw = typeof window !== "undefined" ? localStorage.getItem("philately_visits") : null;
       const v: Record<string, unknown> = raw ? JSON.parse(raw) : {};
       setVisitedSnos(new Set(Object.keys(v).map(Number)));
     }
     load();
     window.addEventListener("philately:update", load);
     window.addEventListener("storage", load);
-    return () => {
-      window.removeEventListener("philately:update", load);
-      window.removeEventListener("storage", load);
-    };
+    return () => { window.removeEventListener("philately:update", load); window.removeEventListener("storage", load); };
   }, []);
 
   const collected = visitedSnos.size;
-  const remaining = TOTAL - collected;
-
-  const districtsCovered = useMemo(
-    () =>
-      new Set(
-        locations.filter((l) => visitedSnos.has(l.sno)).map((l) => l.district)
-      ).size,
-    [visitedSnos]
-  );
+  const districtsCovered = useMemo(() =>
+    new Set(locations.filter(l => visitedSnos.has(l.sno)).map(l => l.district)).size, [visitedSnos]);
 
   const districtCounts = useMemo(() => {
     const c: Record<string, number> = {};
-    locations.forEach((l) => {
-      c[l.district] = (c[l.district] ?? 0) + 1;
-    });
+    locations.forEach(l => { c[l.district] = (c[l.district] ?? 0) + 1; });
     return c;
   }, []);
 
   const categoryCounts = useMemo(() => {
     const c: Record<string, number> = {};
-    locations.forEach((l) => {
-      c[l.category] = (c[l.category] ?? 0) + 1;
-    });
+    locations.forEach(l => { c[l.category] = (c[l.category] ?? 0) + 1; });
     return c;
   }, []);
 
   const filtered = useMemo<Location[]>(() => {
-    let arr = locations.filter((l) => {
+    let arr = locations.filter(l => {
       if (district !== "All" && l.district !== district) return false;
       if (category !== "All" && l.category !== category) return false;
-      if (visitFilter === "visited" && !visitedSnos.has(l.sno)) return false;
-      if (visitFilter === "unvisited" && visitedSnos.has(l.sno)) return false;
+      if (visitFilter === "visited"   && !visitedSnos.has(l.sno)) return false;
+      if (visitFilter === "unvisited" &&  visitedSnos.has(l.sno)) return false;
       if (search) {
         const q = search.toLowerCase();
-        return (
-          l.place.toLowerCase().includes(q) ||
-          l.district.toLowerCase().includes(q) ||
-          l.post_office.toLowerCase().includes(q) ||
-          l.pincode.includes(q)
-        );
+        return l.place.toLowerCase().includes(q) || l.district.toLowerCase().includes(q)
+          || l.post_office.toLowerCase().includes(q) || l.pincode.includes(q);
       }
       return true;
     });
-
-    switch (sortMode) {
-      case "district":
-        arr = [...arr].sort(
-          (a, b) =>
-            a.district.localeCompare(b.district) ||
-            a.place.localeCompare(b.place)
-        );
-        break;
-      case "collected":
-        arr = [...arr].sort((a, b) => {
-          const av = visitedSnos.has(a.sno) ? 0 : 1;
-          const bv = visitedSnos.has(b.sno) ? 0 : 1;
-          return av - bv || a.sno - b.sno;
-        });
-        break;
-      case "uncollected":
-        arr = [...arr].sort((a, b) => {
-          const av = visitedSnos.has(a.sno) ? 1 : 0;
-          const bv = visitedSnos.has(b.sno) ? 1 : 0;
-          return av - bv || a.sno - b.sno;
-        });
-        break;
-      default:
-        break;
-    }
+    if (sortMode === "district")    arr = [...arr].sort((a,b) => a.district.localeCompare(b.district) || a.place.localeCompare(b.place));
+    if (sortMode === "collected")   arr = [...arr].sort((a,b) => (visitedSnos.has(a.sno)?0:1)-(visitedSnos.has(b.sno)?0:1)||a.sno-b.sno);
+    if (sortMode === "uncollected") arr = [...arr].sort((a,b) => (visitedSnos.has(a.sno)?1:0)-(visitedSnos.has(b.sno)?1:0)||a.sno-b.sno);
     return arr;
   }, [district, category, visitFilter, search, sortMode, visitedSnos]);
 
-  const hasDistrictFilter = district !== "All";
-  const hasCategoryFilter = category !== "All";
-  const hasVisitFilter = visitFilter !== "all";
-  const hasSearch = !!search;
-  const hasAnyFilter = hasDistrictFilter || hasCategoryFilter || hasVisitFilter || hasSearch;
-
-  function clearAll() {
-    setDistrict("All");
-    setCategory("All");
-    setVisitFilter("all");
-    setSearch("");
-  }
+  const hasFilter = district !== "All" || category !== "All" || visitFilter !== "all" || search;
 
   return (
-    <div>
-      {/* ── Stats Bar ──────────────────────────────────────────────────── */}
-      <div
-        style={{
-          display: "flex",
-          background: "linear-gradient(158deg, #FAF2DC 0%, #F2E6C2 100%)",
-          borderTop: "2px solid var(--copper)",
-          borderLeft: "2px solid var(--copper)",
-          borderRight: "2px solid #1A0E06",
-          borderBottom: "2px solid #1A0E06",
-          boxShadow: "inset 0 1px 0 rgba(212,172,13,0.18), 3px 4px 14px rgba(26,14,6,0.18)",
-          marginBottom: 24,
-        }}
-      >
-        <StatTile label="Total Stamps" value={TOTAL} />
-        <StatTile label="Collected" value={collected} />
-        <StatTile label="Remaining" value={remaining} />
-        <StatTile
-          label="Districts"
-          value={districtsCovered}
-          sub="covered"
-          last
-        />
-      </div>
+    <div style={{ display: "flex", gap: 0, alignItems: "flex-start" }}>
 
-      {/* ── Progress Bar ───────────────────────────────────────────────── */}
-      <div className="manuscript-card" style={{ padding: "18px 22px", marginBottom: 28 }}>
-        <ProgressBar />
-      </div>
-
-      {/* ── Two-panel layout ───────────────────────────────────────────── */}
-      <div style={{ display: "flex", gap: 22, alignItems: "flex-start" }}>
-
-        {/* ── LEFT Sidebar ─────────────────────────────────────────────── */}
-        <div
-          style={{
-            width: 220,
-            flexShrink: 0,
-            position: "sticky",
-            top: 16,
-          }}
-        >
-          <div className="manuscript-card" style={{ padding: "14px 12px" }}>
-            {/* Districts heading */}
-            <div
-              className="inscription"
-              style={{
-                fontSize: "0.52rem",
-                letterSpacing: "0.22em",
-                color: "var(--copper)",
-                marginBottom: 8,
-                paddingBottom: 6,
-                borderBottom: "1px solid rgba(196,163,90,0.35)",
-              }}
-            >
-              Districts
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 16 }}>
-              <SidebarChip
-                label="All Districts"
-                active={district === "All"}
-                onClick={() => setDistrict("All")}
-                count={TOTAL}
-              />
-              {ALL_DISTRICTS.map((d) => (
-                <SidebarChip
-                  key={d}
-                  label={d}
-                  active={district === d}
-                  onClick={() => setDistrict(d)}
-                  count={districtCounts[d] ?? 0}
-                />
-              ))}
-            </div>
-
-            <div className="hoysala-rule-thin" style={{ marginBottom: 14 }} />
-
-            {/* Categories heading */}
-            <div
-              className="inscription"
-              style={{
-                fontSize: "0.52rem",
-                letterSpacing: "0.22em",
-                color: "var(--copper)",
-                marginBottom: 8,
-                paddingBottom: 6,
-                borderBottom: "1px solid rgba(196,163,90,0.35)",
-              }}
-            >
-              Category
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <SidebarChip
-                label="All Categories"
-                active={category === "All"}
-                onClick={() => setCategory("All")}
-              />
-              {ALL_CATS.map((cat) => (
-                <SidebarChip
-                  key={cat}
-                  label={cat}
-                  icon={CATEGORY_ICONS[cat]}
-                  active={category === cat}
-                  onClick={() => setCategory(cat)}
-                  count={categoryCounts[cat] ?? 0}
-                />
-              ))}
-            </div>
-          </div>
+      {/* ── LEFT: Sidebar ──────────────────────────────────────────── */}
+      <div style={{
+        width: 210, flexShrink: 0, position: "sticky", top: 0,
+        borderRight: "1px solid rgba(196,163,90,0.25)",
+        background: "var(--ivory)",
+        minHeight: "calc(100vh - 108px)",
+      }}>
+        {/* Stamp grid mini progress */}
+        <div style={{ padding: "18px 14px 14px", borderBottom: "1px solid rgba(196,163,90,0.2)" }}>
+          <StampGrid />
         </div>
 
-        {/* ── RIGHT Main Area ──────────────────────────────────────────── */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        {/* Tab switcher */}
+        <div style={{ display: "flex", borderBottom: "1px solid rgba(196,163,90,0.25)" }}>
+          {(["districts","categories"] as const).map(tab => (
+            <button key={tab} onClick={() => setSideTab(tab)} style={{
+              flex: 1, padding: "8px 0",
+              fontFamily: "var(--font-display)", fontSize: "0.56rem",
+              letterSpacing: "0.12em", textTransform: "uppercase",
+              background: sideTab === tab ? "var(--temple)" : "transparent",
+              color: sideTab === tab ? "var(--sandstone)" : "var(--copper)",
+              border: "none", cursor: "pointer",
+              borderBottom: sideTab === tab ? "2px solid var(--sandstone)" : "2px solid transparent",
+            }}>
+              {tab === "districts" ? "Districts" : "Category"}
+            </button>
+          ))}
+        </div>
 
-          {/* Search + Sort + View toggle row */}
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              marginBottom: 10,
-              flexWrap: "wrap",
-              alignItems: "stretch",
-            }}
-          >
-            {/* Search input */}
-            <div style={{ flex: 1, minWidth: 180, position: "relative" }}>
-              <svg
-                style={{
-                  position: "absolute",
-                  left: 10,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  pointerEvents: "none",
-                }}
-                width="13"
-                height="13"
-                viewBox="0 0 13 13"
-                fill="none"
-              >
-                <circle cx="5.5" cy="5.5" r="4.5" stroke="var(--copper)" strokeWidth="1.3" />
-                <line
-                  x1="9"
-                  y1="9"
-                  x2="12"
-                  y2="12"
-                  stroke="var(--copper)"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search place, district, pincode…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                style={{ ...inputBase, width: "100%", paddingLeft: 30, boxSizing: "border-box" as CSSProperties["boxSizing"] }}
-              />
-            </div>
+        <div style={{ padding: "6px 0", overflowY: "auto", maxHeight: "calc(100vh - 380px)" }}>
+          {sideTab === "districts" ? (
+            <>
+              <SidebarRow label="All Districts" active={district === "All"} count={TOTAL} onClick={() => setDistrict("All")} />
+              {ALL_DISTRICTS.map(d => (
+                <SidebarRow key={d} label={d} active={district === d} count={districtCounts[d] ?? 0} onClick={() => setDistrict(d)} />
+              ))}
+            </>
+          ) : (
+            <>
+              <SidebarRow label="All Categories" active={category === "All"} onClick={() => setCategory("All")} />
+              {ALL_CATS.map(cat => (
+                <SidebarRow key={cat} label={cat} icon={CATEGORY_ICONS[cat]} active={category === cat} count={categoryCounts[cat] ?? 0} onClick={() => setCategory(cat)} />
+              ))}
+            </>
+          )}
+        </div>
+      </div>
 
-            {/* Visit filter */}
-            <select
-              value={visitFilter}
-              onChange={(e) => setVisitFilter(e.target.value as "all" | "visited" | "unvisited")}
-              style={{ ...inputBase, cursor: "pointer" }}
-            >
-              <option value="all">All Status</option>
-              <option value="visited">Collected</option>
-              <option value="unvisited">Uncollected</option>
-            </select>
+      {/* ── RIGHT: Main content ─────────────────────────────────────── */}
+      <div style={{ flex: 1, minWidth: 0 }}>
 
-            {/* Sort */}
-            <select
-              value={sortMode}
-              onChange={(e) => setSortMode(e.target.value as SortMode)}
-              style={{ ...inputBase, cursor: "pointer" }}
-            >
-              <option value="default">Default (by number)</option>
-              <option value="district">By District A-Z</option>
-              <option value="collected">Collected First</option>
-              <option value="uncollected">Uncollected First</option>
-            </select>
-
-            {/* View toggle */}
-            <div style={{ display: "flex" }}>
-              <button
-                onClick={() => setViewMode("grid")}
-                title="Grid view"
-                style={{
-                  padding: "8px 13px",
-                  background: viewMode === "grid" ? "var(--temple)" : "var(--manuscript)",
-                  color: viewMode === "grid" ? "var(--sandstone)" : "var(--laterite)",
-                  border: "1px solid var(--sandstone)",
-                  borderRight: "none",
-                  cursor: "pointer",
-                  fontSize: "1rem",
-                  lineHeight: 1,
-                }}
-                aria-label="Grid view"
-              >
-                ⊞
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                title="List view"
-                style={{
-                  padding: "8px 13px",
-                  background: viewMode === "list" ? "var(--temple)" : "var(--manuscript)",
-                  color: viewMode === "list" ? "var(--sandstone)" : "var(--laterite)",
-                  border: "1px solid var(--sandstone)",
-                  cursor: "pointer",
-                  fontSize: "1rem",
-                  lineHeight: 1,
-                }}
-                aria-label="List view"
-              >
-                ☰
-              </button>
-            </div>
+        {/* Toolbar */}
+        <div style={{
+          display: "flex", gap: 6, padding: "12px 16px",
+          background: "var(--ivory)", alignItems: "center",
+          borderBottom: "1px solid rgba(196,163,90,0.25)",
+          position: "sticky", top: 0, zIndex: 20, flexWrap: "wrap",
+        }}>
+          {/* Search */}
+          <div style={{ flex: 1, minWidth: 160, position: "relative" }}>
+            <svg style={{ position: "absolute", left: 9, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="5" cy="5" r="4" stroke="var(--copper)" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="11" y2="11" stroke="var(--copper)" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            <input type="text" placeholder="Search place, district, pincode…" value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{ ...inp, width: "100%", paddingLeft: 28, boxSizing: "border-box" as CSSProperties["boxSizing"] }}
+            />
           </div>
 
-          {/* Active filter tags */}
-          {hasAnyFilter && (
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 6,
-                marginBottom: 12,
-                alignItems: "center",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "0.52rem",
-                  letterSpacing: "0.14em",
-                  color: "var(--copper)",
-                  textTransform: "uppercase",
-                }}
-              >
-                Active:
-              </span>
-              {hasDistrictFilter && (
-                <ActiveTag label={district} onDismiss={() => setDistrict("All")} />
-              )}
-              {hasCategoryFilter && (
-                <ActiveTag label={category} onDismiss={() => setCategory("All")} />
-              )}
-              {hasVisitFilter && (
-                <ActiveTag
-                  label={visitFilter === "visited" ? "Collected" : "Uncollected"}
-                  onDismiss={() => setVisitFilter("all")}
-                />
-              )}
-              {hasSearch && (
-                <ActiveTag
-                  label={`"${search}"`}
-                  onDismiss={() => setSearch("")}
-                />
-              )}
-              <button
-                onClick={clearAll}
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "0.52rem",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  background: "none",
-                  border: "none",
-                  color: "var(--laterite)",
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                  padding: "0 2px",
-                }}
-              >
-                Clear all
+          {/* Visit filter */}
+          <select value={visitFilter} onChange={e => setVisitFilter(e.target.value as "all"|"visited"|"unvisited")} style={{ ...inp, cursor: "pointer", appearance: "auto" as CSSProperties["appearance"] }}>
+            <option value="all">All</option>
+            <option value="visited">Collected</option>
+            <option value="unvisited">Uncollected</option>
+          </select>
+
+          {/* Sort */}
+          <select value={sortMode} onChange={e => setSortMode(e.target.value as SortMode)} style={{ ...inp, cursor: "pointer", appearance: "auto" as CSSProperties["appearance"] }}>
+            <option value="default">By Number</option>
+            <option value="district">By District</option>
+            <option value="collected">Collected First</option>
+            <option value="uncollected">Uncollected First</option>
+          </select>
+
+          {/* View toggle */}
+          <div style={{ display: "flex", border: "1px solid rgba(196,163,90,0.45)" }}>
+            {(["grid","list"] as ViewMode[]).map(v => (
+              <button key={v} onClick={() => setViewMode(v)} title={`${v} view`} style={{
+                padding: "7px 11px", cursor: "pointer",
+                background: viewMode === v ? "var(--temple)" : "var(--page)",
+                color: viewMode === v ? "var(--sandstone)" : "var(--laterite)",
+                border: "none", fontSize: "0.9rem", lineHeight: 1,
+                borderRight: v === "grid" ? "1px solid rgba(196,163,90,0.3)" : "none",
+              }}>
+                {v === "grid" ? "⊞" : "☰"}
               </button>
+            ))}
+          </div>
+
+          {/* Clear */}
+          {hasFilter && (
+            <button onClick={() => { setDistrict("All"); setCategory("All"); setVisitFilter("all"); setSearch(""); }}
+              style={{ ...inp, cursor: "pointer", background: "#2A0808", color: "#C45A5A", border: "1px solid #7A1010", display: "flex", alignItems: "center", gap: 4, padding: "7px 10px", fontFamily: "var(--font-display)", fontSize: "0.62rem", letterSpacing: "0.06em" }}>
+              ✕ Clear
+            </button>
+          )}
+        </div>
+
+        {/* Result count */}
+        <div style={{ padding: "8px 16px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: "0.6rem", letterSpacing: "0.08em", color: "var(--copper)" }}>
+            {filtered.length} of {TOTAL} locations{visitedSnos.size > 0 ? ` · ${collected} collected · ${districtsCovered} districts` : ""}
+          </span>
+          {hasFilter && (
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
+              {district !== "All" && <span style={{ fontFamily: "var(--font-display)", fontSize: "0.55rem", padding: "1px 6px", background: "rgba(74,40,16,0.1)", border: "1px solid var(--copper)", color: "var(--temple)", letterSpacing: "0.05em" }}>{district} ✕</span>}
+              {category !== "All" && <span style={{ fontFamily: "var(--font-display)", fontSize: "0.55rem", padding: "1px 6px", background: "rgba(74,40,16,0.1)", border: "1px solid var(--copper)", color: "var(--temple)", letterSpacing: "0.05em" }}>{category} ✕</span>}
+              {visitFilter !== "all" && <span style={{ fontFamily: "var(--font-display)", fontSize: "0.55rem", padding: "1px 6px", background: "rgba(74,40,16,0.1)", border: "1px solid var(--copper)", color: "var(--temple)", letterSpacing: "0.05em" }}>{visitFilter === "visited" ? "Collected" : "Uncollected"} ✕</span>}
             </div>
           )}
+        </div>
 
-          {/* Result count */}
-          <div
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "0.62rem",
-              letterSpacing: "0.06em",
-              color: "var(--copper)",
-              marginBottom: 14,
-            }}
-          >
-            Showing {filtered.length} of {TOTAL} locations
-            {visitedSnos.size > 0 && ` · ${visitedSnos.size} collected`}
-          </div>
-
-          {/* Grid / List / Empty */}
+        {/* Content */}
+        <div style={{ padding: "12px 16px 48px" }}>
           {filtered.length === 0 ? (
             <EmptyState />
           ) : viewMode === "grid" ? (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 14,
-              }}
-            >
-              {filtered.map((loc) => (
-                <LocationCard key={loc.sno} location={loc} />
-              ))}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(215px, 1fr))", gap: 12 }}>
+              {filtered.map(loc => <LocationCard key={loc.sno} location={loc} />)}
             </div>
           ) : (
             <div>
-              {filtered.map((loc) => (
-                <ListRow
-                  key={loc.sno}
-                  location={loc}
-                  visited={visitedSnos.has(loc.sno)}
-                />
-              ))}
+              {filtered.map(loc => <ListRow key={loc.sno} location={loc} visited={visitedSnos.has(loc.sno)} />)}
             </div>
           )}
         </div>
@@ -843,143 +328,64 @@ function PassportInner() {
   );
 }
 
-/* ─── Page ───────────────────────────────────────────────────────────── */
+/* ── Page ──────────────────────────────────────────────────────── */
 export default function PassportPage() {
   return (
-    <div style={{ maxWidth: 1260, margin: "0 auto", paddingBottom: 48 }}>
+    <div style={{ background: "var(--ivory)" }}>
 
-      {/* ── Hero Header ────────────────────────────────────────────────── */}
-      <div
-        style={{
-          background: "var(--temple)",
-          padding: "0 0 0",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div className="hoysala-rule" />
-        <div
-          style={{
-            padding: "28px 40px 26px",
-            textAlign: "center",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          {/* decorative side accents */}
-          <div
-            style={{
-              position: "absolute",
-              left: 28,
-              top: "50%",
-              transform: "translateY(-50%)",
-              opacity: 0.35,
-              fontSize: "2rem",
-              color: "var(--sandstone)",
-              userSelect: "none",
-            }}
-          >
-            ✦
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              right: 28,
-              top: "50%",
-              transform: "translateY(-50%)",
-              opacity: 0.35,
-              fontSize: "2rem",
-              color: "var(--sandstone)",
-              userSelect: "none",
-            }}
-          >
-            ✦
+      {/* Page header — dark navy like opening to the index page */}
+      <div style={{
+        background: "var(--spine)",
+        padding: "26px 36px 22px",
+        position: "relative",
+        overflow: "hidden",
+        borderBottom: "3px solid var(--temple)",
+      }}>
+        {/* subtle diagonal texture */}
+        <div style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(196,163,90,0.025) 20px, rgba(196,163,90,0.025) 21px)",
+        }} />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, margin: "0 auto" }}>
+          {/* eyebrow */}
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "0.55rem", letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(196,163,90,0.5)", marginBottom: 8 }}>
+            My Collection · Karnataka Circle
           </div>
 
-          <div
-            style={{
-              fontFamily: "var(--font-kannada)",
-              fontSize: "2.4rem",
-              color: "var(--sandstone)",
-              lineHeight: 1.25,
-              marginBottom: 6,
-            }}
-          >
-            ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್
-          </div>
-          <div
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "1.45rem",
-              fontWeight: 700,
-              color: "var(--gilt)",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
-            Philately Passport
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 14,
-            }}
-          >
-            <div
-              style={{
-                height: 1,
-                width: 56,
-                background: "rgba(196,163,90,0.45)",
-              }}
-            />
-            <div
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "0.8rem",
-                color: "rgba(196,163,90,0.85)",
-                letterSpacing: "0.04em",
-                fontStyle: "italic",
-              }}
-            >
-              100 Permanent Pictorial Cancellations · Karnataka V3
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+            <div>
+              <div style={{ fontFamily: "var(--font-kannada)", fontSize: "1.8rem", color: "rgba(234,217,184,0.9)", lineHeight: 1.1, marginBottom: 4 }}>
+                ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್
+              </div>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(196,163,90,0.6)" }}>
+                100 Permanent Pictorial Cancellations · Version III
+              </div>
             </div>
-            <div
-              style={{
-                height: 1,
-                width: 56,
-                background: "rgba(196,163,90,0.45)",
-              }}
-            />
+
+            {/* Three compact stats — not big tiles, just data inline */}
+            <div style={{ display: "flex", gap: 24, alignItems: "flex-end" }}>
+              {[
+                { label: "total", value: "100" },
+                { label: "districts", value: "25" },
+              ].map(({ label, value }) => (
+                <div key={label} style={{ textAlign: "right" }}>
+                  <div style={{ fontFamily: "var(--font-display)", fontSize: "1.8rem", fontWeight: 700, color: "var(--sandstone)", lineHeight: 1 }}>{value}</div>
+                  <div style={{ fontFamily: "var(--font-display)", fontSize: "0.52rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(196,163,90,0.55)", marginTop: 1 }}>{label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="hoysala-rule" />
       </div>
 
-      {/* ── Main content ─────────────────────────────────────────────────── */}
-      <div style={{ padding: "28px 20px 0" }}>
-        <Suspense
-          fallback={
-            <div
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "0.7rem",
-                letterSpacing: "0.14em",
-                color: "var(--copper)",
-                padding: "52px 0",
-                textAlign: "center",
-                textTransform: "uppercase",
-              }}
-            >
-              Loading passport…
-            </div>
-          }
-        >
-          <PassportInner />
-        </Suspense>
-      </div>
+      {/* Main layout */}
+      <Suspense fallback={
+        <div style={{ fontFamily: "var(--font-display)", fontSize: "0.68rem", letterSpacing: "0.14em", color: "var(--copper)", padding: "52px 0", textAlign: "center", textTransform: "uppercase" }}>
+          Loading…
+        </div>
+      }>
+        <PassportInner />
+      </Suspense>
     </div>
   );
 }
