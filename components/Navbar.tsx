@@ -8,6 +8,7 @@ const links = [
   { href: "/",         label: "Home" },
   { href: "/map",      label: "Map" },
   { href: "/passport", label: "Passport" },
+  { href: "/book",     label: "Book" },
 ];
 
 export default function Navbar() {
