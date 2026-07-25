@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EB_Garamond, Lora, Tiro_Kannada } from "next/font/google";
+import { EB_Garamond, Lora, Tiro_Kannada, Kalam } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -21,6 +21,13 @@ const tiroKannada = Tiro_Kannada({
   weight: ["400"],
 });
 
+// Handwritten notes — the single typeface that makes this feel personal
+const kalam = Kalam({
+  variable: "--font-kalam",
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+});
+
 export const metadata: Metadata = {
   title: "ಕರ್ನಾಟಕ ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್ | Karnataka Philately Passport",
   description:
@@ -29,21 +36,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="kn" className={`${garamond.variable} ${lora.variable} ${tiroKannada.variable}`}>
+    <html lang="kn" className={`${garamond.variable} ${lora.variable} ${tiroKannada.variable} ${kalam.variable}`}>
       <body className="min-h-screen flex flex-col" style={{ background: "var(--ivory)" }}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <div className="hoysala-rule-thin" />
-        <div
-          className="py-3 text-center"
-          style={{
-            background: "var(--temple)",
-            color: "var(--stone)",
-            fontFamily: "var(--font-display)",
-            fontSize: "0.7rem",
-            letterSpacing: "0.12em",
-          }}
-        >
+        <div style={{
+          background: "var(--spine)",
+          color: "rgba(196,163,90,0.7)",
+          fontFamily: "var(--font-display)",
+          fontSize: "0.62rem",
+          letterSpacing: "0.16em",
+          padding: "10px 0",
+          textAlign: "center",
+        }}>
           ಕರ್ನಾಟಕ ವೃತ್ತ &nbsp;·&nbsp; KARNATAKA CIRCLE &nbsp;·&nbsp; 100 PERMANENT PICTORIAL CANCELLATIONS &nbsp;·&nbsp; INDIA POST
         </div>
       </body>

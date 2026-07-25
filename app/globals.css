@@ -1,20 +1,31 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
-/* ─── Heritage Design Tokens ─────────────────────────────────────── */
+/* ─── Design Tokens ───────────────────────────────────────────────── */
 :root {
-  --ink:         #1A0E06;
-  --temple:      #4A2810;
-  --laterite:    #7A3B0F;
-  --copper:      #B8722A;
-  --sandstone:   #C4A35A;
-  --gilt:        #D4AC0D;
-  --stone:       #EAD9B8;
-  --manuscript:  #F8F0D8;
-  --ivory:       #FDFAF0;
-  --forest:      #1C4A2E;
+  /* The physical passport cover is dark navy — this is the new token    */
+  /* that makes everything unmistakably a passport and not a heritage site */
+  --spine:      #0D1F3A;
+  --spine-light:#162D56;
+  --post-red:   #C4391A;  /* India Post saffron-red                      */
+
+  --ink:        #1A0E06;
+  --ink-mid:    #4A2C12;
+  --temple:     #4A2810;
+  --laterite:   #7A3B0F;
+  --copper:     #B8722A;
+  --sandstone:  #C4A35A;
+  --gilt:       #D4AC0D;
+  --stone:      #EAD9B8;
+  --manuscript: #F0E4C0;  /* warmer — more aged-paper amber              */
+  --page:       #F7EFDB;  /* page interior                               */
+  --ivory:      #FAF5E8;  /* near-white but warm                         */
+  --forest:     #1C4A2E;
+
+  --font-handwriting: var(--font-kalam, cursive);
 }
 
+/* ─── Base ────────────────────────────────────────────────────────── */
 body {
   background: var(--ivory);
   color: var(--ink);
@@ -22,7 +33,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── Hoysala carved frieze bands ────────────────────────────────── */
+/* ─── Paper texture ───────────────────────────────────────────────── */
+/* A subtle fiber noise — reads as paper without being kitsch           */
+.paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ─── Hoysala carved frieze ───────────────────────────────────────── */
 .hoysala-rule {
   height: 16px;
   background:
@@ -52,30 +69,154 @@ body {
   flex-shrink: 0;
 }
 
-/* ─── Cards ──────────────────────────────────────────────────────── */
+/* ─── Cards ───────────────────────────────────────────────────────── */
 .manuscript-card {
-  background: linear-gradient(158deg, #FAF2DC 0%, #F2E6C2 100%);
+  background: linear-gradient(158deg, #F7EFDB 0%, #EDE1BF 100%);
   border-top:    2px solid #B8722A;
   border-left:   2px solid #B8722A;
   border-right:  2px solid #1A0E06;
   border-bottom: 2px solid #1A0E06;
-  box-shadow: inset 0 1px 0 rgba(212,172,13,0.22), 3px 4px 14px rgba(26,14,6,0.22);
+  box-shadow: inset 0 1px 0 rgba(212,172,13,0.2), 3px 4px 14px rgba(26,14,6,0.2);
   transition: box-shadow 0.2s;
 }
 .manuscript-card:hover {
-  box-shadow: inset 0 1px 0 rgba(212,172,13,0.3), 4px 6px 22px rgba(26,14,6,0.32);
+  box-shadow: inset 0 1px 0 rgba(212,172,13,0.28), 4px 6px 22px rgba(26,14,6,0.3);
 }
-.parchment-panel {
-  background: var(--manuscript);
-  border: 1px solid rgba(196,163,90,0.4);
+
+/* ─── Two-page book spread ────────────────────────────────────────── */
+.book-spread {
+  display: grid;
+  grid-template-columns: 1fr 18px 1fr;
+  background: var(--page);
+  /* The whole spread casts a shadow like an open book */
+  box-shadow:
+    0 8px 40px rgba(26,14,6,0.25),
+    0 2px 8px rgba(26,14,6,0.12);
 }
+/* The spine crease */
+.book-spine-crease {
+  background: linear-gradient(90deg,
+    rgba(26,14,6,0.14) 0%,
+    rgba(26,14,6,0.06) 35%,
+    rgba(26,14,6,0.01) 50%,
+    rgba(26,14,6,0.05) 65%,
+    rgba(26,14,6,0.12) 100%);
+  position: relative;
+}
+.book-spine-crease::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(26,14,6,0.08);
+}
+/* Each page within the spread */
+.book-page {
+  background: var(--page);
+  padding: 36px 32px;
+  position: relative;
+  /* Paper grain */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-color: var(--page);
+}
+.book-page-left {
+  /* Slight inner shadow at right edge — page curls away from spine */
+  box-shadow: inset -6px 0 12px rgba(26,14,6,0.06);
+}
+.book-page-right {
+  box-shadow: inset 6px 0 12px rgba(26,14,6,0.06);
+}
+
+/* ─── Stamp grid tiles ────────────────────────────────────────────── */
+.stamp-tile {
+  width: 28px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, serif);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  position: relative;
+  transition: transform 0.1s, box-shadow 0.1s;
+  cursor: default;
+}
+.stamp-tile-empty {
+  border: 1px dashed rgba(74,40,16,0.22);
+  color: rgba(74,40,16,0.18);
+  background: transparent;
+}
+.stamp-tile-filled {
+  background: var(--temple);
+  border: 1px solid #1A0E06;
+  color: var(--sandstone);
+  box-shadow: 1px 1px 3px rgba(26,14,6,0.4);
+}
+.stamp-tile-filled:hover {
+  transform: scale(1.25) rotate(-1deg);
+  box-shadow: 2px 2px 8px rgba(26,14,6,0.5);
+  z-index: 10;
+}
+/* Tooltip on hover */
+.stamp-tile[data-place]:hover::after {
+  content: attr(data-place);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: var(--temple);
+  color: var(--manuscript);
+  font-family: var(--font-display, serif);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  padding: 3px 7px;
+  pointer-events: none;
+  z-index: 100;
+  border-top: 1px solid var(--copper);
+  border-left: 1px solid var(--copper);
+  border-right: 1px solid #060300;
+  border-bottom: 1px solid #060300;
+  box-shadow: 2px 3px 8px rgba(26,14,6,0.3);
+}
+
+/* ─── Passport leaf (entry page) ─────────────────────────────────── */
 .passport-leaf {
-  background: linear-gradient(160deg, #FFFAF0 0%, #F8F0D8 55%, #EFE0B4 100%);
+  background: linear-gradient(160deg, var(--ivory) 0%, var(--page) 55%, #EBD9A8 100%);
   border-left: 6px solid #4A2810;
   box-shadow: -2px 0 10px rgba(74,40,16,0.15), 3px 4px 18px rgba(74,40,16,0.25), inset 0 0 50px rgba(196,163,90,0.04);
 }
 
-/* ─── Buttons ────────────────────────────────────────────────────── */
+/* ─── Table of contents row ───────────────────────────────────────── */
+.toc-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(196,163,90,0.15);
+  font-family: var(--font-body, serif);
+  font-size: 0.82rem;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.1s;
+}
+.toc-row:hover { background: rgba(196,163,90,0.08); }
+.toc-leader {
+  flex: 1;
+  overflow: hidden;
+  /* Leader dots between district name and count */
+  background-image: radial-gradient(circle, rgba(122,59,15,0.4) 1px, transparent 1px);
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+  background-position: 0 60%;
+  margin: 0 6px;
+  height: 12px;
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────── */
 .temple-btn {
   background: var(--temple);
   color: var(--manuscript);
@@ -92,6 +233,7 @@ body {
   transition: all 0.15s;
 }
 .temple-btn:hover { background: #3A1E09; color: var(--sandstone); }
+
 .ghost-btn {
   background: transparent;
   color: var(--manuscript);
@@ -105,7 +247,42 @@ body {
 }
 .ghost-btn:hover { background: rgba(196,163,90,0.12); border-color: var(--sandstone); }
 
-/* ─── Inscription ────────────────────────────────────────────────── */
+.cover-btn {
+  background: transparent;
+  color: var(--sandstone);
+  border: 1px solid rgba(196,163,90,0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--font-display, serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 24px;
+  transition: all 0.18s;
+  display: inline-block;
+}
+.cover-btn:hover {
+  background: rgba(196,163,90,0.15);
+  border-color: var(--sandstone);
+  color: #FAF5E8;
+}
+.cover-btn-filled {
+  background: var(--sandstone);
+  color: var(--spine);
+  border: 1px solid var(--gilt);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--font-display, serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 10px 24px;
+  transition: all 0.18s;
+  display: inline-block;
+}
+.cover-btn-filled:hover { background: var(--gilt); }
+
+/* ─── Inscription label ───────────────────────────────────────────── */
 .inscription {
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -113,19 +290,15 @@ body {
   font-weight: 600;
 }
 
-/* ─── Stamp slot (unvisited) ─────────────────────────────────────── */
-.stamp-slot {
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  border: 2.5px dashed rgba(196,163,90,0.55);
-  position: relative;
-}
-.stamp-slot::after {
-  content: ''; position: absolute; inset: 6px;
-  border-radius: 50%; border: 1px dashed rgba(196,163,90,0.3);
+/* ─── Handwritten style (notes fields, collected labels) ─────────── */
+.handwritten {
+  font-family: var(--font-handwriting);
+  font-size: 0.95rem;
+  color: var(--ink-mid);
+  line-height: 1.6;
 }
 
-/* ─── Stamp ink animation ────────────────────────────────────────── */
+/* ─── Stamp animations ────────────────────────────────────────────── */
 @keyframes stamp-drop {
   0%   { transform: scale(2.2) rotate(-8deg); opacity: 0; }
   50%  { transform: scale(0.92) rotate(2deg); opacity: 1; }
@@ -138,37 +311,19 @@ body {
   60%  { opacity: 0.15; transform: scale(1.4); }
   100% { opacity: 0; transform: scale(1.8); }
 }
-@keyframes stamp-glow {
-  0%   { box-shadow: 0 0 0 0 rgba(196,163,90,0.6); }
-  50%  { box-shadow: 0 0 0 16px rgba(196,163,90,0); }
-  100% { box-shadow: 0 0 0 0 rgba(196,163,90,0); }
-}
 @keyframes fade-in-up {
   0%   { opacity: 0; transform: translateY(12px); }
   100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes pulse-ring {
-  0%   { transform: scale(0.95); opacity: 0.7; }
-  50%  { transform: scale(1.05); opacity: 0.3; }
-  100% { transform: scale(0.95); opacity: 0.7; }
 }
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
-.stamp-animate {
-  animation: stamp-drop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
-}
-.ink-ring {
-  animation: ink-spread 0.6s ease-out forwards;
-}
-.stamp-glow-pulse {
-  animation: stamp-glow 0.8s ease-out forwards;
-}
-.fade-in-up { animation: fade-in-up 0.4s ease-out forwards; }
+.stamp-animate { animation: stamp-drop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.ink-ring      { animation: ink-spread 0.6s ease-out forwards; }
+.fade-in-up    { animation: fade-in-up 0.4s ease-out forwards; }
 
-/* ─── Achievement badge shimmer ──────────────────────────────────── */
 .badge-shimmer {
   background: linear-gradient(90deg, var(--sandstone) 25%, var(--gilt) 50%, var(--sandstone) 75%);
   background-size: 200% 100%;
@@ -178,14 +333,14 @@ body {
   background-clip: text;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────── */
+/* ─── Scrollbar ───────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #EAD9B8; }
 ::-webkit-scrollbar-thumb { background: #7A3B0F; border-radius: 0; }
 
-/* ─── Leaflet ────────────────────────────────────────────────────── */
+/* ─── Leaflet ─────────────────────────────────────────────────────── */
 .leaflet-popup-content-wrapper {
-  background: #F8F0D8 !important;
+  background: #F0E4C0 !important;
   border: 2px solid #4A2810 !important;
   border-right-color: #060300 !important;
   border-bottom-color: #060300 !important;
@@ -196,7 +351,7 @@ body {
 .leaflet-popup-content { margin: 0 !important; }
 .leaflet-popup-tip-container { display: none !important; }
 .leaflet-control-zoom a {
-  background: #F8F0D8 !important; color: #4A2810 !important;
+  background: #F0E4C0 !important; color: #4A2810 !important;
   border-color: #C4A35A !important; border-radius: 0 !important;
 }
-.leaflet-control-zoom a:hover { background: #4A2810 !important; color: #F8F0D8 !important; }
+.leaflet-control-zoom a:hover { background: #4A2810 !important; color: #F0E4C0 !important; }
