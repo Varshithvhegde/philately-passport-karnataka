@@ -446,6 +446,80 @@ body {
   background-clip: text;
 }
 
+/* ─── Mobile / Responsive ─────────────────────────────────────────── */
+/* Viewport meta is in layout.tsx; these CSS helpers enforce safe sizing */
+
+/* Prevent horizontal overflow globally */
+html, body { max-width: 100vw; overflow-x: hidden; }
+
+/* Responsive grid helpers */
+@media (max-width: 640px) {
+  .grid-2col-sm1  { grid-template-columns: 1fr !important; }
+  .grid-3col-sm2  { grid-template-columns: 1fr 1fr !important; }
+  .grid-2col-book { grid-template-columns: 1fr !important; }
+  .book-spread    { grid-template-columns: 1fr !important; }
+  .book-spine-crease { display: none !important; }
+  .hide-mobile    { display: none !important; }
+  .show-mobile    { display: flex !important; }
+
+  /* Map: sidebar becomes a bottom panel */
+  .map-sidebar-mobile {
+    position: fixed !important;
+    bottom: 0; left: 0; right: 0;
+    width: 100% !important;
+    max-height: 55vh;
+    border-left: none !important;
+    border-top: 2px solid var(--temple);
+    z-index: 50;
+    overflow-y: auto;
+  }
+
+  /* Toolbar: allow wrapping, bigger tap targets */
+  .toolbar-select { min-height: 44px; }
+  .toolbar-btn    { min-height: 44px; min-width: 44px; }
+
+  /* Entry page: stamp panel moves below left col on mobile */
+  .entry-franking-zone {
+    border-top: 1px solid rgba(196,163,90,0.2) !important;
+    border-left: none !important;
+    padding: 20px 22px !important;
+  }
+
+  /* Hero: smaller fonts on very small screens */
+  .cover-h1 { font-size: 1.8rem !important; }
+}
+
+/* Hamburger menu drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  top: 0; right: -100%; bottom: 0;
+  width: min(280px, 80vw);
+  background: var(--spine);
+  z-index: 200;
+  transition: right 0.28s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.4);
+}
+.mobile-nav-drawer.open { right: 0; }
+.mobile-nav-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(13,31,58,0.6);
+  z-index: 199;
+}
+.mobile-nav-overlay.open { display: block; }
+
+/* Touch-safe minimum tap size */
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── Scrollbar ───────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #EAD9B8; }

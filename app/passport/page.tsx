@@ -189,16 +189,52 @@ function PassportInner() {
 
   return (
     <div>
+      {/* ── Mobile filter chips (shown only ≤640px) ─────────────── */}
+      <div className="show-mobile" style={{
+        display: "none", /* overridden by .show-mobile */
+        overflowX: "auto", gap: 6, padding: "10px 14px",
+        background: "var(--ivory)", borderBottom: "1px solid rgba(196,163,90,0.2)",
+        scrollbarWidth: "none", WebkitOverflowScrolling: "touch",
+        flexWrap: "nowrap",
+      }}>
+        {/* Visit filter */}
+        {(["all","visited","unvisited"] as const).map(v => (
+          <button key={v} onClick={() => setVisitFilter(v)} style={{
+            flexShrink: 0, padding: "8px 12px", cursor: "pointer",
+            fontFamily: "var(--font-display)", fontSize: "0.68rem", letterSpacing: "0.08em", textTransform: "uppercase",
+            background: visitFilter === v ? "var(--spine)" : "var(--page)",
+            color: visitFilter === v ? "var(--sandstone)" : "var(--laterite)",
+            border: visitFilter === v ? "1px solid rgba(196,163,90,0.4)" : "1px solid rgba(196,163,90,0.2)",
+            borderLeft: visitFilter === v ? "3px solid var(--post-red)" : "3px solid transparent",
+            whiteSpace: "nowrap",
+          }}>
+            {v === "all" ? "All" : v === "visited" ? "✓ Collected" : "○ Uncollected"}
+          </button>
+        ))}
+        <div style={{ width: 1, height: 28, background: "rgba(196,163,90,0.3)", flexShrink: 0, alignSelf: "center" }} />
+        {/* District quick chips */}
+        {ALL_DISTRICTS.map(d => (
+          <button key={d} onClick={() => setDistrict(district === d ? "All" : d)} style={{
+            flexShrink: 0, padding: "8px 12px", cursor: "pointer",
+            fontFamily: "var(--font-body)", fontSize: "0.72rem",
+            background: district === d ? "var(--spine)" : "transparent",
+            color: district === d ? "var(--sandstone)" : "var(--ink-mid)",
+            border: district === d ? "1px solid rgba(196,163,90,0.4)" : "1px solid transparent",
+            whiteSpace: "nowrap",
+          }}>{d}</button>
+        ))}
+      </div>
+
       {/* ── Two-panel ─────────────────────────────────────────────── */}
       <div style={{ display: "flex", alignItems: "flex-start" }}>
 
-        {/* ── Sidebar ───────────────────────────────────────────── */}
-        <div style={{
+        {/* ── Sidebar — hidden on mobile (≤640px), visible ≥641px ── */}
+        <div className="hide-mobile" style={{
           width: 200, flexShrink: 0,
           borderRight: "1px solid rgba(196,163,90,0.25)",
           background: "var(--ivory)",
           position: "sticky", top: 0,
-          minHeight: "calc(100vh - 200px)",
+          minHeight: "calc(100dvh - 200px)",
           overflowY: "auto",
         }}>
           {/* Sidebar header */}
@@ -337,7 +373,7 @@ function PassportInner() {
             {filtered.length === 0 ? (
               <EmptyState onClear={clearAll} />
             ) : viewMode === "grid" ? (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))", gap: 10 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 10 }}>
                 {filtered.map(loc => <LocationCard key={loc.sno} location={loc} />)}
               </div>
             ) : (
@@ -393,12 +429,12 @@ export default function PassportPage() {
               </div>
             </div>
 
-            {/* Inline stats — compact, right-aligned */}
-            <div style={{ display: "flex", gap: 20, alignItems: "flex-end" }}>
+            {/* Inline stats — hide on very small screens */}
+            <div className="hide-mobile" style={{ display: "flex", gap: 20, alignItems: "flex-end" }}>
               {[{ n: "100", l: "Locations" }, { n: "25", l: "Districts" }].map(({ n, l }) => (
                 <div key={l} style={{ textAlign: "right" }}>
                   <div style={{ fontFamily: "var(--font-display)", fontSize: "1.6rem", fontWeight: 700, color: "var(--sandstone)", lineHeight: 1 }}>{n}</div>
-                  <div style={{ fontFamily: "var(--font-display)", fontSize: "0.5rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(196,163,90,0.5)", marginTop: 1 }}>{l}</div>
+                  <div style={{ fontFamily: "var(--font-display)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(196,163,90,0.5)", marginTop: 1 }}>{l}</div>
                 </div>
               ))}
             </div>

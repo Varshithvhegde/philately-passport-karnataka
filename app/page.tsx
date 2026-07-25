@@ -134,7 +134,7 @@ export default function HomePage() {
           Right page: what this book is + how to use it
       ═══════════════════════════════════════════════════════ */}
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <div className="book-spread">
+        <div className="book-spread grid-2col-book">
           {/* Left page — the stamp collection grid */}
           <div className="book-page book-page-left">
             {/* Page number top */}
@@ -223,7 +223,7 @@ export default function HomePage() {
             {/* Stats as inline annotations */}
             <div style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
               gap: "10px 24px",
               marginBottom: 20,
               paddingBottom: 20,
@@ -358,7 +358,7 @@ export default function HomePage() {
           </div>
 
           {/* ToC entries in two columns */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 40px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "0 40px" }}>
             {DISTRICT_COUNTS.map(({ district, count }, i) => (
               <Link
                 key={district}

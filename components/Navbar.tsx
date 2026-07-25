@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const links = [
   { href: "/",         label: "Home" },
@@ -10,89 +11,109 @@ const links = [
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const pathname   = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <>
-      {/* India Post red accent stripe — 3px at very top */}
-      <div style={{ height: 3, background: "linear-gradient(90deg, #C4391A 0%, #E05020 50%, #C4391A 100%)" }} />
-
+      <div style={{ height: 3, background: "linear-gradient(90deg,#C4391A,#E05020 50%,#C4391A)" }} />
       <header style={{ background: "var(--spine)", borderBottom: "1px solid rgba(196,163,90,0.2)" }}>
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between" style={{ height: 58 }}>
+        <div className="max-w-6xl mx-auto px-4" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 54 }}>
 
-          {/* Logotype */}
-          <Link href="/" className="flex items-center gap-3" style={{ textDecoration: "none" }}>
-            {/* Postal horn / compass — India Post's own mark simplified */}
-            <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-              {/* Outer ring */}
-              <circle cx="17" cy="17" r="15.5" stroke="#C4A35A" strokeWidth="1"/>
-              {/* Inner ring */}
-              <circle cx="17" cy="17" r="10" stroke="#C4A35A" strokeWidth="0.6" strokeDasharray="2.5 2"/>
-              {/* Postal horn shape */}
-              <path d="M10 17 Q10 12 15 12 L22 14 Q25 15 25 17 Q25 19 22 20 L15 22 Q10 22 10 17Z"
-                stroke="#C4A35A" strokeWidth="1" fill="rgba(196,163,90,0.08)"/>
-              <circle cx="26" cy="17" r="2" fill="#C4A35A" fillOpacity="0.7"/>
-              {/* Compass cardinal marks */}
-              <line x1="17" y1="1.5" x2="17" y2="5"   stroke="#C4A35A" strokeWidth="1.2"/>
-              <line x1="17" y1="29" x2="17" y2="32.5"  stroke="#C4A35A" strokeWidth="1.2"/>
-              <line x1="1.5" y1="17" x2="5" y2="17"   stroke="#C4A35A" strokeWidth="1.2"/>
-              <line x1="29" y1="17" x2="32.5" y2="17"  stroke="#C4A35A" strokeWidth="1.2"/>
+          {/* Logo */}
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <circle cx="15" cy="15" r="13.5" stroke="#C4A35A" strokeWidth="1.5" />
+              <circle cx="15" cy="15" r="9" stroke="#C4A35A" strokeWidth="0.8" strokeDasharray="2.5 2" />
+              <circle cx="15" cy="15" r="2.8" fill="#C4A35A" />
+              <line x1="15" y1="1.5" x2="15" y2="6"   stroke="#C4A35A" strokeWidth="1.5" />
+              <line x1="15" y1="24" x2="15" y2="28.5" stroke="#C4A35A" strokeWidth="1.5" />
+              <line x1="1.5" y1="15" x2="6"  y2="15"  stroke="#C4A35A" strokeWidth="1.5" />
+              <line x1="24"  y1="15" x2="28.5" y2="15" stroke="#C4A35A" strokeWidth="1.5" />
             </svg>
-
             <div>
-              <div style={{
-                fontFamily: "var(--font-kannada)",
-                color: "#E8D9B8",
-                fontSize: "1rem",
-                lineHeight: 1.1,
-                letterSpacing: "0.01em",
-              }}>
+              <div style={{ fontFamily: "var(--font-kannada)", color: "#E8D9B8", fontSize: "0.88rem", lineHeight: 1.1 }}>
                 ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್
               </div>
-              <div style={{
-                fontFamily: "var(--font-display)",
-                color: "rgba(196,163,90,0.65)",
-                fontSize: "0.58rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                marginTop: 1,
-              }}>
+              <div style={{ fontFamily: "var(--font-display)", color: "rgba(196,163,90,0.55)", fontSize: "0.55rem", letterSpacing: "0.18em", textTransform: "uppercase" }}>
                 Karnataka · Version III
               </div>
             </div>
           </Link>
 
-          {/* Navigation */}
-          <nav style={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {/* Desktop nav */}
+          <nav style={{ display: "flex", alignItems: "center", gap: 2 }} className="hide-mobile">
             {links.map(({ href, label }) => {
               const active = pathname === href || (href !== "/" && pathname.startsWith(href));
               return (
-                <Link
-                  key={href}
-                  href={href}
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    padding: "8px 18px",
-                    color: active ? "var(--spine)" : "rgba(196,163,90,0.8)",
-                    background: active ? "var(--sandstone)" : "transparent",
-                    borderTop:    active ? "1px solid var(--gilt)"  : "1px solid transparent",
-                    borderLeft:   active ? "1px solid var(--gilt)"  : "1px solid transparent",
-                    borderRight:  active ? "1px solid #060300" : "1px solid transparent",
-                    borderBottom: active ? "1px solid #060300" : "1px solid transparent",
-                    textDecoration: "none",
-                    transition: "all 0.15s",
-                  }}
-                >
+                <Link key={href} href={href} style={{
+                  fontFamily: "var(--font-display)", fontSize: "0.75rem", letterSpacing: "0.12em",
+                  textTransform: "uppercase", padding: "10px 18px",
+                  color: active ? "var(--spine)" : "var(--sandstone)",
+                  background: active ? "var(--sandstone)" : "transparent",
+                  textDecoration: "none", transition: "all 0.15s", display: "block",
+                }}>
                   {label}
                 </Link>
               );
             })}
           </nav>
+
+          {/* Hamburger — mobile only */}
+          <button
+            onClick={() => setOpen(true)}
+            className="show-mobile"
+            aria-label="Open menu"
+            style={{
+              display: "none", /* shown via .show-mobile CSS */
+              background: "none", border: "none", cursor: "pointer",
+              padding: "8px", color: "var(--sandstone)",
+            }}
+          >
+            <svg width="22" height="18" viewBox="0 0 22 18" fill="none">
+              <line x1="0" y1="1" x2="22" y2="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="0" y1="9" x2="22" y2="9" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="0" y1="17" x2="22" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
       </header>
+
+      {/* Mobile overlay */}
+      <div className={`mobile-nav-overlay ${open ? "open" : ""}`} onClick={() => setOpen(false)} />
+
+      {/* Mobile drawer */}
+      <div className={`mobile-nav-drawer ${open ? "open" : ""}`}>
+        {/* Drawer header */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px 16px", borderBottom: "1px solid rgba(196,163,90,0.2)", marginBottom: 8 }}>
+          <div style={{ fontFamily: "var(--font-kannada)", color: "#E8D9B8", fontSize: "0.9rem" }}>
+            ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್
+          </div>
+          <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sandstone)", padding: 6 }}>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <line x1="1" y1="1" x2="17" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="17" y1="1" x2="1" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        {links.map(({ href, label }) => {
+          const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+          return (
+            <Link key={href} href={href} onClick={() => setOpen(false)} style={{
+              display: "flex", alignItems: "center", gap: 12,
+              padding: "14px 22px",
+              fontFamily: "var(--font-display)", fontSize: "0.9rem", letterSpacing: "0.1em",
+              textTransform: "uppercase", textDecoration: "none",
+              color: active ? "var(--sandstone)" : "rgba(196,163,90,0.7)",
+              background: active ? "rgba(196,163,90,0.12)" : "transparent",
+              borderLeft: active ? "3px solid var(--sandstone)" : "3px solid transparent",
+            }}>
+              {label}
+            </Link>
+          );
+        })}
+      </div>
     </>
   );
 }

@@ -136,7 +136,7 @@ export default async function PassportEntryPage({ params }: Props) {
       </div>
 
       {/* ══ Main content ════════════════════════════════════════════ */}
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 24px 48px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "16px 16px 48px" }}>
 
         {/* ── Main card: styled as an inland letter card ─────────── */}
         <div style={{
@@ -184,7 +184,7 @@ export default async function PassportEntryPage({ params }: Props) {
           </div>
 
           {/* ── Letter body ─────────────────────────────────────── */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 0 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "min(calc(100% - 200px), 1fr) 200px", gap: 0 }} className="grid-2col-sm1">
 
             {/* LEFT: address block + info */}
             <div style={{ padding: "22px 24px", borderRight: "1px solid rgba(196,163,90,0.2)" }}>
@@ -269,7 +269,7 @@ export default async function PassportEntryPage({ params }: Props) {
                 <div style={{ fontFamily: "var(--font-display)", fontSize: "0.5rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--copper)", marginBottom: 8, borderBottom: "1px solid rgba(196,163,90,0.2)", paddingBottom: 4 }}>
                   Classification
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px 20px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))", gap: "10px 20px" }}>
                   {[
                     { label: "District", val: loc.district },
                     { label: "Category", val: loc.category },
@@ -302,7 +302,7 @@ export default async function PassportEntryPage({ params }: Props) {
             </div>
 
             {/* RIGHT: Franking zone — where the stamp goes */}
-            <div style={{
+            <div className="entry-franking-zone" style={{
               padding: "22px 16px 22px",
               background: "rgba(240,228,192,0.3)",
               display: "flex", flexDirection: "column", alignItems: "center",
@@ -364,7 +364,7 @@ export default async function PassportEntryPage({ params }: Props) {
         </div>
 
         {/* ══ Prev / Next — styled as postal dispatch slips ══════════ */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 10, marginBottom: 24, alignItems: "stretch" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 8, marginBottom: 24, alignItems: "stretch" }}>
           {prev ? (
             <Link href={`/passport/${prev.sno}`} style={{ textDecoration: "none" }}>
               <div style={{

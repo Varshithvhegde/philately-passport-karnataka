@@ -62,7 +62,7 @@ export default function MapPage() {
   for (const l of filtered) districtCounts[l.district] = (districtCounts[l.district] ?? 0) + 1;
 
   return (
-    <div style={{ height: "calc(100vh - 108px)", display: "flex", flexDirection: "column" }}>
+    <div style={{ height: "calc(100dvh - 108px)", display: "flex", flexDirection: "column", minHeight: 0 }}>
 
       {/* ── Toolbar ───────────────────────────────────────────────── */}
       <div className="hoysala-rule-thin" />
@@ -164,8 +164,8 @@ export default function MapPage() {
 
         {/* ── Sidebar ──────────────────────────────────────────── */}
         {sidebar && (
-          <div style={{
-            width: 284, flexShrink: 0, overflowY: "auto",
+          <div className="map-sidebar-mobile" style={{
+            width: "min(284px, 100vw)", flexShrink: 0, overflowY: "auto",
             borderLeft: "2px solid var(--temple)",
             background: "var(--ivory)",
             display: "flex", flexDirection: "column",

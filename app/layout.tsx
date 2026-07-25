@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Lora, Tiro_Kannada, Kalam } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -32,6 +32,13 @@ export const metadata: Metadata = {
   title: "ಕರ್ನಾಟಕ ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್ | Karnataka Philately Passport",
   description:
     "Digital companion to the Karnataka Philately Passport V3 — 100 permanent pictorial cancellations across Karnataka's heritage.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0D1F3A",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

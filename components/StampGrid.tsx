@@ -56,10 +56,10 @@ export default function StampGrid() {
         )}
       </div>
 
-      {/* 10×10 grid */}
+      {/* 10×10 grid — responsive: stays 10-col on desktop, auto-fills on mobile */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(10, 1fr)",
+        gridTemplateColumns: "repeat(auto-fill, minmax(24px, 1fr))",
         gap: 3,
         padding: "14px 12px",
         background: "var(--page)",

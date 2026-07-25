@@ -348,7 +348,8 @@ export default function StampPanel({ sno, place, district, category }: Props) {
                 </span>
               </div>
               <button onClick={closeModal}
-                style={{ color: "rgba(196,163,90,0.6)", background: "none", border: "none", cursor: "pointer", lineHeight: 1 }}>
+                style={{ color: "rgba(196,163,90,0.6)", background: "none", border: "none", cursor: "pointer",
+                  padding: "12px", margin: "-12px", lineHeight: 1 /* 44px touch target */ }}>
                 <X size={15}/>
               </button>
             </div>
