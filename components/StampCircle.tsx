@@ -6,40 +6,43 @@ interface Props {
 
 export default function StampCircle({ visited, date, size = 100 }: Props) {
   const r = size / 2;
+  const outer = r - 4;
+  const inner = r - 14;
 
   if (!visited) {
     return (
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={r} cy={r} r={r - 6} fill="none" stroke="#C4A35A" strokeWidth="2" strokeDasharray="6 4" />
-        <circle cx={r} cy={r} r={r - 14} fill="none" stroke="#C4A35A80" strokeWidth="1" strokeDasharray="3 3" />
-        <text x={r} y={r + 4} textAnchor="middle" fontSize={size * 0.12} fill="#C4A35A80" fontFamily="serif">
-          UNCOLLECTED
-        </text>
+        <circle cx={r} cy={r} r={outer} fill="none" stroke="#C4A35A" strokeWidth="2" strokeDasharray="5 4" opacity="0.5" />
+        <circle cx={r} cy={r} r={inner} fill="none" stroke="#C4A35A" strokeWidth="1" strokeDasharray="3 3" opacity="0.28" />
+        <text x={r} y={r - 4} textAnchor="middle" fontSize={size * 0.09} fill="#C4A35A" fillOpacity="0.4" fontFamily="serif" letterSpacing="1">STAMP</text>
+        <text x={r} y={r + 8} textAnchor="middle" fontSize={size * 0.085} fill="#C4A35A" fillOpacity="0.3" fontFamily="serif">HERE</text>
       </svg>
     );
   }
 
-  const yr = date ? new Date(date + "T12:00:00").getFullYear() : new Date().getFullYear();
-  const mo = date ? new Date(date + "T12:00:00").toLocaleString("en-IN", { month: "short" }).toUpperCase() : "";
-  const dy = date ? new Date(date + "T12:00:00").getDate() : "";
+  const d = date ? new Date(date + "T12:00:00") : new Date();
+  const dy = d.getDate();
+  const mo = d.toLocaleString("en-IN", { month: "short" }).toUpperCase();
+  const yr = d.getFullYear();
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <circle cx={r} cy={r} r={r - 4} fill="none" stroke="#5C3317" strokeWidth="3" />
-      <circle cx={r} cy={r} r={r - 12} fill="none" stroke="#5C3317" strokeWidth="1.5" />
-      <text x={r} y={r * 0.6} textAnchor="middle" fontSize={size * 0.11} fill="#5C3317" fontWeight="bold" fontFamily="serif">
-        PHILATELIC
-      </text>
-      <text x={r} y={r * 0.85} textAnchor="middle" fontSize={size * 0.1} fill="#5C3317" fontFamily="serif">
-        BUREAU
-      </text>
-      <text x={r} y={r * 1.15} textAnchor="middle" fontSize={size * 0.22} fill="#5C3317" fontWeight="bold" fontFamily="serif">
-        {dy}
-      </text>
-      <text x={r} y={r * 1.38} textAnchor="middle" fontSize={size * 0.13} fill="#5C3317" fontFamily="serif">
-        {mo} {yr}
-      </text>
-      <circle cx={r} cy={r} r={r - 4} fill="none" stroke="#5C331730" strokeWidth="1" />
+      {/* serrated outer ring */}
+      {Array.from({ length: 22 }, (_, i) => {
+        const a = (i / 22) * Math.PI * 2;
+        const x1 = r + (outer - 1.5) * Math.cos(a);
+        const y1 = r + (outer - 1.5) * Math.sin(a);
+        const x2 = r + (outer + 1.5) * Math.cos(a);
+        const y2 = r + (outer + 1.5) * Math.sin(a);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#4A2810" strokeWidth="1" />;
+      })}
+      <circle cx={r} cy={r} r={outer} fill="none" stroke="#4A2810" strokeWidth="2" />
+      <circle cx={r} cy={r} r={inner + 1} fill="none" stroke="#4A2810" strokeWidth="0.8" />
+      <text x={r} y={r - inner * 0.44} textAnchor="middle" fontSize={size * 0.1} fill="#4A2810" fontWeight="bold" fontFamily="serif" letterSpacing="1.5">PHILATELIC</text>
+      <text x={r} y={r - inner * 0.12} textAnchor="middle" fontSize={size * 0.088} fill="#4A2810" fontFamily="serif" letterSpacing="1">BUREAU</text>
+      <text x={r} y={r + inner * 0.3} textAnchor="middle" fontSize={size * 0.22} fill="#4A2810" fontWeight="bold" fontFamily="serif">{dy}</text>
+      <text x={r} y={r + inner * 0.58} textAnchor="middle" fontSize={size * 0.115} fill="#4A2810" fontFamily="serif" letterSpacing="0.8">{mo} {yr}</text>
+      <text x={r} y={r + inner * 0.82} textAnchor="middle" fontSize={size * 0.082} fill="#7A3B0F" fontFamily="serif" letterSpacing="0.5">KARNATAKA</text>
     </svg>
   );
 }

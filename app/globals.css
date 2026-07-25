@@ -1,79 +1,176 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
+/* ─── Heritage Design Tokens ─────────────────────────────────────── */
 :root {
-  --sandstone:    #C4A35A;
-  --temple:       #5C3317;
-  --laterite:     #8B4513;
-  --parchment:    #FDF5E6;
-  --parchment-dk: #F0E6C8;
-  --ink:          #2C1810;
-  --gold:         #D4AC0D;
-  --stone-light:  #EAD9B8;
-}
-
-@theme inline {
-  --color-background: var(--parchment);
-  --color-foreground: var(--ink);
+  --ink:         #1A0E06;
+  --temple:      #4A2810;
+  --laterite:    #7A3B0F;
+  --copper:      #B8722A;
+  --sandstone:   #C4A35A;
+  --gilt:        #D4AC0D;
+  --stone:       #EAD9B8;
+  --manuscript:  #F8F0D8;
+  --ivory:       #FDFAF0;
+  --forest:      #1C4A2E;
 }
 
 body {
-  background: #FDF5E6;
-  color: #2C1810;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body, serif);
+  -webkit-font-smoothing: antialiased;
 }
 
-.parchment {
-  background-color: #FDF5E6;
+/* ─── Signature: Hoysala carved frieze band ──────────────────────── */
+/* Evokes horizontal decorative registers at Belur / Halebidu         */
+.hoysala-rule {
+  height: 16px;
+  background:
+    linear-gradient(
+      180deg,
+      #1A0E06 0px,   #1A0E06 2px,
+      #C4A35A 2px,   #C4A35A 4px,
+      #7A3B0F 4px,   #7A3B0F 12px,
+      #C4A35A 12px,  #C4A35A 14px,
+      #1A0E06 14px,  #1A0E06 16px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 7px,
+      rgba(196,163,90,0.2) 7px, rgba(196,163,90,0.2) 9px
+    );
+  flex-shrink: 0;
 }
 
-.stone-card {
-  background: linear-gradient(135deg, #FDF5E6 0%, #F5E9CC 100%);
-  border: 1px solid rgba(196,163,90,0.25);
-  box-shadow: 0 2px 8px rgba(92,51,23,0.06), inset 0 1px 0 rgba(196,163,90,0.18);
+.hoysala-rule-thin {
+  height: 8px;
+  background:
+    linear-gradient(
+      180deg,
+      #1A0E06 0px, #1A0E06 1px,
+      #C4A35A 1px, #C4A35A 2px,
+      #7A3B0F 2px, #7A3B0F 6px,
+      #C4A35A 6px, #C4A35A 7px,
+      #1A0E06 7px, #1A0E06 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 7px,
+      rgba(196,163,90,0.18) 7px, rgba(196,163,90,0.18) 9px
+    );
+  flex-shrink: 0;
 }
 
-.stamp {
-  position: relative;
-  display: inline-flex;
+/* ─── Manuscript card (chisel-bevel border) ──────────────────────── */
+.manuscript-card {
+  background: linear-gradient(158deg, #FAF2DC 0%, #F2E6C2 100%);
+  border-top:    2px solid #B8722A;
+  border-left:   2px solid #B8722A;
+  border-right:  2px solid #1A0E06;
+  border-bottom: 2px solid #1A0E06;
+  box-shadow:
+    inset 0 1px 0 rgba(212,172,13,0.22),
+    3px 4px 14px rgba(26,14,6,0.22);
+  transition: box-shadow 0.2s;
+}
+.manuscript-card:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(212,172,13,0.3),
+    4px 6px 22px rgba(26,14,6,0.32);
+}
+
+/* ─── Parchment panel ────────────────────────────────────────────── */
+.parchment-panel {
+  background: var(--manuscript);
+  border: 1px solid rgba(196,163,90,0.4);
+}
+
+/* ─── Passport leaf ──────────────────────────────────────────────── */
+.passport-leaf {
+  background: linear-gradient(160deg, #FFFAF0 0%, #F8F0D8 55%, #EFE0B4 100%);
+  border-left: 6px solid #4A2810;
+  box-shadow:
+    -2px 0 10px rgba(74,40,16,0.15),
+    3px 4px 18px rgba(74,40,16,0.25),
+    inset 0 0 50px rgba(196,163,90,0.04);
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────── */
+.temple-btn {
+  background: var(--temple);
+  color: var(--manuscript);
+  border-top:   1px solid var(--copper);
+  border-left:  1px solid var(--copper);
+  border-right: 1px solid #060300;
+  border-bottom:1px solid #060300;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-family: var(--font-display, serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.temple-btn:hover { background: #3A1E09; color: var(--sandstone); }
+
+.ghost-btn {
+  background: transparent;
+  color: var(--manuscript);
+  border: 1px solid rgba(196,163,90,0.5);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-family: var(--font-display, serif);
+  font-size: 0.78rem;
+  transition: all 0.15s;
+}
+.ghost-btn:hover { background: rgba(196,163,90,0.12); border-color: var(--sandstone); }
+
+/* ─── Inscription label ──────────────────────────────────────────── */
+.inscription {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-family: var(--font-display, serif);
+  font-weight: 600;
+}
+
+/* ─── Stamp slot (unvisited) ─────────────────────────────────────── */
+.stamp-slot {
+  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 3px solid currentColor;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  opacity: 0.9;
+  border: 2.5px dashed rgba(196,163,90,0.55);
+  position: relative;
 }
-
-.stamp::before {
+.stamp-slot::after {
   content: '';
   position: absolute;
-  inset: 4px;
+  inset: 6px;
   border-radius: 50%;
-  border: 1px solid currentColor;
-  opacity: 0.4;
+  border: 1px dashed rgba(196,163,90,0.3);
 }
 
-.chalukya-border {
-  border-top: 3px solid #C4A35A;
-  border-bottom: 3px solid #C4A35A;
-}
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #EAD9B8; }
+::-webkit-scrollbar-thumb { background: #7A3B0F; border-radius: 0; }
 
-.passport-page {
-  background: linear-gradient(160deg, #FFFAF0 0%, #FDF5E6 60%, #F0E0B0 100%);
-  border-radius: 4px 12px 12px 4px;
-  box-shadow:
-    -3px 0 8px rgba(92,51,23,0.12),
-    2px 2px 12px rgba(92,51,23,0.18),
-    inset 0 0 40px rgba(196,163,90,0.06);
-}
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #F5E9CC; }
-::-webkit-scrollbar-thumb { background: #C4A35A; border-radius: 3px; }
-
+/* ─── Leaflet overrides ──────────────────────────────────────────── */
 .leaflet-popup-content-wrapper {
-  background: #FDF5E6 !important;
-  border: 1px solid #C4A35A !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 16px rgba(92,51,23,0.18) !important;
+  background: #F8F0D8 !important;
+  border: 2px solid #4A2810 !important;
+  border-right-color: #060300 !important;
+  border-bottom-color: #060300 !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 5px 14px rgba(26,14,6,0.3) !important;
+  padding: 0 !important;
 }
-.leaflet-popup-tip { background: #C4A35A !important; }
+.leaflet-popup-content { margin: 0 !important; }
+.leaflet-popup-tip-container { display: none !important; }
+.leaflet-control-zoom a {
+  background: #F8F0D8 !important;
+  color: #4A2810 !important;
+  border-color: #C4A35A !important;
+  border-radius: 0 !important;
+}
+.leaflet-control-zoom a:hover { background: #4A2810 !important; color: #F8F0D8 !important; }

@@ -5,24 +5,35 @@ import { useSearchParams } from "next/navigation";
 import { locations, ALL_DISTRICTS, type Location } from "@/lib/data";
 import LocationCard from "@/components/LocationCard";
 import ProgressBar from "@/components/ProgressBar";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { X } from "lucide-react";
 
 const ALL_CATS = [...new Set(locations.map((l) => l.category))].sort();
+
+const inputStyle = {
+  width: "100%",
+  padding: "7px 10px",
+  background: "var(--manuscript)",
+  border: "1px solid var(--sandstone)",
+  borderRightColor: "#1A0E06",
+  borderBottomColor: "#1A0E06",
+  color: "var(--ink)",
+  fontFamily: "var(--font-body)",
+  fontSize: "0.82rem",
+  outline: "none",
+};
 
 function PassportList() {
   const params = useSearchParams();
   const [search, setSearch] = useState("");
   const [district, setDistrict] = useState(params.get("district") ?? "All");
   const [category, setCategory] = useState(params.get("category") ?? "All");
-  const [showFilters, setShowFilters] = useState(false);
   const [visitFilter, setVisitFilter] = useState<"all" | "visited" | "unvisited">("all");
   const [visitedSnos, setVisitedSnos] = useState<Set<number>>(new Set());
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     function load() {
-      const v = typeof window !== "undefined"
-        ? JSON.parse(localStorage.getItem("philately_visits") ?? "{}")
-        : {};
+      const v = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("philately_visits") ?? "{}") : {};
       setVisitedSnos(new Set(Object.keys(v).map(Number)));
     }
     load();
@@ -41,114 +52,73 @@ function PassportList() {
     if (visitFilter === "unvisited" && visitedSnos.has(l.sno)) return false;
     if (search) {
       const q = search.toLowerCase();
-      return (
-        l.place.toLowerCase().includes(q) ||
-        l.district.toLowerCase().includes(q) ||
-        l.post_office.toLowerCase().includes(q) ||
-        l.pincode.includes(q)
-      );
+      return l.place.toLowerCase().includes(q) || l.district.toLowerCase().includes(q)
+        || l.post_office.toLowerCase().includes(q) || l.pincode.includes(q);
     }
     return true;
   });
 
-  const hasFilters = district !== "All" || category !== "All" || visitFilter !== "all" || search;
+  const hasFilter = district !== "All" || category !== "All" || visitFilter !== "all" || search;
 
   return (
     <div>
-      {/* Search + filter bar */}
-      <div className="flex gap-2 mb-4">
-        <div className="flex-1 relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "#C4A35A" }} />
+      {/* Search bar */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+        <div style={{ flex: 1, position: "relative", minWidth: 160 }}>
+          <svg style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }} width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <circle cx="5" cy="5" r="4" stroke="#C4A35A" strokeWidth="1.2"/>
+            <line x1="8" y1="8" x2="11" y2="11" stroke="#C4A35A" strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
           <input
-            type="text"
-            placeholder="Search place, district, pincode…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-lg text-sm outline-none"
-            style={{ background: "#FDF5E6", border: "1px solid #C4A35A80", color: "#2C1810" }}
+            type="text" placeholder="Search place, district, pincode…"
+            value={search} onChange={e => setSearch(e.target.value)}
+            style={{ ...inputStyle, paddingLeft: 28 }}
           />
         </div>
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium"
-          style={{
-            background: showFilters ? "#5C3317" : "#EAD9B8",
-            color: showFilters ? "#F5E9CC" : "#5C3317",
-            border: "1px solid #C4A35A40",
-          }}
-        >
-          <SlidersHorizontal size={14} />
-          Filters
+
+        <button onClick={() => setShowFilters(v => !v)}
+          style={{ ...inputStyle, width: "auto", cursor: "pointer", fontFamily: "var(--font-display)", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", background: showFilters ? "var(--temple)" : "var(--manuscript)", color: showFilters ? "var(--sandstone)" : "var(--temple)" }}>
+          Filters {showFilters ? "▲" : "▼"}
         </button>
-        {hasFilters && (
-          <button
-            onClick={() => { setDistrict("All"); setCategory("All"); setVisitFilter("all"); setSearch(""); }}
-            className="flex items-center gap-1 px-2 py-2 rounded-lg text-xs"
-            style={{ background: "#F8D7DA", color: "#922B21" }}
-          >
-            <X size={12} /> Clear
+
+        {hasFilter && (
+          <button onClick={() => { setDistrict("All"); setCategory("All"); setVisitFilter("all"); setSearch(""); }}
+            style={{ padding: "7px 10px", background: "#2A0808", color: "#C45A5A", border: "1px solid #7A1010", fontFamily: "var(--font-display)", fontSize: "0.65rem", letterSpacing: "0.08em", cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}>
+            <X size={11} /> Clear
           </button>
         )}
       </div>
 
       {showFilters && (
-        <div className="rounded-xl p-4 mb-4 grid grid-cols-1 sm:grid-cols-3 gap-3" style={{ background: "#F5E9CC", border: "1px solid #C4A35A40" }}>
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: "#5C3317" }}>District</label>
-            <select
-              value={district}
-              onChange={(e) => setDistrict(e.target.value)}
-              className="w-full text-xs rounded px-2 py-1.5 outline-none"
-              style={{ background: "#FDF5E6", border: "1px solid #C4A35A", color: "#5C3317" }}
-            >
-              <option value="All">All Districts</option>
-              {ALL_DISTRICTS.map((d) => <option key={d} value={d}>{d}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: "#5C3317" }}>Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full text-xs rounded px-2 py-1.5 outline-none"
-              style={{ background: "#FDF5E6", border: "1px solid #C4A35A", color: "#5C3317" }}
-            >
-              <option value="All">All Categories</option>
-              {ALL_CATS.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: "#5C3317" }}>Visit Status</label>
-            <select
-              value={visitFilter}
-              onChange={(e) => setVisitFilter(e.target.value as "all" | "visited" | "unvisited")}
-              className="w-full text-xs rounded px-2 py-1.5 outline-none"
-              style={{ background: "#FDF5E6", border: "1px solid #C4A35A", color: "#5C3317" }}
-            >
-              <option value="all">All</option>
-              <option value="visited">Visited</option>
-              <option value="unvisited">Not Yet Visited</option>
-            </select>
-          </div>
+        <div className="manuscript-card" style={{ padding: "14px 16px", marginBottom: 12, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          {[
+            { label: "District", value: district, onChange: (v: string) => setDistrict(v), opts: ["All", ...ALL_DISTRICTS] },
+            { label: "Category", value: category, onChange: (v: string) => setCategory(v), opts: ["All", ...ALL_CATS] },
+            { label: "Status",   value: visitFilter, onChange: (v: string) => setVisitFilter(v as "all"|"visited"|"unvisited"),
+              opts: [["all","All"],["visited","Visited"],["unvisited","Unvisited"]] as unknown as string[] },
+          ].map(({ label, value, onChange, opts }) => (
+            <div key={label}>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "0.58rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--copper)", marginBottom: 4 }}>{label}</div>
+              <select value={value} onChange={e => onChange(e.target.value)} style={{ ...inputStyle, width: "100%" }}>
+                {opts.map(o => Array.isArray(o) ? <option key={o[0]} value={o[0]}>{o[1]}</option> : <option key={o} value={o}>{o}</option>)}
+              </select>
+            </div>
+          ))}
         </div>
       )}
 
-      <p className="text-xs mb-4" style={{ color: "#8B4513" }}>
-        Showing <strong>{filtered.length}</strong> of 100 locations
-        {visitedSnos.size > 0 && ` · ${visitedSnos.size} visited`}
-      </p>
+      <div style={{ fontFamily: "var(--font-display)", fontSize: "0.65rem", letterSpacing: "0.06em", color: "var(--copper)", marginBottom: 14 }}>
+        Showing {filtered.length} of 100 locations{visitedSnos.size > 0 ? ` · ${visitedSnos.size} collected` : ""}
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((loc) => (
-          <LocationCard key={loc.sno} location={loc} />
-        ))}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
+        {filtered.map((loc) => <LocationCard key={loc.sno} location={loc} />)}
       </div>
 
       {filtered.length === 0 && (
-        <div className="text-center py-16">
-          <div className="text-4xl mb-3">🔍</div>
-          <p style={{ color: "#8B4513", fontFamily: "var(--font-heading)" }}>No locations found</p>
-          <p className="text-sm mt-1" style={{ color: "#A0785A" }}>Try adjusting your filters</p>
+        <div style={{ textAlign: "center", padding: "60px 0" }}>
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "0.8rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--copper)" }}>No locations found</div>
+          <div style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--laterite)", marginTop: 6 }}>Try adjusting your filters</div>
         </div>
       )}
     </div>
@@ -157,26 +127,26 @@ function PassportList() {
 
 export default function PassportPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-6">
-        <div className="chalukya-border py-3 px-1 mb-4" />
-        <h1
-          className="text-2xl font-bold"
-          style={{ fontFamily: "var(--font-heading)", color: "#5C3317" }}
-        >
-          My Philately Passport
+    <div className="max-w-6xl mx-auto px-4 py-10">
+      <div className="hoysala-rule-thin mb-8" />
+
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontFamily: "var(--font-display)", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--copper)", marginBottom: 4 }}>
+          My Collection
+        </div>
+        <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 700, color: "var(--temple)", fontSize: "1.7rem", lineHeight: 1.15 }}>
+          Philately Passport
         </h1>
-        <p className="text-sm mt-1" style={{ color: "#8B4513" }}>
-          100 Permanent Pictorial Cancellation locations across Karnataka
-        </p>
+        <div style={{ fontFamily: "var(--font-body)", fontSize: "0.82rem", color: "var(--laterite)", marginTop: 4 }}>
+          100 Permanent Pictorial Cancellations across Karnataka
+        </div>
       </div>
 
-      <div className="stone-card rounded-xl p-5 mb-6">
+      <div className="manuscript-card mb-8" style={{ padding: "20px 22px" }}>
         <ProgressBar />
       </div>
 
-      <Suspense fallback={<div className="text-center py-8" style={{ color: "#8B4513" }}>Loading…</div>}>
+      <Suspense fallback={<div style={{ fontFamily: "var(--font-display)", fontSize: "0.7rem", letterSpacing: "0.1em", color: "var(--copper)", padding: "32px 0", textAlign: "center" }}>Loading…</div>}>
         <PassportList />
       </Suspense>
     </div>

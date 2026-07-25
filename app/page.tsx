@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { locations, ALL_DISTRICTS, CATEGORY_BG, CATEGORY_ICONS } from "@/lib/data";
+import { locations, ALL_DISTRICTS } from "@/lib/data";
 import ProgressBar from "@/components/ProgressBar";
+import CategoryBadge from "@/components/CategoryBadge";
 
-const CATEGORIES = [
-  ...new Set(locations.map((l) => l.category)),
-].sort();
-
+const CATEGORIES = [...new Set(locations.map((l) => l.category))].sort();
 const DISTRICT_COUNTS = ALL_DISTRICTS.map((d) => ({
   district: d,
   count: locations.filter((l) => l.district === d).length,
@@ -13,142 +11,93 @@ const DISTRICT_COUNTS = ALL_DISTRICTS.map((d) => ({
 
 export default function HomePage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Hero */}
-      <div
-        className="rounded-2xl p-8 mb-8 relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #5C3317 0%, #8B4513 50%, #C4A35A 100%)" }}
-      >
-        <div className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 21px)",
-          }}
-        />
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-2xl">🏛️</span>
-            <span
-              className="text-xs font-bold px-2 py-1 rounded"
-              style={{ background: "#C4A35A", color: "#5C3317" }}
-            >
-              KARNATAKA CIRCLE
+    <div className="max-w-6xl mx-auto px-4 py-10">
+
+      {/* ── Hero ────────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden mb-10" style={{
+        background: "linear-gradient(135deg, #1A0E06 0%, #4A2810 45%, #7A3B0F 100%)",
+        borderTop: "2px solid #B8722A", borderLeft: "2px solid #B8722A",
+        borderRight: "2px solid #060300", borderBottom: "2px solid #060300",
+      }}>
+        <div className="absolute inset-0 pointer-events-none" style={{
+          backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(196,163,90,0.04) 18px, rgba(196,163,90,0.04) 19px)",
+        }} />
+        <div className="hoysala-rule-thin" />
+        <div style={{ padding: "36px 40px 32px" }} className="relative z-10">
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--copper)", background: "rgba(196,163,90,0.1)", border: "1px solid rgba(196,163,90,0.3)", padding: "2px 10px" }}>
+              India Post · Karnataka Circle
             </span>
           </div>
-          <h1
-            className="text-3xl font-bold mb-2"
-            style={{ fontFamily: "var(--font-heading)", color: "#FDF5E6", letterSpacing: "0.02em" }}
-          >
-            फिलाटेली पासपोर्ट
+          <h1 style={{ fontFamily: "var(--font-kannada)", color: "#F8F0D8", fontSize: "2.4rem", lineHeight: 1.2, marginBottom: 4 }}>
+            ಕರ್ನಾಟಕ ಫಿಲಾಟೆಲಿ ಪಾಸ್ಪೋರ್ಟ್
           </h1>
-          <h2
-            className="text-xl font-semibold mb-3"
-            style={{ fontFamily: "var(--font-heading)", color: "#EAD9B8" }}
-          >
-            Philately Passport — Version 3.0
-          </h2>
-          <p className="text-sm mb-6 max-w-lg" style={{ color: "#D4B896" }}>
-            Permanent Pictorial Cancellations of Karnataka. Visit 100 post offices across 25 districts,
-            collect stamps, and complete your journey through Karnataka&apos;s heritage.
+          <div style={{ fontFamily: "var(--font-display)", color: "var(--sandstone)", fontSize: "1.05rem", letterSpacing: "0.06em", marginBottom: 6 }}>
+            Karnataka Philately Passport
+          </div>
+          <div style={{ fontFamily: "var(--font-display)", color: "var(--copper)", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 20 }}>
+            Version III · Permanent Pictorial Cancellations
+          </div>
+          <p style={{ fontFamily: "var(--font-body)", color: "#C8A878", fontSize: "0.9rem", lineHeight: 1.7, maxWidth: 520, marginBottom: 28 }}>
+            Journey across 25 districts of Karnataka. Visit 100 post offices, collect
+            pictorial cancellation stamps, and document your passage through the land
+            of Hoysalas, Chalukyas, and Vijayanagara.
           </p>
-
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/map"
-              className="px-5 py-2.5 rounded-lg font-semibold text-sm transition-all"
-              style={{ background: "#C4A35A", color: "#5C3317" }}
-            >
-              Explore Map →
-            </Link>
-            <Link
-              href="/passport"
-              className="px-5 py-2.5 rounded-lg font-semibold text-sm transition-all"
-              style={{ background: "transparent", color: "#EAD9B8", border: "1px solid #C4A35A60" }}
-            >
-              Open Passport →
-            </Link>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <Link href="/map" className="temple-btn" style={{ padding: "10px 28px", display: "inline-block" }}>Explore Map</Link>
+            <Link href="/passport" className="ghost-btn" style={{ padding: "10px 28px", display: "inline-block" }}>Open Passport</Link>
           </div>
         </div>
+        <div className="hoysala-rule-thin" />
       </div>
 
-      {/* Progress */}
-      <div className="stone-card rounded-xl p-5 mb-8">
+      {/* ── Progress ─────────────────────────────────────────────── */}
+      <div className="manuscript-card mb-10" style={{ padding: "22px 24px" }}>
         <ProgressBar />
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      {/* ── Stats ────────────────────────────────────────────────── */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 8 }}>
         {[
-          { label: "Total Locations", value: "100", icon: "📍" },
-          { label: "Districts", value: "25", icon: "🗺️" },
-          { label: "Categories", value: CATEGORIES.length.toString(), icon: "🏷️" },
-          { label: "Karnataka PPCs", value: "V3", icon: "📮" },
-        ].map(({ label, value, icon }) => (
-          <div key={label} className="stone-card rounded-xl p-4 text-center">
-            <div className="text-2xl mb-1">{icon}</div>
-            <div
-              className="text-2xl font-bold"
-              style={{ fontFamily: "var(--font-heading)", color: "#5C3317" }}
-            >
-              {value}
-            </div>
-            <div className="text-xs mt-0.5" style={{ color: "#8B4513" }}>{label}</div>
+          { n: "100", label: "Locations",  sub: "across Karnataka" },
+          { n: "25",  label: "Districts",  sub: "represented" },
+          { n: String(CATEGORIES.length), label: "Categories", sub: "of heritage" },
+          { n: "V3",  label: "Version",    sub: "current edition" },
+        ].map(({ n, label, sub }) => (
+          <div key={label} className="manuscript-card" style={{ padding: "16px", textAlign: "center" }}>
+            <div style={{ fontFamily: "var(--font-display)", fontSize: "2rem", fontWeight: 700, color: "var(--temple)", lineHeight: 1 }}>{n}</div>
+            <div style={{ fontFamily: "var(--font-display)", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--copper)", marginTop: 4 }}>{label}</div>
+            <div style={{ fontFamily: "var(--font-body)", fontSize: "0.62rem", color: "var(--laterite)", marginTop: 2 }}>{sub}</div>
           </div>
         ))}
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-8">
-        {/* Districts */}
-        <div className="stone-card rounded-xl p-5">
-          <h3
-            className="font-bold mb-4"
-            style={{ fontFamily: "var(--font-heading)", color: "#5C3317", fontSize: "1rem" }}
-          >
-            Districts
-          </h3>
-          <div className="grid grid-cols-2 gap-1.5">
+      <div className="hoysala-rule-thin my-8" />
+
+      {/* ── Districts + Categories ───────────────────────────────── */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 8 }}>
+        <div>
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--copper)", marginBottom: 10 }}>Districts</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5 }}>
             {DISTRICT_COUNTS.map(({ district, count }) => (
-              <Link
-                key={district}
-                href={`/passport?district=${encodeURIComponent(district)}`}
-                className="flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs hover:opacity-80 transition-opacity"
-                style={{ background: "#EAD9B8", color: "#5C3317" }}
-              >
-                <span className="font-medium">{district}</span>
-                <span
-                  className="text-xs font-bold rounded px-1"
-                  style={{ background: "#C4A35A", color: "#5C3317" }}
-                >
-                  {count}
-                </span>
+              <Link key={district} href={`/passport?district=${encodeURIComponent(district)}`}
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 8px", background: "var(--manuscript)", border: "1px solid rgba(196,163,90,0.3)", borderRightColor: "rgba(26,14,6,0.1)", borderBottomColor: "rgba(26,14,6,0.1)", fontFamily: "var(--font-body)", fontSize: "0.7rem", color: "var(--temple)", transition: "opacity 0.12s" }}>
+                <span>{district}</span>
+                <span style={{ fontFamily: "var(--font-display)", fontSize: "0.62rem", fontWeight: 700, color: "var(--copper)" }}>{count}</span>
               </Link>
             ))}
           </div>
         </div>
-
-        {/* Categories */}
-        <div className="stone-card rounded-xl p-5">
-          <h3
-            className="font-bold mb-4"
-            style={{ fontFamily: "var(--font-heading)", color: "#5C3317", fontSize: "1rem" }}
-          >
-            Categories
-          </h3>
-          <div className="flex flex-col gap-2">
+        <div>
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--copper)", marginBottom: 10 }}>Categories</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {CATEGORIES.map((cat) => {
               const cnt = locations.filter((l) => l.category === cat).length;
-              const bg = CATEGORY_BG[cat] ?? "bg-stone-100 text-stone-700";
-              const icon = CATEGORY_ICONS[cat] ?? "📍";
               return (
-                <Link
-                  key={cat}
-                  href={`/passport?category=${encodeURIComponent(cat)}`}
-                  className="flex items-center gap-2 text-xs hover:opacity-80 transition-opacity"
-                >
-                  <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-medium flex-1 ${bg}`}>
-                    <span>{icon}</span>
-                    {cat}
-                  </span>
-                  <span className="text-xs font-bold" style={{ color: "#8B4513" }}>{cnt}</span>
+                <Link key={cat} href={`/passport?category=${encodeURIComponent(cat)}`}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                  <CategoryBadge category={cat} size="sm" />
+                  <span style={{ fontFamily: "var(--font-display)", fontSize: "0.65rem", fontWeight: 700, color: "var(--copper)" }}>{cnt}</span>
                 </Link>
               );
             })}
@@ -156,28 +105,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* CTA strip */}
-      <div
-        className="rounded-xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between"
-        style={{ background: "#5C3317", border: "1px solid #C4A35A40" }}
-      >
+      <div className="hoysala-rule-thin my-8" />
+
+      {/* ── CTA ─────────────────────────────────────────────────── */}
+      <div style={{ background: "var(--temple)", borderTop: "1px solid var(--copper)", borderLeft: "1px solid var(--copper)", borderRight: "1px solid #060300", borderBottom: "1px solid #060300", padding: "22px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div>
-          <p
-            className="font-bold"
-            style={{ fontFamily: "var(--font-heading)", color: "#F5E9CC", fontSize: "1rem" }}
-          >
-            Ready to start your journey?
-          </p>
-          <p className="text-sm mt-0.5" style={{ color: "#C4A35A" }}>
-            Open the Passport view to browse all 100 locations and mark your visits.
-          </p>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "var(--manuscript)", fontSize: "1rem", marginBottom: 4 }}>Begin your journey</div>
+          <div style={{ fontFamily: "var(--font-body)", fontSize: "0.82rem", color: "var(--copper)" }}>Browse all 100 locations and record your stamp collections.</div>
         </div>
-        <Link
-          href="/passport"
-          className="flex-shrink-0 px-6 py-2.5 rounded-lg font-semibold text-sm"
-          style={{ background: "#C4A35A", color: "#5C3317" }}
-        >
-          Start Collecting →
+        <Link href="/passport" className="temple-btn" style={{ padding: "10px 28px", background: "var(--sandstone)", color: "var(--temple)", borderTopColor: "var(--gilt)", borderLeftColor: "var(--gilt)", flexShrink: 0, display: "inline-block" }}>
+          Start Collecting
         </Link>
       </div>
     </div>

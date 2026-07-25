@@ -1,25 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin } from "lucide-react";
 import { type Location } from "@/lib/data";
 import CategoryBadge from "./CategoryBadge";
 import StampCircle from "./StampCircle";
 import { useEffect, useState } from "react";
 import { getVisits, type Visit } from "@/lib/visits";
 
-interface Props {
-  location: Location;
-}
-
-export default function LocationCard({ location }: Props) {
+export default function LocationCard({ location }: { location: Location }) {
   const [visit, setVisit] = useState<Visit | null>(null);
 
   useEffect(() => {
-    function load() {
-      const v = getVisits()[location.sno];
-      setVisit(v ?? null);
-    }
+    function load() { setVisit(getVisits()[location.sno] ?? null); }
     load();
     window.addEventListener("philately:update", load);
     window.addEventListener("storage", load);
@@ -32,43 +24,33 @@ export default function LocationCard({ location }: Props) {
   const visited = !!visit;
 
   return (
-    <Link href={`/passport/${location.sno}`} className="block">
-      <div
-        className="stone-card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-200 cursor-pointer group"
-        style={{ borderColor: visited ? "#4A7C5980" : undefined }}
-      >
-        {visited && (
-          <div className="h-1 w-full" style={{ background: "linear-gradient(90deg,#4A7C59,#C4A35A)" }} />
-        )}
+    <Link href={`/passport/${location.sno}`} className="block group h-full">
+      <div className="manuscript-card overflow-hidden transition-all duration-200 cursor-pointer h-full">
+        {visited && <div style={{ height: 3, background: "linear-gradient(90deg, var(--forest), var(--sandstone))" }} />}
 
-        <div className="p-4 flex gap-3 items-start">
-          <div className="flex-shrink-0">
-            <StampCircle visited={visited} date={visit?.visitedAt} size={72} />
+        <div style={{ padding: "14px 14px 12px", display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <div style={{ flexShrink: 0 }}>
+            <StampCircle visited={visited} date={visit?.visitedAt} size={66} />
           </div>
 
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2 mb-1">
-              <h3
-                className="font-semibold leading-tight group-hover:underline"
-                style={{ fontFamily: "var(--font-heading)", color: "#5C3317", fontSize: "0.95rem" }}
-              >
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 6, marginBottom: 4 }}>
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "var(--temple)", fontSize: "0.88rem", lineHeight: 1.3 }}
+                className="group-hover:underline">
                 {location.place}
               </h3>
-              <span className="text-xs font-bold flex-shrink-0 rounded px-1.5 py-0.5" style={{ background: "#EAD9B8", color: "#8B4513" }}>
-                #{location.sno}
+              <span style={{ flexShrink: 0, fontFamily: "var(--font-display)", fontSize: "0.6rem", padding: "1px 5px", background: "var(--temple)", color: "var(--sandstone)", letterSpacing: "0.06em" }}>
+                {String(location.sno).padStart(3, "0")}
               </span>
             </div>
 
-            <div className="flex items-center gap-1 text-xs mb-2" style={{ color: "#8B4513" }}>
-              <MapPin size={11} />
-              <span>{location.district}</span>
-              <span>·</span>
-              <span>{location.pincode}</span>
+            <div style={{ fontSize: "0.68rem", color: "var(--copper)", marginBottom: 6, fontFamily: "var(--font-body)" }}>
+              {location.district} · {location.pincode}
             </div>
 
             <CategoryBadge category={location.category} size="sm" />
 
-            <p className="text-xs mt-2 truncate" style={{ color: "#A0785A" }}>
+            <p style={{ fontSize: "0.65rem", color: "var(--laterite)", marginTop: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "var(--font-body)" }}>
               {location.post_office}
             </p>
           </div>

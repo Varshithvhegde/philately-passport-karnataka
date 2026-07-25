@@ -3,46 +3,49 @@
 import { useEffect, useState } from "react";
 import { getVisitCount } from "@/lib/visits";
 
-const TOTAL = 100;
-
 export default function ProgressBar() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setCount(getVisitCount());
-
-    function onStorage() { setCount(getVisitCount()); }
-    window.addEventListener("storage", onStorage);
-    window.addEventListener("philately:update", onStorage);
+    function load() { setCount(getVisitCount()); }
+    load();
+    window.addEventListener("philately:update", load);
+    window.addEventListener("storage", load);
     return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener("philately:update", onStorage);
+      window.removeEventListener("philately:update", load);
+      window.removeEventListener("storage", load);
     };
   }, []);
 
-  const pct = Math.round((count / TOTAL) * 100);
+  const pct = Math.round((count / 100) * 100);
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center mb-1">
-        <span style={{ fontFamily: "var(--font-heading)", fontWeight: 600, color: "#5C3317", fontSize: "0.85rem" }}>
-          Journey Progress
-        </span>
-        <span style={{ fontWeight: 700, color: "#8B4513", fontSize: "0.85rem" }}>
-          {count} / {TOTAL}
-        </span>
+      <div className="flex justify-between items-end mb-2">
+        <div>
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--copper)" }}>
+            Journey Progress
+          </div>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "var(--temple)", fontSize: "1.7rem", lineHeight: 1, marginTop: 2 }}>
+            {count}<span style={{ fontSize: "0.85rem", color: "var(--copper)", marginLeft: 6 }}>/ 100 collected</span>
+          </div>
+        </div>
+        <div style={{ fontFamily: "var(--font-display)", fontSize: "2.4rem", fontWeight: 700, color: pct > 0 ? "var(--sandstone)" : "var(--stone)", lineHeight: 1 }}>
+          {pct}<span style={{ fontSize: "1rem" }}>%</span>
+        </div>
       </div>
-      <div className="rounded-full overflow-hidden h-3" style={{ background: "#EAD9B8" }}>
-        <div
-          className="h-3 rounded-full transition-all duration-700"
-          style={{
-            width: `${pct}%`,
-            background: "linear-gradient(90deg, #8B4513, #C4A35A)",
-          }}
-        />
+      <div style={{ height: 10, background: "#EAD9B8", border: "1px solid rgba(122,59,15,0.3)", position: "relative", overflow: "hidden" }}>
+        {pct > 0 && (
+          <div style={{
+            height: "100%", width: `${pct}%`,
+            background: "linear-gradient(90deg, #4A2810, #7A3B0F 45%, #C4A35A)",
+            borderRight: "2px solid #1A0E06",
+            transition: "width 0.9s cubic-bezier(0.4,0,0.2,1)",
+          }} />
+        )}
       </div>
-      <p className="mt-1 text-xs" style={{ color: "#8B4513" }}>
-        {pct}% complete — {TOTAL - count} locations remaining
+      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.68rem", color: "var(--copper)", marginTop: 4, letterSpacing: "0.04em" }}>
+        {100 - count} locations remaining · Karnataka Philately Passport V3
       </p>
     </div>
   );
