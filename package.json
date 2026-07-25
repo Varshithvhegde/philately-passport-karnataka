@@ -5,9 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "android:build": "next build && npx cap sync android && cd android && ./gradlew assembleDebug",
+    "android:release": "next build && npx cap sync android && cd android && ./gradlew assembleRelease",
+    "android:open": "npx cap open android",
+    "cap:sync": "next build && npx cap sync android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/camera": "^8.2.1",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "@capacitor/filesystem": "^8.1.2",
     "@types/leaflet": "^1.9.21",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.26.0",

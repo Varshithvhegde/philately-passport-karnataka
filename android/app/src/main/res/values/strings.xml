@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Karnataka Philately Passport</string>
+    <string name="title_activity_main">Karnataka Philately Passport</string>
+    <string name="package_name">in.karnataka.philately.passport</string>
+    <string name="custom_url_scheme">in.karnataka.philately.passport</string>
+</resources>
