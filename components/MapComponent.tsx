@@ -4,8 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { type Location, CATEGORY_COLORS } from "@/lib/data";
 import { getVisits, type Visit } from "@/lib/visits";
 
-// 25 distinct district colors (warm-to-cool spread, all readable against the map)
-const DISTRICT_COLORS: Record<string, string> = {
+export const DISTRICT_COLORS: Record<string, string> = {
   "Bagalkot":         "#C4A35A",
   "Ballari":          "#E07B39",
   "Belagavi":         "#D4595A",
@@ -44,18 +43,36 @@ interface Props {
   locations: Location[];
   highlightSno?: number;
   colorMode?: ColorMode;
+  showBoundaries?: boolean;
+  highlightDistrict?: string;
   onSelect?: (loc: Location) => void;
 }
 
-export default function MapComponent({ locations, highlightSno, colorMode = "category", onSelect }: Props) {
-  const mapRef        = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<import("leaflet").Map | null>(null);
-  const markersRef    = useRef<Map<number, import("leaflet").CircleMarker>>(new Map());
-  const onSelectRef   = useRef(onSelect);
-  onSelectRef.current = onSelect;
+// Hex → rgba with given opacity
+function hexAlpha(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
 
-  const [visits, setVisits]     = useState<Record<number, Visit>>({});
-  const [mapReady, setMapReady] = useState(false);  // triggers sync after async init
+export default function MapComponent({
+  locations,
+  highlightSno,
+  colorMode = "category",
+  showBoundaries = true,
+  highlightDistrict,
+  onSelect,
+}: Props) {
+  const mapRef         = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<import("leaflet").Map | null>(null);
+  const markersRef     = useRef<Map<number, import("leaflet").CircleMarker>>(new Map());
+  const boundaryLayerRef = useRef<import("leaflet").GeoJSON | null>(null);
+  const onSelectRef    = useRef(onSelect);
+  onSelectRef.current  = onSelect;
+
+  const [visits,   setVisits]   = useState<Record<number, Visit>>({});
+  const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
     function load() { setVisits(getVisits()); }
@@ -68,7 +85,7 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
     };
   }, []);
 
-  // ── Init map once ────────────────────────────────────────────────────
+  // ── Init map once ──────────────────────────────────────────────────
   useEffect(() => {
     if (!mapRef.current) return;
     if ((mapRef.current as unknown as Record<string, unknown>)._leaflet_id) return;
@@ -93,7 +110,7 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
       L.control.attribution({ position: "bottomright", prefix: "© CartoDB" }).addTo(map);
 
       mapInstanceRef.current = map;
-      setMapReady(true);  // signal sync effect to run
+      setMapReady(true);
     });
 
     return () => {
@@ -101,9 +118,82 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
       mapInstanceRef.current = null;
       delete (container as unknown as Record<string, unknown>)._leaflet_id;
       markersRef.current.clear();
+      boundaryLayerRef.current = null;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ── District boundary choropleth layer ────────────────────────────
+  useEffect(() => {
+    if (!mapReady || !mapInstanceRef.current) return;
+    const map = mapInstanceRef.current;
+
+    // Remove old boundary layer
+    if (boundaryLayerRef.current) {
+      boundaryLayerRef.current.remove();
+      boundaryLayerRef.current = null;
+    }
+
+    if (!showBoundaries) return;
+
+    // Count how many PPC locations each district has (for fill intensity)
+    const districtCounts: Record<string, number> = {};
+    for (const loc of locations) {
+      districtCounts[loc.district] = (districtCounts[loc.district] ?? 0) + 1;
+    }
+    const maxCount = Math.max(...Object.values(districtCounts), 1);
+
+    import("leaflet").then(async (L) => {
+      const resp = await fetch("/karnataka_districts.geojson");
+      if (!resp.ok) return;
+      const geoData = await resp.json();
+
+      const layer = L.geoJSON(geoData, {
+        style: (feature) => {
+          const name  = feature?.properties?.district as string ?? "";
+          const count = districtCounts[name] ?? 0;
+          const baseColor = DISTRICT_COLORS[name] ?? "#C4A35A";
+          const isHighlighted = highlightDistrict && name === highlightDistrict;
+
+          if (count === 0) {
+            return {
+              fillColor:   "#EAD9B8",
+              fillOpacity: 0.15,
+              color:       "#B8722A",
+              weight:      0.8,
+              dashArray:   "4 3",
+              opacity:     0.4,
+            };
+          }
+
+          const intensity = 0.12 + (count / maxCount) * 0.28;
+          return {
+            fillColor:   baseColor,
+            fillOpacity: isHighlighted ? 0.55 : intensity,
+            color:       isHighlighted ? "#1A0E06" : hexAlpha(baseColor, 0.7),
+            weight:      isHighlighted ? 2.5 : 1.2,
+            opacity:     0.9,
+          };
+        },
+        onEachFeature: (feature, lyr) => {
+          const name  = feature?.properties?.district as string ?? "";
+          const count = districtCounts[name] ?? 0;
+          lyr.bindTooltip(
+            `<div style="font-family:serif;font-size:0.78rem;padding:3px 7px;background:#F8F0D8;border:1px solid #C4A35A;color:#4A2810">
+               <strong>${name}</strong> · ${count} location${count !== 1 ? "s" : ""}
+             </div>`,
+            { sticky: true, opacity: 0.97 }
+          );
+        },
+      });
+
+      // Keep boundaries below markers
+      layer.addTo(map);
+      layer.bringToBack();
+      boundaryLayerRef.current = layer;
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapReady, showBoundaries, locations, highlightDistrict]);
 
   const getMarkerColor = useCallback((loc: Location, isVis: boolean) => {
     if (isVis) return "#1C4A2E";
@@ -111,7 +201,7 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
     return CATEGORY_COLORS[loc.category] ?? "#C4A35A";
   }, [colorMode]);
 
-  // ── Sync markers on locations / visits / colorMode / mapReady change ──
+  // ── Sync markers on locations / visits / colorMode change ─────────
   useEffect(() => {
     if (!mapReady || !mapInstanceRef.current) return;
 
@@ -121,7 +211,6 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
 
       const visibleSnos = new Set(locations.map((l) => l.sno));
 
-      // Remove markers no longer visible
       markersRef.current.forEach((marker, sno) => {
         if (!visibleSnos.has(sno)) {
           marker.remove();
@@ -137,7 +226,7 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
         if (markersRef.current.has(loc.sno)) {
           markersRef.current.get(loc.sno)!.setStyle({
             fillColor: fill, color: border,
-            fillOpacity: isVis ? 0.92 : 0.82,
+            fillOpacity: isVis ? 0.95 : 0.88,
           });
         } else {
           const vis = visits[loc.sno];
@@ -157,7 +246,8 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
 
           const marker = L.circleMarker([loc.latitude, loc.longitude], {
             radius: 7, fillColor: fill, color: border,
-            weight: isVis ? 2 : 1.5, opacity: 1, fillOpacity: isVis ? 0.92 : 0.82,
+            weight: isVis ? 2.5 : 1.5, opacity: 1,
+            fillOpacity: isVis ? 0.95 : 0.88,
           });
 
           marker.bindPopup(popup, { maxWidth: 230, minWidth: 175 });
@@ -169,7 +259,7 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
     });
   }, [locations, visits, mapReady, getMarkerColor]);
 
-  // ── Pan to highlighted marker ────────────────────────────────────────
+  // ── Pan to highlighted marker ─────────────────────────────────────
   useEffect(() => {
     if (!highlightSno || !mapInstanceRef.current) return;
     const marker = markersRef.current.get(highlightSno);
@@ -185,5 +275,3 @@ export default function MapComponent({ locations, highlightSno, colorMode = "cat
     />
   );
 }
-
-export { DISTRICT_COLORS };
