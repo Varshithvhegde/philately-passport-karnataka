@@ -250,6 +250,7 @@ export default function BookPage() {
   const [visits,      setVisits]      = useState<Record<number, Visit>>({});
   const [photoUrls,   setPhotoUrls]   = useState<Record<number, string>>({});
   const [ready,       setReady]       = useState(false);
+  const [isMobile,    setIsMobile]    = useState(false);
 
   // Load visits
   useEffect(() => {
@@ -279,37 +280,53 @@ export default function BookPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
-  // Init PageFlip after mount
-  useEffect(() => {
-    if (!bookContainerRef.current) return;
-    let pf: InstanceType<typeof import("page-flip")["PageFlip"]> | null = null;
-
+  // Detect mobile and reinit PageFlip on resize
+  const initFlip = useCallback(() => {
     import("page-flip").then(({ PageFlip }) => {
       if (!bookContainerRef.current) return;
 
-      // Compute responsive dimensions
-      const container = bookContainerRef.current.parentElement!;
-      const availW = container.clientWidth - 80;
-      const availH = container.clientHeight - 20;
-      const pageW  = Math.min(Math.floor(availW / 2), 440);
-      const pageH  = Math.min(availH, 580);
+      // Destroy old instance
+      try { pageFlipRef.current?.destroy(); } catch { /* ignore */ }
+      pageFlipRef.current = null;
+      setReady(false);
 
-      pf = new PageFlip(bookContainerRef.current, {
-        width:  pageW,
-        height: pageH,
-        size:   "fixed",
+      const stage   = document.getElementById("book-stage")!;
+      const sw      = stage.clientWidth;
+      const sh      = stage.clientHeight;
+      const mobile  = sw < 640;
+      setIsMobile(mobile);
+
+      let pageW: number, pageH: number, portrait: boolean;
+
+      if (mobile) {
+        // Portrait single-page: use almost full width
+        portrait = true;
+        pageW    = Math.min(sw - 20, 400);
+        pageH    = Math.min(sh - 20, Math.round(pageW * 1.42));
+      } else {
+        // Landscape two-page spread
+        portrait = false;
+        const hPad = sw < 900 ? 24 : 60;
+        pageW    = Math.min(Math.floor((sw - hPad * 2) / 2), 440);
+        pageH    = Math.min(sh - 24, 580);
+      }
+
+      const pf = new PageFlip(bookContainerRef.current, {
+        width:             pageW,
+        height:            pageH,
+        size:              "fixed",
         drawShadow:        true,
-        flippingTime:      700,
-        usePortrait:       false,
+        flippingTime:      600,
+        usePortrait:       portrait,
         showCover:         true,
         mobileScrollSupport: true,
-        maxShadowOpacity:  0.5,
-        showPageCorners:   true,
+        maxShadowOpacity:  0.45,
+        showPageCorners:   !mobile,
         disableFlipByClick: false,
         clickEventForward: false,
+        swipeDistance:     mobile ? 30 : 50,
       });
 
-      // Load pages from DOM — QuerySelector all .book-page children
       const pageNodes = bookContainerRef.current.querySelectorAll(".book-page");
       pf.loadFromHTML(pageNodes);
 
@@ -321,9 +338,26 @@ export default function BookPage() {
       pageFlipRef.current = pf;
       setReady(true);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Init PageFlip after mount + handle resize
+  useEffect(() => {
+    // Small delay so DOM is measured correctly after layout
+    const tid = setTimeout(initFlip, 80);
+
+    let resizeTid: ReturnType<typeof setTimeout>;
+    const onResize = () => {
+      clearTimeout(resizeTid);
+      resizeTid = setTimeout(initFlip, 250);
+    };
+    window.addEventListener("resize", onResize);
 
     return () => {
-      try { pf?.destroy(); } catch { /* ignore */ }
+      clearTimeout(tid);
+      clearTimeout(resizeTid);
+      window.removeEventListener("resize", onResize);
+      try { pageFlipRef.current?.destroy(); } catch { /* ignore */ }
       pageFlipRef.current = null;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -357,31 +391,33 @@ export default function BookPage() {
     <div style={{ background: "#0A0500", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
 
       {/* ── Top bar ────────────────────────────────────────────────── */}
-      <div style={{ background: "var(--spine)", borderBottom: "1px solid rgba(196,163,90,0.18)", padding: "9px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Link href="/" style={{ color: "rgba(196,163,90,0.55)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none", fontFamily: "var(--font-display)", fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+      <div style={{ background: "var(--spine)", borderBottom: "1px solid rgba(196,163,90,0.18)", padding: "8px 12px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+          <Link href="/" style={{ color: "rgba(196,163,90,0.55)", display: "flex", alignItems: "center", gap: 3, textDecoration: "none", fontFamily: "var(--font-display)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", flexShrink: 0 }}>
             <Home size={11} /> Home
           </Link>
-          <span style={{ color: "rgba(196,163,90,0.2)" }}>·</span>
-          <Link href="/passport" style={{ color: "rgba(196,163,90,0.55)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none", fontFamily: "var(--font-display)", fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            <BookOpen size={11} /> Passport
-          </Link>
-          {displayLoc && <>
+          {!isMobile && <>
             <span style={{ color: "rgba(196,163,90,0.2)" }}>·</span>
-            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.58rem", color: "var(--sandstone)", letterSpacing: "0.06em" }}>
-              PPC #{String(displayLoc.sno).padStart(3, "0")} — {displayLoc.place}
+            <Link href="/passport" style={{ color: "rgba(196,163,90,0.55)", display: "flex", alignItems: "center", gap: 3, textDecoration: "none", fontFamily: "var(--font-display)", fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", flexShrink: 0 }}>
+              <BookOpen size={11} /> Passport
+            </Link>
+          </>}
+          {displayLoc && <>
+            <span style={{ color: "rgba(196,163,90,0.2)", flexShrink: 0 }}>·</span>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.55rem", color: "var(--sandstone)", letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {isMobile ? displayLoc.place : `PPC #${String(displayLoc.sno).padStart(3, "0")} — ${displayLoc.place}`}
             </span>
           </>}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ width: 52, height: 3, background: "rgba(196,163,90,0.12)", overflow: "hidden" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ width: 40, height: 3, background: "rgba(196,163,90,0.12)", overflow: "hidden" }}>
               <div style={{ width: `${pct}%`, height: "100%", background: "var(--sandstone)", transition: "width 0.4s" }} />
             </div>
-            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.55rem", color: "rgba(196,163,90,0.45)", letterSpacing: "0.06em" }}>{collectedCount}/100</span>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.52rem", color: "rgba(196,163,90,0.45)", letterSpacing: "0.04em" }}>{collectedCount}/100</span>
           </div>
-          {totalPages > 0 && (
-            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.52rem", color: "rgba(196,163,90,0.3)", letterSpacing: "0.06em" }}>
+          {totalPages > 0 && !isMobile && (
+            <span style={{ fontFamily: "var(--font-display)", fontSize: "0.5rem", color: "rgba(196,163,90,0.3)", letterSpacing: "0.04em" }}>
               {currentPage + 1}/{totalPages}
             </span>
           )}
@@ -393,9 +429,10 @@ export default function BookPage() {
         id="book-stage"
         style={{
           flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
-          padding: "20px 60px 12px",
+          padding: isMobile ? "8px 8px 8px" : "16px 48px 12px",
           background: "radial-gradient(ellipse 80% 60% at 50% 72%, #2A1A0A 0%, #0A0500 100%)",
           position: "relative",
+          minHeight: 0,
         }}
       >
         {/* Desk glow + shadow */}
@@ -480,49 +517,63 @@ export default function BookPage() {
           </div>
         )}
 
-        {/* External nav arrows */}
+        {/* External nav arrows — bigger tap targets on mobile */}
         <button onClick={goPrev}
-          style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", background: "rgba(196,163,90,0.1)", border: "1px solid rgba(196,163,90,0.2)", color: "var(--sandstone)", cursor: "pointer", padding: "13px 9px", lineHeight: 1, transition: "all 0.15s", zIndex: 10 }}>
-          <ChevronLeft size={18} />
+          style={{ position: "absolute", left: isMobile ? 2 : 8, top: "50%", transform: "translateY(-50%)", background: "rgba(196,163,90,0.12)", border: "1px solid rgba(196,163,90,0.2)", color: "var(--sandstone)", cursor: "pointer", padding: isMobile ? "16px 10px" : "13px 9px", lineHeight: 1, transition: "all 0.15s", zIndex: 10, touchAction: "manipulation" }}>
+          <ChevronLeft size={isMobile ? 20 : 18} />
         </button>
         <button onClick={goNext}
-          style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "rgba(196,163,90,0.1)", border: "1px solid rgba(196,163,90,0.2)", color: "var(--sandstone)", cursor: "pointer", padding: "13px 9px", lineHeight: 1, transition: "all 0.15s", zIndex: 10 }}>
-          <ChevronRight size={18} />
+          style={{ position: "absolute", right: isMobile ? 2 : 8, top: "50%", transform: "translateY(-50%)", background: "rgba(196,163,90,0.12)", border: "1px solid rgba(196,163,90,0.2)", color: "var(--sandstone)", cursor: "pointer", padding: isMobile ? "16px 10px" : "13px 9px", lineHeight: 1, transition: "all 0.15s", zIndex: 10, touchAction: "manipulation" }}>
+          <ChevronRight size={isMobile ? 20 : 18} />
         </button>
       </div>
 
       {/* ── Bottom toolbar ─────────────────────────────────────────── */}
-      <div style={{ background: "rgba(6,3,0,0.95)", borderTop: "1px solid rgba(196,163,90,0.1)", padding: "7px 14px", display: "flex", alignItems: "center", gap: 10, flexShrink: 0, overflowX: "auto" }}>
+      <div style={{ background: "rgba(6,3,0,0.95)", borderTop: "1px solid rgba(196,163,90,0.1)", padding: isMobile ? "8px 12px" : "7px 14px", display: "flex", alignItems: "center", gap: 8, flexShrink: 0, overflowX: "auto" }}>
+
+        {/* Cover button */}
         <button onClick={() => goTo(0)}
-          style={{ fontFamily: "var(--font-display)", fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "5px 10px", background: "transparent", color: "rgba(196,163,90,0.45)", border: "1px solid rgba(196,163,90,0.18)", cursor: "pointer", flexShrink: 0 }}>
+          style={{ fontFamily: "var(--font-display)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: isMobile ? "7px 10px" : "5px 10px", background: "transparent", color: "rgba(196,163,90,0.45)", border: "1px solid rgba(196,163,90,0.18)", cursor: "pointer", flexShrink: 0 }}>
           Cover
         </button>
 
-        {/* District quick-jump chips */}
-        <div style={{ display: "flex", gap: 4, overflowX: "auto", flex: 1, scrollbarWidth: "none" }}>
-          {Array.from(new Set(locations.map(l => l.district))).map(d => {
-            const first = locations.find(l => l.district === d);
-            const isActive = displayLoc?.district === d;
-            return (
-              <button key={d} onClick={() => first && goTo(PPC_START + (first.sno - 1) * 2)}
-                style={{ fontFamily: "var(--font-display)", fontSize: "0.48rem", letterSpacing: "0.07em", textTransform: "uppercase", padding: "4px 8px", background: isActive ? "var(--sandstone)" : "transparent", color: isActive ? "var(--spine)" : "rgba(196,163,90,0.35)", border: isActive ? "1px solid var(--gilt)" : "1px solid rgba(196,163,90,0.12)", cursor: "pointer", flexShrink: 0, transition: "all 0.1s", whiteSpace: "nowrap" }}>
-                {d.slice(0, 8)}
-              </button>
-            );
-          })}
-        </div>
+        {/* District quick-jump chips — hidden on mobile */}
+        {!isMobile && (
+          <div style={{ display: "flex", gap: 4, overflowX: "auto", flex: 1, scrollbarWidth: "none" }}>
+            {Array.from(new Set(locations.map(l => l.district))).map(d => {
+              const first = locations.find(l => l.district === d);
+              const isActive = displayLoc?.district === d;
+              return (
+                <button key={d} onClick={() => first && goTo(PPC_START + (first.sno - 1) * 2)}
+                  style={{ fontFamily: "var(--font-display)", fontSize: "0.46rem", letterSpacing: "0.07em", textTransform: "uppercase", padding: "4px 7px", background: isActive ? "var(--sandstone)" : "transparent", color: isActive ? "var(--spine)" : "rgba(196,163,90,0.35)", border: isActive ? "1px solid var(--gilt)" : "1px solid rgba(196,163,90,0.12)", cursor: "pointer", flexShrink: 0, transition: "all 0.1s", whiteSpace: "nowrap" }}>
+                  {d.slice(0, 8)}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
-        {/* PPC jump */}
+        {/* Mobile: current location label */}
+        {isMobile && displayLoc && (
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <div style={{ fontFamily: "var(--font-display)", fontSize: "0.5rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--copper)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {displayLoc.district} · {currentPage + 1}/{totalPages}
+            </div>
+          </div>
+        )}
+        {isMobile && !displayLoc && <div style={{ flex: 1 }} />}
+
+        {/* PPC jump — always shown */}
         <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
-          <span style={{ fontFamily: "var(--font-display)", fontSize: "0.5rem", color: "rgba(196,163,90,0.3)", letterSpacing: "0.08em" }}>PPC</span>
-          <input type="number" min="1" max="100" placeholder="1–100"
+          <span style={{ fontFamily: "var(--font-display)", fontSize: "0.48rem", color: "rgba(196,163,90,0.3)", letterSpacing: "0.08em" }}>GO</span>
+          <input type="number" min="1" max="100" placeholder="PPC#"
             onKeyDown={e => {
               if (e.key === "Enter") {
                 const val = parseInt((e.target as HTMLInputElement).value);
                 if (val >= 1 && val <= 100) { goTo(PPC_START + (val - 1) * 2); (e.target as HTMLInputElement).value = ""; }
               }
             }}
-            style={{ width: 50, padding: "4px 6px", background: "rgba(196,163,90,0.07)", border: "1px solid rgba(196,163,90,0.18)", color: "var(--sandstone)", fontFamily: "var(--font-display)", fontSize: "0.6rem", outline: "none", textAlign: "center" }}
+            style={{ width: isMobile ? 56 : 50, padding: "5px 6px", background: "rgba(196,163,90,0.07)", border: "1px solid rgba(196,163,90,0.18)", color: "var(--sandstone)", fontFamily: "var(--font-display)", fontSize: "0.6rem", outline: "none", textAlign: "center" }}
           />
         </div>
       </div>
