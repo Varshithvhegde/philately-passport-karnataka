@@ -3,11 +3,9 @@
 
 /* ─── Design Tokens ───────────────────────────────────────────────── */
 :root {
-  /* The physical passport cover is dark navy — this is the new token    */
-  /* that makes everything unmistakably a passport and not a heritage site */
   --spine:      #0D1F3A;
   --spine-light:#162D56;
-  --post-red:   #C4391A;  /* India Post saffron-red                      */
+  --post-red:   #C4391A;
 
   --ink:        #1A0E06;
   --ink-mid:    #4A2C12;
@@ -17,9 +15,9 @@
   --sandstone:  #C4A35A;
   --gilt:       #D4AC0D;
   --stone:      #EAD9B8;
-  --manuscript: #F0E4C0;  /* warmer — more aged-paper amber              */
-  --page:       #F7EFDB;  /* page interior                               */
-  --ivory:      #FAF5E8;  /* near-white but warm                         */
+  --manuscript: #F0E4C0;
+  --page:       #F7EFDB;
+  --ivory:      #FAF5E8;
   --forest:     #1C4A2E;
 
   --font-handwriting: var(--font-kalam, cursive);
@@ -31,12 +29,6 @@ body {
   color: var(--ink);
   font-family: var(--font-body, serif);
   -webkit-font-smoothing: antialiased;
-}
-
-/* ─── Paper texture ───────────────────────────────────────────────── */
-/* A subtle fiber noise — reads as paper without being kitsch           */
-.paper-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 /* ─── Hoysala carved frieze ───────────────────────────────────────── */
@@ -69,6 +61,88 @@ body {
   flex-shrink: 0;
 }
 
+/* ─── POSTAL VOCABULARY ───────────────────────────────────────────── */
+
+/* Airmail border: classic red-blue diagonal border seen on inland letters */
+.airmail-border {
+  border: 3px solid transparent;
+  background-image:
+    linear-gradient(var(--page), var(--page)),
+    repeating-linear-gradient(
+      -45deg,
+      #C4391A 0px, #C4391A 6px,
+      transparent 6px, transparent 8px,
+      #0D1F3A 8px, #0D1F3A 14px,
+      transparent 14px, transparent 16px
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* Stamp perforation edge — the serrated border of a real stamp */
+.perforated {
+  border: none;
+  /* radial-gradient dots evoke perforation holes */
+  background-image:
+    radial-gradient(circle at 0 50%, transparent 4px, var(--page) 4px),
+    radial-gradient(circle at 100% 50%, transparent 4px, var(--page) 4px),
+    radial-gradient(circle at 50% 0, transparent 4px, var(--page) 4px),
+    radial-gradient(circle at 50% 100%, transparent 4px, var(--page) 4px);
+  box-shadow:
+    0 0 0 1px rgba(74,40,16,0.25),
+    3px 4px 12px rgba(26,14,6,0.18);
+}
+
+/* Postmark circle — the red ink cancellation ring */
+.postmark-ring {
+  border-radius: 50%;
+  border: 2.5px solid var(--post-red);
+  position: relative;
+}
+.postmark-ring::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(196,57,26,0.4);
+}
+
+/* Inland letter fold lines — faint horizontal rules like a folded letter */
+.letter-lines {
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(122,59,15,0.06) 28px,
+      rgba(122,59,15,0.06) 29px
+    );
+}
+
+/* PAR AVION / BY AIR MAIL label stripe */
+.par-avion {
+  background: linear-gradient(90deg, #0D1F3A 0%, #162D56 50%, #0D1F3A 100%);
+  color: #F0E4C0;
+  font-family: var(--font-display, serif);
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Cancellation wave lines (like a postmark cancellation) */
+.cancel-lines {
+  background-image:
+    repeating-linear-gradient(
+      5deg,
+      transparent 0px, transparent 4px,
+      rgba(196,57,26,0.15) 4px, rgba(196,57,26,0.15) 5px
+    );
+}
+
 /* ─── Cards ───────────────────────────────────────────────────────── */
 .manuscript-card {
   background: linear-gradient(158deg, #F7EFDB 0%, #EDE1BF 100%);
@@ -88,12 +162,8 @@ body {
   display: grid;
   grid-template-columns: 1fr 18px 1fr;
   background: var(--page);
-  /* The whole spread casts a shadow like an open book */
-  box-shadow:
-    0 8px 40px rgba(26,14,6,0.25),
-    0 2px 8px rgba(26,14,6,0.12);
+  box-shadow: 0 8px 40px rgba(26,14,6,0.25), 0 2px 8px rgba(26,14,6,0.12);
 }
-/* The spine crease */
 .book-spine-crease {
   background: linear-gradient(90deg,
     rgba(26,14,6,0.14) 0%,
@@ -111,23 +181,16 @@ body {
   width: 1px;
   background: rgba(26,14,6,0.08);
 }
-/* Each page within the spread */
 .book-page {
   background: var(--page);
   padding: 36px 32px;
   position: relative;
-  /* Paper grain */
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   background-color: var(--page);
 }
-.book-page-left {
-  /* Slight inner shadow at right edge — page curls away from spine */
-  box-shadow: inset -6px 0 12px rgba(26,14,6,0.06);
-}
-.book-page-right {
-  box-shadow: inset 6px 0 12px rgba(26,14,6,0.06);
-}
+.book-page-left  { box-shadow: inset -6px 0 12px rgba(26,14,6,0.06); }
+.book-page-right { box-shadow: inset  6px 0 12px rgba(26,14,6,0.06); }
 
 /* ─── Stamp grid tiles ────────────────────────────────────────────── */
 .stamp-tile {
@@ -160,7 +223,6 @@ body {
   box-shadow: 2px 2px 8px rgba(26,14,6,0.5);
   z-index: 10;
 }
-/* Tooltip on hover */
 .stamp-tile[data-place]:hover::after {
   content: attr(data-place);
   position: absolute;
@@ -183,7 +245,7 @@ body {
   box-shadow: 2px 3px 8px rgba(26,14,6,0.3);
 }
 
-/* ─── Passport leaf (entry page) ─────────────────────────────────── */
+/* ─── Passport leaf ───────────────────────────────────────────────── */
 .passport-leaf {
   background: linear-gradient(160deg, var(--ivory) 0%, var(--page) 55%, #EBD9A8 100%);
   border-left: 6px solid #4A2810;
@@ -207,7 +269,6 @@ body {
 .toc-leader {
   flex: 1;
   overflow: hidden;
-  /* Leader dots between district name and count */
   background-image: radial-gradient(circle, rgba(122,59,15,0.4) 1px, transparent 1px);
   background-size: 6px 1px;
   background-repeat: repeat-x;
@@ -261,11 +322,8 @@ body {
   transition: all 0.18s;
   display: inline-block;
 }
-.cover-btn:hover {
-  background: rgba(196,163,90,0.15);
-  border-color: var(--sandstone);
-  color: #FAF5E8;
-}
+.cover-btn:hover { background: rgba(196,163,90,0.15); border-color: var(--sandstone); color: #FAF5E8; }
+
 .cover-btn-filled {
   background: var(--sandstone);
   color: var(--spine);
@@ -282,15 +340,13 @@ body {
 }
 .cover-btn-filled:hover { background: var(--gilt); }
 
-/* ─── Inscription label ───────────────────────────────────────────── */
+/* ─── Inscription ─────────────────────────────────────────────────── */
 .inscription {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-family: var(--font-display, serif);
   font-weight: 600;
 }
-
-/* ─── Handwritten style (notes fields, collected labels) ─────────── */
 .handwritten {
   font-family: var(--font-handwriting);
   font-size: 0.95rem;
