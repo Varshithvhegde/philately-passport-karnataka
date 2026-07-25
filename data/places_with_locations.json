@@ -679,11 +679,11 @@
     "post_office": "Belur(Hasan) SO 573115",
     "pincode": "573115",
     "office_type": "SPO",
-    "latitude": 11.706755,
-    "longitude": 78.41556,
-    "address": "Belur main road,Near Govt high school, A, SALEM",
-    "state": "Tamil Nadu",
-    "status": "Found Via Fallback"
+    "latitude": 13.165948,
+    "longitude": 75.86483,
+    "address": "Sub Post Office Belur, Belur 573115, Hassan",
+    "state": "Karnataka",
+    "status": "Found"
   },
   {
     "sno": 50,
@@ -1112,12 +1112,12 @@
     "category": "Flora and Fauna",
     "post_office": "Katapadi SO 574105",
     "pincode": "574105",
-    "office_type": "SPO",
-    "latitude": 12.969224,
-    "longitude": 79.141596,
-    "address": "Muthamiz Nagar, VELLORE",
-    "state": "Tamil Nadu",
-    "status": "Found Via Fallback"
+    "office_type": "BPO",
+    "latitude": 13.271963,
+    "longitude": 74.72677,
+    "address": "Mattu B.O, Udupi",
+    "state": "Karnataka",
+    "status": "Found"
   },
   {
     "sno": 81,
@@ -1295,10 +1295,10 @@
     "post_office": "Kota SO 576221",
     "pincode": "576221",
     "office_type": "SPO",
-    "latitude": 13.656334,
-    "longitude": 78.26391,
-    "address": "Post Office Road, Beerangi Kothakota, Annamayya",
-    "state": "Andhra Pradesh",
+    "latitude": 13.527565,
+    "longitude": 74.70488,
+    "address": "Near police station kota, Santhe market road kota, Udupi",
+    "state": "Karnataka",
     "status": "Found"
   },
   {
