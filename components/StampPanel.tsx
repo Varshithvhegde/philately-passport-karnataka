@@ -274,24 +274,26 @@ export default function StampPanel({ sno, place, district, category }: Props) {
             textTransform: "uppercase", cursor: "pointer",
             background: visited ? "#1C4A2E" : "var(--spine)",
             color: visited ? "#A8D8B0" : "var(--sandstone)",
-            border: visited ? "1px solid #2D7A44" : "1px solid rgba(196,163,90,0.3)",
-            borderRight: "1px solid rgba(26,14,6,0.25)",
+            borderTop:    visited ? "1px solid #2D7A44" : "1px solid rgba(196,163,90,0.3)",
+            borderLeft:   visited ? "1px solid #2D7A44" : "1px solid rgba(196,163,90,0.3)",
+            borderRight:  "1px solid rgba(26,14,6,0.25)",
             borderBottom: "1px solid rgba(26,14,6,0.25)",
             transition: "all 0.15s",
-            position: "relative", overflow: "hidden",
+            position: "relative",
+            paddingRight: visited ? 40 : 0,  /* room for seal badge */
           }}
         >
           {/* Envelope icon */}
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" style={{ flexShrink: 0 }}>
             <rect x="0.5" y="0.5" width="15" height="11" rx="0" stroke="currentColor" strokeWidth="1"/>
             <polyline points="0.5,0.5 8,7 15.5,0.5" stroke="currentColor" strokeWidth="1" fill="none"/>
           </svg>
           {visited ? "Update Stamp Record" : "Record Visit & Get Stamp"}
 
-          {/* Seal badge — shown when visited */}
+          {/* Seal badge — floated right, outside text flow */}
           {visited && (
             <span className={sealPulse ? "seal-animate" : ""} style={{
-              position: "absolute", right: 12,
+              position: "absolute", right: 10,
               width: 20, height: 20, borderRadius: "50%",
               background: catColor,
               border: "1.5px solid rgba(26,14,6,0.2)",
