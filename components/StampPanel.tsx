@@ -199,6 +199,7 @@ export default function StampPanel({ sno, place, district, category }: Props) {
               )}
 
               <ThemedStamp
+                sno={sno}
                 category={category}
                 place={place}
                 district={district}
@@ -357,6 +358,7 @@ export default function StampPanel({ sno, place, district, category }: Props) {
               {/* Stamp preview + place name — side by side */}
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18, padding: "10px 12px", background: "rgba(240,228,192,0.5)", border: "1px solid rgba(196,163,90,0.25)" }}>
                 <ThemedStamp
+                  sno={sno}
                   category={category} place={place} district={district}
                   date={date} size={72} visited={true}
                 />

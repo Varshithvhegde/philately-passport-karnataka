@@ -150,7 +150,7 @@ export default function LocationCard({ location }: { location: Location }) {
 
           {/* Right: stamp slot */}
           <div style={{ flexShrink: 0 }}>
-            <StampCircle visited={visited} date={visit?.visitedAt} size={56} />
+            <StampCircle visited={visited} date={visit?.visitedAt} size={56} sno={location.sno} />
           </div>
         </div>
 
